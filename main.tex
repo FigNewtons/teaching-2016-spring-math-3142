@@ -1,6 +1,9 @@
 \documentclass[letterpaper, twoside, 12pt]{book}
 \usepackage{notes}
 
+
+
+
 \title{MATH 3142 Notes | Spring 2016}
 \date{Updated: \today}
 \author{Daniel Gruszczynski\\ UNC Charlotte}
@@ -182,7 +185,7 @@ any questions.
 \begin{solution}
     Let \([a,b]\) be an interval (\(b > a\)) and \(\delta > 0\).
     By the Archimedean property, there exists a natural number
-    \(n\) such that \(\frac{b - a}{\delta} < n\). It follows that
+    \(n\) such that \(\frac{\delta}{b - a} > \frac{1}{n}\). It follows that
     we can form partition intervals of equal length \(\frac{b - a}{n}\):
     \begin{align*}
         \delta &> \frac{b - a}{n} \\
@@ -252,8 +255,12 @@ any questions.
     \underline{\int_a^b}f\leq\overline{\int_a^b}f\leq U(f,P)
   .\]
 \end{lemma}
-\begin{proof}
 
+\begin{proof}
+    By definition, \(\overline{\int_a^b} f \leq U(f, P)\) and
+    \(L(f, P) \leq \underline{\int_a^b} f\). Then, by Lemma 6.4
+    we have \(\underline{\int_a^b} f \leq \overline{\int_a^b} f\).
+    The result follows.
 \end{proof}
 
 
@@ -282,15 +289,42 @@ any questions.
   Show that
   a monotonically increasing function \(f:[a,b]\to\mb R\) is integrable.
 \end{example}
-\begin{solution}
 
+\begin{solution}
+    Let \(P_n\) be the regular partition on \([a,b]\). Since \(f\) is 
+    monotonically increasing, on a partition interval \([x_{i-1}, x_i]\),
+    \(M_i = f(x_{i})\) and \(m_i = f(x_{i-1})\). Then
+    \begin{align*}
+        \limit [U(f, P_n) - L(f, P_n)] &= \limit \Bigg [ \sumi M_{i}(x_i - x_{i-1}) - \sumi m_i (x_i - x_{i-1}) \Bigg ]\\
+            &= \limit \Bigg [ \sumi (M_i - m_i)(x_i - x_{i-1}) \Bigg ] \\
+            &= \limit \Bigg [ \sumi (f(x_i) - f(x_{i-1})) \frac{b - a}{n} \Bigg ] \\
+            &= \limit \frac{b - a}{n} \Bigg [ \sumi (f(x_i) - f(x_{i-1})) \Bigg ] \\
+            &= \limit \frac{b - a}{n} (f(b) - f(a)) \\
+            &= 0.
+    \end{align*}
+    Therefore, by Theorem 6.8, \(f\) is integrable on \([a,b]\).
 \end{solution}
 
 \begin{example}[6.11]
   Show that \(\int_0^1 x^2\,dx=\frac{1}{3}\).
 \end{example}
-\begin{solution}
 
+\begin{solution}
+    Since \(f(x) = x^2\) is monotonically increasing on \([0,1]\), 
+    \(f\) is integrable by the above example. Let 
+    \(P_{n} = \{x_{0}, x_{1}, ..., x_{n}\}\) be the regular partition 
+    on \([0,1]\). Then \(x_i = \frac{i}{n}\) and using the fact that
+    \(\sum_{i=1}^{n} i^2 = \frac{n(n +1)(2n+1)}{6}\), we get
+    \begin{align*}
+        \int_0^1 x^2, dx&= \limit U(f, P_n) \\
+                        &= \limit \sumi M_i (x_i - x_{i-1}) \\
+                        &= \limit \sumi f(x_{i}) (x_i - x_{i-1}) \\
+                        &= \limit \sumi \frac{1}{n} \frac{i^2}{n^2} \\
+                        &= \limit \frac{1}{n^3} \sumi i^2 \\
+                        &= \limit \frac{1}{n^3} \Bigg [ \frac{n(n+1)(2n+1)}{6} \Bigg ]\\
+                        &= \limit \frac{2n^2 + 3n + 1}{6n^2} \\
+                        &= \frac{1}{3} .\\
+    \end{align*}
 \end{solution}
 
 
@@ -302,8 +336,34 @@ any questions.
   Then use this fact and the Archimedes-Riemann Theorem to show that
   \(\int_a^b x\,dx=(b^2-a^2)/2\).
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    First, we prove the summation holds by induction on \(n\). If \(n = 1\),
+    \(\sum_{i=1}^1 i = 1 = \frac{1(2)}{2}\). Assume this identity holds
+    for all natural numbers \(k \leq n\) and now consider \(n + 1\). Then
+    \begin{align*}
+        \sum_{i=1}^{n+1} i &= \sum_{i = 1}^{n} i + (n + 1) \\
+                        &= \frac{n(n+1)}{2} + (n + 1) \\
+                        &= \frac{n^2 + 3n + 2}{2} \\
+                        &= \frac{ (n+1)((n+1) + 1)}{2} \\
+    \end{align*}
+    and hence the induction is complete.
+
+    We note that \(f(x) = x\) is monotonically increasing on \(\mb R\) and
+    consequently integrable. Thus, for a regular partition \(P_n\) on 
+    \([a,b]\), we have
+    \begin{align*}
+        \int_a^b x\,dx &= \limit U(f, P) \\
+                       &= \limit \sumi M_i (x_i - x_{i-1}) \\
+                       &= \limit \sumi x_i \frac{b - a}{n} \\
+                       &= \limit \sumi \Bigg (a + i \frac{b-a}{n} \Bigg ) \frac{b-a}{n} \\
+                       &= \limit \frac{b-a}{n} \Bigg [ \sumi a + \frac{b-a}{n} \sumi i \Bigg ] \\
+                       &= \limit \frac{b-a}{n} \Bigg [ na + \frac{b-a}{n} \cdot \frac{n(n+1)}{2} \Bigg ] \\
+                       &= \limit [(ab - a^2) + \frac{(b-a)^2 (n+1)}{2n}] \\
+                       &= ab - a^2 + \frac{(b-a)^2}{2} \\
+                       &= \frac{2ab - 2a^2 + b^2 - 2ab + a^2}{2} \\
+                       &= \frac{b^2 - a^2}{2} .\\
+    \end{align*}
 \end{solution}
 
 
@@ -313,7 +373,9 @@ any questions.
     \int_a^b x^2\,dx = \frac{b^3-a^3}{3}
   .\]
 \end{exercise}
+
 \begin{solution}
+    
 
 \end{solution}
 
