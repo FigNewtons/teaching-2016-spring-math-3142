@@ -450,8 +450,30 @@ any questions.
     \int_a^b f = \int_a^c f + \int_c^b f
   .\]
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    By the Archimedes-Riemann Theorem, there exists an Archimedean sequence
+    \(Q_n\) of \(f\) on \([a,b]\). Define \(P_n = Q_n \cup \{c\}\) for
+    every \(n \in \mb N\). This refinement is also an Archimedean sequence
+    of \(f\) on \([a,b]\). Next, define \(R_n = P_n \cap [a, c]\) and
+    \(S_n = P_n \cap [b, c]\) for every \(n \in \mb N\). Since 
+    \(U(f, P_n) = U(f, R_n) + U(f, S_n)\) and \(L(f, P_n) = L(f, R_n) + L(f, S_n)\),
+    we have
+    \begin{align*}
+        0 &= \limit [ U(f, P_n) - L(f, P_n) ] \\
+          &= \limit [ (U(f, R_n) + U(f, S_n)) - (L(f, R_n) + L(f, S_n)) ] \\
+          &= \limit [ U(f, R_n) - L(f, R_n) ] + \limit [ U(f, S_n) - L(f, S_n) ] .\\
+    \end{align*}
+    Since the terms within the limits are nonnegative, both limits go 
+    to zero. Hence, \(R_n\) and \(S_n\) are Archimedean sequences of \(f\)
+    on \([a,c]\) and \([c, b]\), respectively. Thus, \(f\) is integrable
+    on \([a,c]\) and \([c, b]\). Moreover,
+    \begin{align*}
+        \int_a^b f &= \limit U(f, P_n) \\
+                   &= \limit (U(f, R_n) + U(f, S_n)) \\
+                   &= \limit U(f, R_n) + \limit U(f, S_n) \\
+                   &= \int_a^c f + \int_c^b f . \\
+    \end{align*}
 \end{proof}
 
 
@@ -462,8 +484,20 @@ any questions.
     \int_a^b f \leq \int_a^b g
   .\]
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    By the Archimedes-Riemann theorem, we have Archimedean sequences 
+    \(\{Q_n\}\) and \(\{R_n\}\)for \(f\) and \(g\) on \([a,b]\), respectively. 
+    For each \(n \in \mb N\), define \(P_n = Q_n \cup R_n\). Since \(\{P_n\}\)
+    refines both sequences, it is an Archimedean sequence of both \(f\) and \(g\)
+    on \([a,b]\). Consequently,
+    \begin{align*}
+        \int_a^b f &= \limit U(f, P_n) \\
+                   &\leq \limit U(g, P_n) \\
+                   &= \int_a^b g \\
+    \end{align*}
+    following from the fact that \(f(x) \leq g(x)\) implies \(U(f, P) \leq U(g, P)\)
+    (by definition) for any partition \(P\).
 \end{proof}
 
 
@@ -545,7 +579,28 @@ any questions.
     \alpha< 0
   .\]
 \end{exercise}
+
 \begin{solution}
+    Since \(S\) is a nonempty, bounded set of real numbers, \(b = \sup S\)
+    exists by the Completeness Axiom. Next, because \(\alpha\) is a fixed nonnegative
+    number, \(\alpha S\) is also nonempty and bounded and so a supremum for this
+    set exists. Claim: \( \sup \alpha S = \alpha b \). In the case where \(\alpha = 0\),
+    then \(\alpha S = \{0\}\) and so \(\sup \alpha S = 0 = \alpha \sup S\),
+    trivially. Otherwise, if \(\alpha > 0\), note that \(b \geq s \) for all \(s \in S\)
+    and so \(\alpha b \geq \alpha s\). Since all elements of \(\alpha S\) take the 
+    form of \(\alpha s\) for some \(s \in S\), we have that \(\alpha b\) is an upper 
+    bound of \(\alpha S\). Now suppose that we have \(\alpha b > x\). 
+    Dividing by \(\alpha\), we get \(b > \alpha^{-1} x \). Then, by definition,
+    \(\alpha^{-1} x\) is not an upper bound of \(S\) and so there exists \(u \in S\)
+    such that \(b \geq u > \alpha^{-1} x\). This implies
+    \[ \alpha b \geq \alpha u > x \]
+    and so \(x\) cannot be an upper bound of \(\alpha S\). Thus, \(\alpha b = \sup \alpha S\).
+
+   
+    Repeat this argument with the set \(-S\) and note that \(\sup -S = \inf S\). 
+
+
+    TODO: Finish last case 
 
 \end{solution}
 
@@ -555,8 +610,23 @@ any questions.
   \(f\) is integrable on both \([a,c],[c,b]\), then it is integrable on
   \([a,b]\).
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    By assumption, there exists Archimedean sequences \(\{Q_n\}\) and \(\{R_n\}\) on
+    \([a, c]\) and \([c, d]\), respectively, such that \(\limit U(f, Q_n) = \int_a^c f\)
+    and \(\limit U(f, R_n) = \int_c^b f\). For each \(n \in \mb N\), define the
+    set \(P_n : Q_n \cup R_n\) (with say \(Q_n = \{q_0, ..., q_k\}\) and 
+    \(R_n = \{r_0, ..., r_m\}\)). Then \(p_0 = q_0 = a\), \(p_k = q_k = c = r_0\),
+    and \(p_{k+m} = r_m = b\) and since \(Q_n \cap R_n = \{c\}\), \(P_n\) is 
+    a partition of \([a,b]\). Next, note that \(U(f, P_n) = U(f, Q_n) + U(f, R_n)\)
+    and \(L(f, P_n) = L(f, Q_n) + L(f, R_n)\). It then follows that
+    \begin{align*}
+        \limit [ U(f, P_n) - L(f, P_n) ] &= \limit [ (U(f, Q_n) + U(f, R_n) - (L(f, Q_n) + L(f, R_n) ] \\
+                &= \limit [U(f, Q_n) - L(f, Q_n)] + \limit [U(f, R_n) - L(f, R_n)] \\
+                &= 0 + 0 \\
+                &= 0 \\
+    \end{align*}
+    and so \(\{P_n\}\) is an Archimedean sequence. Therefore, \(f\) is integrable on \([a,b]\).
 \end{solution}
 
 
