@@ -525,8 +525,28 @@ any questions.
     \alpha< 0
   .\]
 \end{lemma}
-\begin{proof}
 
+\begin{proof}
+    Let \(B([a,b])\) be the set of bounded real functions on \([a,b]\).
+    For partition \(P = \{x_0, x_1, ..., x_n\}\), denote \(I_i = [x_{i-1}, x_i]\) 
+    for \(i \in [n]\). Then, define functions: 
+    \[M_i, m_i : B([a,b]) \rightarrow \mb R \word{by}\]
+    \[M_i = \sup \{ h(x) | x \in I_i \} \word{and} m_i = \inf \{ h(x) | x \in I_i \} . \]
+    Then, for all \(x \in I_i\), we have
+    \[ m_i(f) + m_i(g) \leq f(x) + g(x) \leq M_i(f) + M_i(g) .\]
+    This shows that \(m_i(f) + m_i(g)\) is a lower bound of \(f + g\) on \(I_i\),
+    and similarly for \(M_i(f) + M_i(g)\) (upper bound). Hence, by definition, and
+    noting that the pointwise sum of bounded functions is bounded, we get
+    \[ m_i(f) + m_i(g) \leq m_i(f + g) \word{and} M_i(f + g) \leq M_i(f) + M_i(g) .\]
+    Therefore, this implies that 
+    \[ L(f, P) + L(g, P) \leq L(f+g, P) \word{and} U(f + g, P) \leq U(f, P) + U(g, P) .\]
+
+   Next, by Exercise 4, we know that 
+   \[ M_i(\alpha f) = \alpha M_i(f) \word{and} m_i(\alpha f) = \alpha m_i(f) \word{if} \alpha \geq 0 \]
+   and so \(U(\alpha f, P) = \alpha U(f, P)\) and \(L(\alpha f, P) = \alpha L(f, P) \).
+   Likewise,
+   \[ M_i(\alpha f) = \alpha m_i(f) \word{and} m_i(\alpha f) = \alpha M_i(f) \word{if} \alpha \leq 0 \]
+   and thus \(U(\alpha f, P) = \alpha L(f, P)\) and \(L(\alpha f, P) = \alpha U(f, P) \).
 \end{proof}
 
 
@@ -538,7 +558,56 @@ any questions.
     \int_a^b[\alpha f+\beta g]=\alpha\int_a^b f + \beta\int_a^b g
   .\]
 \end{theorem}
+
 \begin{proof}
+    It suffices to show two things: first, for any integrable function 
+    \(h: [a,b] \to \mb R\) and any number \(\alpha\), the function 
+    \(\alpha h\) is integrable on \([a,b]\) and 
+    \[ \int_a^b \alpha h = \alpha \int_a^b h .\]
+    Second, for integrable functions \(f, g\) on \([a,b]\), the function
+    \(f + g\) is integrable and 
+    \[ \int_a^b [f + g] = \int_a^b f + \int_a^b g .\]
+    From these, we get
+    \begin{align*} 
+        \int_a^b[ \alpha f + \beta g ] &= \int_a^b \alpha f + \int_a^b \beta g \\
+                                       &= \alpha \int_a^b f + \beta \int_a^b g .\\
+    \end{align*}
+
+
+    We now prove the first fact. Let \(\{P_n\}\) be an Archimedean sequence
+    of \(h\). Applying the previous lemma, regardless of the
+    value of \(\alpha\) we have
+    \[ U(\alpha h, P_n) - L(\alpha h, P_n) = |\alpha| [U(h, P_n) - L(h P_n)] \]
+    and so taking the limit tells us that \(\{P_n\}\) is an Archimedean 
+    sequence of \(\alpha h\). Now, for \(\alpha \geq 0\),
+    \[ \int_a^b \alpha h = \limit U(\alpha h, P_n) = \alpha \limit U(h, P_n) = \alpha \int_a^b h\]
+    while for \(\alpha \leq 0\),
+    \[ \int_a^b \alpha h = \limit U(\alpha h, P_n) = \alpha \limit L(h, P_n) = \alpha \int_a^b h .\]
+    This gives us our result.
+
+
+    Now we prove the second fact. From the proof of Theorem 6.13, we know
+    there exists an Archimedean sequence \(\{P_n\}\) common to both \(f\)
+    and \(g\). Then, applying the previous lemma, we get
+    \begin{align*}
+        0 &\leq  \limit [ U(f + g, P_n) - L(f + g, P_n) ] \\ 
+          &\leq \limit [ [U(f, P_n) + U(g, P_n)] - [L(f, P_n) + L(g, P_n)]] \\
+          &= \limit [U(f, P_n) - L(f, P_n)] + \limit [U(g, P_n) - L(g, P_n)] \\
+          &= 0 .
+    \end{align*}
+    This shows that \(\{P_n\}\) is an Archimedean sequence of \(f+g\). It follows
+    that
+    \begin{align*} 
+        \int_a^b f + \int_a^b g &= \limit U(f, P_n) + \limit U(g, P_n) \\
+                                &= \limit [U(f, P_n) + U(g, P_n)] \\
+                                &\geq \limit [U(f + g, P_n)] \\
+                                &= \int_a^b [f + g] \\
+                                &= \limit [ L(f + g, P_n) ] \\
+                                &\geq \limit [L(f, P_n) + L(g, P_n) ] \\
+                                &= \limit L(f, P_n) + \limit L(g, P_n) \\
+                                &= \int_a^b f + \int_a^b g \\
+    \end{align*}
+    and so \(\int_a^b [f + g] = \int_a^b f + \int_a^b g \).
 
 \end{proof}
 
@@ -555,8 +624,15 @@ any questions.
     \right]
   .\]
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    Since \((f - g)^2 = f^2 - 2fg + g^2\) and each term on the RHS
+    is integrable, by linearity, \((f-g)^2\) is integrable. Also,
+    since \((f - g)^2 \geq 0\) (the zero function) and \(\int_a^b 0 = 0\),
+    we have from the monotonicity property that
+    \[ \int_a^b f^2 - 2 \int_a^b fg + \int_a^b g^2 = \int_a^b (f - g)^2 \geq \int_a^b 0 = 0 .\]
+    Hence, \( \int_a^b f^2 + \int_a^b g^2 \geq 2 \int_a^b fg \) and thus
+    \[ \frac{1}{2} \left[ \int_a^b f^2 + \int_a^b g^2 \right] \geq \int_a^b fg .\] 
 \end{solution}
 
 \begin{exercise}[4]
@@ -596,12 +672,16 @@ any questions.
     \[ \alpha b \geq \alpha u > x \]
     and so \(x\) cannot be an upper bound of \(\alpha S\). Thus, \(\alpha b = \sup \alpha S\).
 
-   
-    Repeat this argument with the set \(-S\) and note that \(\sup -S = \inf S\). 
+    Last, consider when \(\alpha < 0\) and let \(c = \inf S\). For all \(s \in S\),
+    \(s \geq c\) and so multiplying by \(\alpha\) gives us \(\alpha s \leq \alpha c\). 
+    By our earlier reasoning \(\alpha c\) is an upper bound of \(\alpha S\), so
+    suppose \(\alpha c > x\). Divide by \(\alpha\) to get \(c < \alpha^{-1}x\).
+    By definition of the infimum, there exists \(v \in S\) so that
+    \(v < \alpha^{-1}x\). Multiplying by \(\alpha\) yields \(\alpha v > x \)
+    and so \(x\) cannot be an upper bound of \(\alpha S\). Thus, \(\sup \alpha S = \alpha c\).
 
-
-    TODO: Finish last case 
-
+    Repeat all of the above with the set \(-S\) and note that \(\sup -S = \inf S\)
+    to derive the equalities for the infimums of \(\alpha S\).
 \end{solution}
 
 
