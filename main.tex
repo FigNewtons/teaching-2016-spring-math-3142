@@ -727,26 +727,91 @@ any questions.
     [f(v)-f(u)][b-a]
   .\]
 \end{lemma}
-\begin{proof}
 
+\begin{proof}
+    Let \(P = \{x_0, x_1, ..., x_n\}\) be a partition of \([a,b]\). For
+    \(i \in [n]\), consider the restriction of \(f\) to \([x_{i-1}, x_i]\).
+    Since \(f\) is continuous, so is its restriction. Morever, the partition
+    interval is a closed, bounded interval. Thus, by the Extreme value theorem,
+    there exists points \(u_i, v_i \in [x_{i-1}, x_i]\) such that
+    \(f(u_i) = \min f([x_{i-1}, x_i])\) and \(f(v_i) = \max f([x_{i-1}, x_i])\).
+    Now let \[k = \word{argmax}_{i \in [n]} \{ f(v_i) - f(u_i) \} \]
+    and set \(u = u_k\) and \(v = v_k\). Hence,
+    \begin{align*}
+        0  &\leq U(f, P) - L(f, P) \\
+           &= \sumi (M_i - m_i)(x_i - x_{i-1}) \\
+           &= \sumi (f(v_i) - f(u_i))(x_i - x_{i-1}) \\
+           &\leq \sumi (f(v) - f(u))(x_i - x_{i-1}) \\
+           &= [f(v) - f(u)] \sumi (x_i - x_{i-1}) \\
+           &= [f(v) - f(u)] [b - a] \\
+    \end{align*}
 \end{proof}
 
 
 \begin{theorem}[6.18]
   A continuous function on a closed bounded interval is integrable.
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Let \(f\) be a continuous function on \([a,b]\), and
+    let \(\{P_n\}\) be a sequence of partitions where \(\limit \text{gap~} P_n = 0\)
+    (for instance, regular partitions). For each \(n \in \mb N\),
+    apply the preceding lemma to obtain points \(u_n\) and \(v_n\). Since the two points
+    belong to the same partition interval, we have \(|v_n - u_n| \leq \text{gap~} P_n\).
+    It follows that
+    \[ 0 = \limit - \text{gap~} P_n \leq \limit [v_n - u_n] \leq \limit \text{gap~} P_n = 0. \]
+    Next, we note that a continuous function on a closed, bounded interval
+    is uniformly continuous and consequently, \(\limit [f(v_n) - f(u_n)] = 0\).
+    By the previous lemma,
+    \[ 0 \leq \limit [ U(f, P_n) - L(f, P_n)] \leq \limit [f(v_n) - f(u_n)][b - a] = 0 \]
+    and so \(\{P_n\}\) is an Archimedean sequence of \(f\). Thus, \(f\)
+    is integrable.
 \end{proof}
 
 
 \begin{theorem}[6.19]
-  Supose \(f:[a,b]\to\mb R\) is bounded on \([a,b]\) and continuous on
+  Suppose \(f:[a,b]\to\mb R\) is bounded on \([a,b]\) and continuous on
   \((a,b)\). Then \(f\) is integrable on \([a,b]\) and the value of
   \(\int_a^b f\) does not depend on the values of \(f\) at the endpoints
   of \([a,b]\).
 \end{theorem}
+
 \begin{proof}
+    Construct sequences \(\{a_n\}\) and \(\{b_n\}\) such that 
+    \[ a < a_n < b_n < b \word{for all} n ,\]
+    \(\limit a_n = a\), and \(\limit b_n = b\). For each \(n \in \mb N\),
+    the restriction of \(f\) to \([a_n, b_n]\) is continuous and hence
+    integrable. This means there exists a corresponding Archimedean
+    sequence and so we can choose a partition \(P_n^*\) of \([a_n, b_n]\)
+    such that 
+    \[ 0 \leq U(f, P_n^*) - L(f, P_n^*) \leq \frac{1}{n} \]
+    (by definition of the limit of a sequence). We then define
+    \(P_n = P_n^* \cup \{a, b\}\) so that \(P_n\) is a partition of 
+    \([a,b]\). Let \(A_n = U(f, \{a, a_n\}) - L(f, \{a, a_n\})\)
+    and \(B_n = U(f, \{b_n, b\}) - L(f, \{b_n, b\})\). Then
+    \[ U(f, P_n) - L(f, P_n) = U(f, P_n^*) - L(f, P_n^*) + A_n + B_n .\]
+
+    Because \(f\) is bounded, there exists \(M\) such that
+    \(-M \leq f(x) \leq M\) for \(x \in [a,b]\). Consequently, by Lemma 6.1,
+    \[ 0 \leq A_n \leq [M - (-M)][a_n - a] = 2M[a_n - a] \word{and} 0 \leq B_n \leq 2M[b_n - b] .\]
+    
+    This means that 
+    \[ 0 \leq U(f, P_n) - L(f, P_n) \leq [U(f, P_n^*) - L(f, P_n^*)] + 2M[a_n - a] + 2M[b_n - b] .\]
+
+    Since we know that 
+    \[0 \leq \limit [U(f, P_n^*) - L(f, P_n^*)] \leq \limit \frac{1}{n} = 0 ,\]
+    \(\limit [a_n - a] = 0\), and \(\limit [b_n - b] = 0\), we get
+    \[ \limit [U(f, P_n) - L(f, P_n)] = 0 .\]
+
+    Therefore, \(\{P_n\}\) is an Archimedean sequence for \(f\) on \([a,b]\),
+    and \(f\) is integrable.
+
+    
+    Moreover, 
+    \[ \limit [ U(f, P_n) - U(f, P_n^*) ] = \limit [ U(f, \{a, a_n\}) +  U(f, \{b_n, b\}) ] \leq \limit M[a_n - a] + \limit M[b_n - b] = 0 .\]
+    Thus,
+    \[ \int_a^b f = \limit U(f, P_n) = \limit U(f, P_n^*) \]
+    and so the integral is indepedent of the values of \(f(a)\) and \(f(b)\).
 
 \end{proof}
 
@@ -767,11 +832,23 @@ any questions.
 \end{exercise}
 \begin{solution}
   \begin{enumerate}[(a)]
-    \item
-    \item
-    \item
-    \item
-    \item
+    \item False. Define \(f\) to be identically zero on \((a,b)\) and
+          \(f(a) = f(b) = 1\). Then \(f\) on \([a,b]\) is not identically zero,
+          but \(\int_a^b f = 0\) by Theorem 6.19.
+    \item False. Define \(f: [a, b] \rightarrow \mb R\) by
+         \[ f(x) = \begin{cases} 
+                 0 &\word{if} x \leq (b - a)/2 \\
+                 1 &\word{if} x > (b - a)/2 \\
+             \end{cases} \]
+         Since \(f\) is monotonically increasing, it is integrable. However,
+         \(f\) is not continuous at \(x = 1/2\).
+    \item True. Since \(f(x) \geq 0(x) = 0\) on \([a,b]\), by monotonicity,
+        \[ \int_a^b f \geq \int_a^b 0 = 0 .\]
+    \item False. The function \(f(x) = 1/x\) on \((0,1)\) is continuous but
+        not bounded above. Indeed, suppose there exists a number \(M > 0\)
+        such that \(M \geq f(x)\) within this interval. Choose any point
+        greater than \(1 / M\) for the contradiction.
+    \item True. This is a consequence of the Extreme value theorem.
   \end{enumerate}
 \end{solution}
 
@@ -786,8 +863,31 @@ any questions.
   Prove that \(f(x)\leq 0\) for all \(x\in[a,b]\). Is this true if we only
   require integrability of the function?
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    Suppose on the contrary that there exists \(x \in [a,b]\) such that
+    \(f(x) > 0\). Since \(f\) is continuous, \(f\) obtains a maximum \(f(x_0)\)
+    by the Extreme value theorem. By our assumption, it follows that 
+    \(f(x_0) > 0\). Now let \(\epsilon = f(x_0)\) so that, by continuity,
+    there exists \(\delta > 0\) such that 
+    \[ |x - x_0| < \delta \word{implies} |f(x_0) - 0| < \epsilon .\]
+    This implies that we can find an open neighborhood \(I\) contained
+    in \([a,b]\) such that \(x \in I\) implies \(f(x) > 0\). (Even
+    in the case where \(x_0\) is an endpoint, we can simply omit
+    \(x_0\) from consideration  and use the remaining open interval).
+    Consequently, \(f\) is integrable on \(I\) (by Theorem 6.19) 
+    and its integral is positive (by monotonicity). However, since 
+    the bounds of \(I\) are within \([a,b]\), we contradict the 
+    property that \(\int_c^d f \leq 0\) whenever \(a \leq c < d \leq b\).
+    Hence, \(f(x) \leq 0\) for all \(x \in [a,b]\).
+
+    Clearly, the statement becomes false if we only require the
+    integrability of \(f\). For instance, define \(f:[0,1] \rightarrow \mb R\)
+    by \[ f(x) = \begin{cases} 1  &\word{if} x < 1/3 \\
+                              -1 &\word{if} x \geq 1/3 \\
+                \end{cases}. \]
+    Then, \(\int_0^1 f = -\frac{1}{3} \leq 0 \) but not all
+    \(f(x) \leq 0\).
 \end{solution}
 
 
@@ -796,8 +896,17 @@ any questions.
   all \(x\in[0,1]\). Prove that \(\int_0^1 f>0\) if and only if there is a
   point \(x_0\in[0,1]\) at which \(f(x_0)>0\).
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    We'll prove the contrapositives of the equivalency:
+    \[ \int_0^1 f \leq 0 \Leftrightarrow \word{for all} x \in [a,b], f(x) \leq 0 \]
+    
+    By assumption, \(f(x) \geq 0\) for all \(x \in [0, 1]\)
+    implies \(\int_0^1 f \geq 0\). Hence, if we suppose that
+    \(\int_0^1 f \leq 0\), then \(\int_0^1 f = 0\), which can
+    only happen if \(f(x) = 0\) for all \(x \in [a,b]\). This
+    clearly means \(f(x) \leq 0 \) for all \(x \in [a,b]\).
+    The converse follows from monotonicity.
 \end{solution}
 
 
