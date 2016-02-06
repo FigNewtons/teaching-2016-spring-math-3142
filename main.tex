@@ -926,8 +926,16 @@ any questions.
     \int_a^b f = A
   .\]
 \end{lemma}
-\begin{proof}
 
+\begin{proof}
+    By assumption, \(A\) is a lower bound for \(\{U(f, P)\}_P\)
+    and an upper bound for \(\{L(f, P)\}_P\) and so by definition
+    \[ \underline{\int_a^b f} \leq A \leq \overline{\int_a^b f} .\]
+    But since \(f\) is integrable, 
+    \[ \underline{\int_a^b f} = \int_a^b f = \overline{\int_a^b f} \]
+    and so 
+    \[\underline{\int_a^b f } = \int_a^b f \leq A \leq \int_a^b f = \overline{\int_a^b f} \] 
+    implies \(\int_a^b f = A\).
 \end{proof}
 
 
@@ -941,8 +949,31 @@ any questions.
     F(b)-F(a)
   .\]
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    We must show two things: (1) that the integral exists, and (2) that it
+    is equal to \(F(b) - F(a)\). First, any extension of \(F'\) to \([a,b]\)
+    remains continuous on \((a,b)\) and bounded on \([a,b]\). Thus, by Theorem
+    6.19, any extension of \(F'\) is integrable. Further, every such integral
+    has the same value and so \(\int_a^b F'\) is unambiguously defined for
+    our original \(F'\).
+    
+    Second, we show that for every partition \(P = \{x_0, x_1, ..., x_n\}\) 
+    of \([a,b]\),
+    \[ L(F', P) \leq F(b) - F(a) \leq U(F', P) .\]
+    For \(i \in [n]\), the restriction of \(F\) to \([x_{i-1}, x_i]\) is
+    continuous on this closed interval, and differentiable on \((x_{i-1}, x_i)\).
+    Hence, by the Mean Value Theorem, there exists a point \(c_i \in (x_{i-1}, x_i)\)
+    so that 
+    \[ F(x_i) - F(x_{i-1}) = F'(c_i)(x_i - x_{i-1}) .\]
+    Consequently, \(m_i \leq F'(c_i) \leq M_i\) (where \(m_i\) and \(M_i\) are the infimum
+    and supremum of the restriction of \(F'\), respectively). Then, multiplying this 
+    inequality by \(x_i - x_{i-1}\) yields
+    \[ m_i (x_i - x_{i-1}) \leq F'(c_i)(x_i - x_{i-1}) = F(x_i) - F(x_{i-1}) \leq M_i (x_i - x_{i-1}) .\]
+    Taking the sum across all partition intervals, we have
+    \[ L(F', P) = \sumi m_i(x_i - x_{i-1}) \leq \sumi [F(x_i) - F(x_{i-1}) ] = F(b) - F(a) \leq \sumi M_i (x_i - x_{i-1}) = U(F', P) \] 
+    Thus, by the previous lemma
+    \[ \int_a^b F'(x) dx = F(b) - F(a) .\]
 \end{proof}
 
 
@@ -956,8 +987,38 @@ any questions.
     \item Using the First Fundamental Theorem (Integrating Derivatives).
   \end{enumerate}
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    \begin{enumerate}[(a)]
+        \item Geometrically, the area between \(mx + b\) and the x-axis consists
+              of two shapes: a rectangular base and a triangle on top. The area
+              of the rectangle is \[A_r = l \times w = 1 \times b = b\] and the area
+              of the triangle is 
+              \[ A_t = \frac{1}{2} b \times h = \frac{1}{2}(1 \times (m + b - b)) = \frac{1}{2} m .\]
+              Consequently,
+              \[ \int_0^1 mx + b ~dx = A_r + A_t = b + \frac{1}{2} m .\]
+        \item The function \(f(x) = mx + b\) is monotonically increasing on \([0,1]\) 
+              and therefore integrable by the Archimedes-Riemann Theorem. Using a sequence
+              of regular partitions, we get
+              \begin{align*}
+                  \int_0^1 mx + b ~dx &= \limit U(f, P_n)\\
+                                      &= \limit \sumi M_i \frac{1}{n} \\
+                                      &= \limit \sumi (mx_i + b) \frac{1}{n} \\
+                                      &= \limit [ m \sumi \frac{i}{n^2} + \frac{b}{n} \sumi 1 ] \\
+                                      &= \limit [ m \frac{(n+1)}{2n} + b ] \\
+                                      &= \frac{1}{2}m + b \\
+              \end{align*}
+
+          \item By linearity, \[\int_0^1 mx + b ~dx  = m \int_0^1 x ~dx + b \int_0^1 1 ~dx .\]
+                Clearly, \(x\) and \(1\) are continuous and bounded on \([0, 1]\). Furthermore,
+                we know that \(\frac{d}{dx} \frac{x^2}{2} = x\) and \(\frac{d}{dx} x = 1\). Thus,
+                by the First Fundamental Theorem of Calculus
+                \[ \int_0^1 x ~dx = \frac{1^2}{2} - \frac{0^2}{2} = \frac{1}{2} \]
+                and
+                \[ \int_0^1 1 ~dx = 1 - 0 = 1 .\]
+                Putting it altogether, we get
+                \[ \int_0^1 mx + b ~dx = m \int_0^1 x ~dx + b \int_0^1 1 ~dx = m \frac{1}{2} + b .\]
+    \end{enumerate}
 \end{solution}
 
 
@@ -993,7 +1054,34 @@ any questions.
   .\]
 \end{exercise}
 
+\begin{solution}
+    By assumption (of the first inequality), \(\text{cos~}x\) is bounded
+    on \([0, \infty)\). We also know that it is continuous. Moreover,
+    we know that \(\frac{d}{dx} \text{sin~} x = \text{cos~} x\) on \(\mb R\), and
+    that \(\text{sin}(0) = 0\). These facts, combined with knowing that
+    \(\frac{d}{dx} x^n = nx^{n-1}\) for \(n \geq 1\), we get
+    \[ \text{sin}(x) = \text{sin}(x) - \text{sin}(0) = 
+            \int_0^x \text{cos~} x ~dx \leq  \int_0^x 1 ~dx = x \]
+    for \(x \geq 0\). 
 
+    Next, since \(\text{sin}(x + 2\pi) = \text{sin}(x)\) for \(x \in \mb R\) and
+    \(\text{sin}(x)\) is continuous on \([0, 2\pi]\), \(\text{sin}(x)\) is 
+    bounded on \([0, 2\pi]\) (by the Extreme Value Theorem), and consequently,
+    \(\text{sin}(x)\) is bounded on \([0, \infty)\). We know that
+    \(\frac{d}{dx} -\text{cos}(x) = \text{sin}(x) \). Hence, we can apply the
+    first Fundamental Theorem of Calculus to obtain
+    \[ 1 - \text{cos}(x) = [ -\text{cos}(x) - (-\text{cos}(0)) ] 
+        = \int_0^x \text{sin~} x ~dx \leq \int_0^x x ~dx 
+    = \frac{x^2}{2} - \frac{0^2}{2} = \frac{x^2}{2} \]
+    for \(x \geq 0\).
+
+    And again
+    \[ x - \text{sin}(x) = \int_0^x [x - \text{sin}(x) ] ~ dx \leq \int_0^x \frac{x^2}{2} ~ dx = \frac{1}{2}[\frac{x^3}{3}] = \frac{x^3}{6}. \]
+
+    Rearranging this inequality with the second inequality gives us
+    \[ x - \frac{x^3}{6} \leq \text{sin~} x \leq x \]
+    for \(x \geq 0\).
+\end{solution}
 
 
 \section{The Second Fundamental Theorem: Differentiating Integrals}
