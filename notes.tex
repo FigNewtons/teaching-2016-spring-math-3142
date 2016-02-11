@@ -1,0 +1,1309 @@
+\documentclass[letterpaper, twoside, 12pt]{book}
+\usepackage{notes}
+
+
+
+
+\title{MATH 3142 Notes | Spring 2016}
+\date{Updated: \today}
+\author{Daniel Gruszczynski\\ UNC Charlotte}
+
+\begin{document}
+
+\maketitle
+
+This document is a template for you to take notes in my MATH 3142 course.
+For your note check grade, you are required to complete all proofs/solutions
+for the problems specified. This template will be updated periodically
+throughout the course; you are responsible for updating your copy
+as the template is updated. See the syllabus for more details.
+
+You should maintain your notes on Overleaf.com and provide me with a
+link so I can check on them. I'll give you notice before notes are ``due'';
+when they are due I will download a copy myself from Overleaf.
+
+This is not a replacement for the textbook for this course,
+\textit{Advanced Calculus} by Patrick M. Fitzpatrick. Many proofs are
+outlined in that text, as well as all the relevant definitions and other
+results not included in these notes.
+
+A proof is valid if and only if it uses concepts proven previously in
+the book. For example, you cannot prove a lemma in Chapter 6 using
+a theorem from Chapter 10, but using a proposition from Chapter 4
+is allowed.
+
+I hope you enjoy working through these results. Please email me with
+any questions.
+
+\noindent| Dr. Steven Clontz \(\<\)sclontz5@uncc.edu\(\>\)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\setcounter{chapter}{5}
+\chapter{Integration: Two Fundamental Theorems}
+
+
+
+
+
+
+
+\section{Darboux Sums: Upper and Lower Integrals}
+
+\begin{definition}
+    Let \(n\) be a natural number. We define \([n] = \{1, 2, ..., n\}\). If 
+    \(i\) is an index, we write ``for \(i \in [n]\)'' in place of the usual 
+    ``for \(1 \leq i \leq n\).''
+\end{definition}
+
+\begin{lemma}[6.1]
+  Suppose that the function \(f:[a,b]\to\mb R\) is bounded and the numbers
+  \(m,M\) have the property that
+  \[
+    m\leq f(x)\leq M
+  \]
+  for all \(x\) in \([a,b]\). Then, if \(P\) is a partition of the domain
+  \([a,b]\),
+  \[
+    m(b-a)\leq L(f,P)
+      \text{ and }
+    U(f,P)\leq M(b-a)
+  .\]
+\end{lemma}
+
+\begin{proof}
+    Let \(P = \{x_{0}, x_{1}, ..., x_{n}\}\) be a partition on \([a,b]\).
+    By assumption, \(m\) is a lower bound of \(f([a,b])\). Restricting
+    \(f\) to \([x_{i-1}, x_{i}]\), we have \(m \leq m_{i}\) for all \(i \in [n]\)
+    since \(m_{i}\) is the infimum of \(f([x_{i-1}, x_{i}])\). Then, by definition,
+    \begin{align*}
+        L(f, P) &= \sum_{i = 1}^{n} m_{i}(x_{i} - x_{i-1}) \\ 
+                &\geq \sum_{i = 1}^{n} m (x_{i} - x_{i-1}) \\
+                &= m \sum_{i = 1}^{n} (x_{i} - x_{i-1}) \\
+                &= m (b - a) .\\
+    \end{align*}
+    Similarly, \(M\) is an upper bound of \(f([a,b])\) and so, when restricting \(f\) 
+    to \([x_{i-1}, x_{i}]\), we have \(M \geq M_{i}\) since \(M_{i}\) is the supremum of 
+    \(f([x_{i-1}, x_{i}])\) (for all \(i \in [n]\)). Hence, we have
+    \begin{align*}
+        U(f, P) &= \sum_{i = 1}^{n} M_{i}(x_{i} - x_{i - 1}) \\
+                &\leq \sum_{i = 1}^{n} M(x_{i} - x_{i - 1}) \\
+                &= M \sum_{i = 1}^{n} (x_{i} - x_{i - 1}) \\
+                &= M(b - a) .\\
+    \end{align*}
+
+    Therefore, \(m(b - a) \leq L(f, P)\) and \(U(f, P) \leq M(b - a) \). 
+\end{proof}
+
+
+\begin{lemma}[6.2, The Refinement Lemma]
+  Suppose that the function \(f:[a,b]\to\mb R\) is bounded and that \(P\)
+  is a partition of its domain \([a,b]\). If \(P^\star\) is a refinement
+  of \(P\), then
+  \[
+    L(f,P)\leq L(f,P^\star)
+      \text{ and }
+    U(f,P^\star)\leq U(f,P)
+  .\]
+\end{lemma}
+
+\begin{proof}
+    Let \(P = \{x_{0}, x_{1}, ..., x_{n}\}\) be a partition on \([a,b]\),
+    and let \(P^*\) be its refinement. For \(i \in [n]\), define \(P_{i}\) 
+    to be the partition on \([x_{i-1}, x_{i}]\) by the points of 
+    \(P^*\) inside this interval. Since \(m_{i} \leq f(x)\) for \(x \in [x_{i-1},x_{i}]\),
+    applying the previous lemma to the restriction of \(f\) on \([x_{i-1}, x_{i}]\),
+    we have \( m_{i}(x_{i} - x_{i-1}) \leq L(f, P_{i})\). It follows that
+    \begin{align*} 
+        L(f, P) &= \sum_{i=1}^{n} m_{i}(x_{i} - x_{i - 1}) \\
+                &\leq \sum_{i = 1}^{n} L(f, P_{i}) \\
+                &= L(f, P^*). \\
+    \end{align*}
+
+    Likewise, the previous lemma gives us \(M_{i}(x_{i} - x_{i-1}) \geq U(f, P_{i})\).
+    Hence,
+    \begin{align*}
+        U(f, P) &= \sum_{i=1}^{n} M_{i}(x_{i} - x_{i-1}) \\
+                &\geq \sum_{i=1}^{n} U(f, P_{i}) \\
+                &= U(f, P^*). \\
+    \end{align*}
+\end{proof}
+
+
+\begin{lemma}[6.3]
+  Suppose that the function \(f:[a,b]\to\mb R\) is bounded and that
+  \(P_1,P_2\) are partitions of its domain. Then \(L(f,P_1)\leq U(f,P_2)\).
+\end{lemma}
+
+\begin{proof}
+    Let \(P = P_1 \cup P_2\) be the common refinement of partitions \(P_1\)
+    and \(P_2\). By the Refinement Lemma, \(L(f, P_{1}) \leq L(f, P)\)
+    and \(U(f, P) \leq U(f, P_{2})\). Then, since \(L(f, P) \leq U(f, P)\),
+    the transitivity of \(\leq\) implies that \(L(f, P_{1}) \leq U(f, P_{2})\).
+\end{proof}
+
+
+\begin{lemma}[6.4]
+  For a bounded function \(f:[a,b]\to\mb R\),
+  \[
+    \underline{\int_a^b} f
+      \leq
+    \overline{\int_a^b} f
+  .\]
+\end{lemma}
+
+\begin{proof}
+    Let \(P\) be any partition on \([a,b]\). By the previous lemma,
+    \(U(f, P) \geq L(f, P')\) for all partitions \(P'\) on \([a,b]\). 
+    It follows that
+    \[ \underline{\int_a^b} f \leq U(f, P) . \]
+    Since \(P\) was arbitrary, the above shows that \(\underline{\int_a^b} f\)
+    is a lower bound for all such \(U(f, P)\). Therefore,
+    \[ \underline{\int_a^b} f \leq \overline{\int_a^b} f .\]
+\end{proof}
+
+\begin{exercise}[2]
+  For an interval \([a,b]\) and a positive number \(\delta\),
+  show that there is a partition \(P=\{x_i:0\leq i\leq n\}\) of
+  \([a,b]\) such that each partition interval \([x_i,x_{i+1}]\)
+  of \(P\) has length less than \(\delta\).
+\end{exercise}
+
+\begin{solution}
+    Let \([a,b]\) be an interval (\(b > a\)) and \(\delta > 0\).
+    By the Archimedean property, there exists a natural number
+    \(n\) such that \(\frac{\delta}{b - a} > \frac{1}{n}\). It follows that
+    we can form partition intervals of equal length \(\frac{b - a}{n}\):
+    \begin{align*}
+        \delta &> \frac{b - a}{n} \\
+               &= \frac{1}{n} \sum_{i=0}^{n - 1} (x_{i + 1} - x_{i}) \\
+               &= \frac{1}{n}[ n (x_{i + 1} - x_{i}) ] \\
+               &= x_{i + 1} - x_{i} \\
+    \end{align*}
+\end{solution}
+
+
+\begin{exercise}[3]
+  Suppose that the bounded function \(f:[a,b]\to\mb R\) has the property
+  that for each rational number \(x\) in the interval \([a,b]\),
+  \(f(x)=0\). Prove that
+  \[
+    \underline{\int_a^b}f
+      \leq
+    0
+      \leq
+    \overline{\int_a^b}f
+  .\]
+\end{exercise}
+
+\begin{solution}
+    Let \(P = \{x_{0}, x_{1}, ... , x_{n}\}\) be an arbitrary partition on \([a,b]\).
+    Since \(\mb Q\) is dense in \(\mb R\), \(m_{i} \leq 0\) and \(M_{i} \geq 0\) for
+    all \(i \in [n]\). This implies \(L(f, P) \leq 0\) and \(U(f, P) \geq 0\). 
+    Consequently, 
+    \[ \underline{\int_a^b} f \leq 0 \leq \overline{\int_a^b} f .\]
+\end{solution}
+
+
+\begin{exercise}[6]
+  Suppose that \(f:[a,b]\to\mb R\) is a bounded function for which there is
+  a partition \(P\) of \([a,b]\) with \(L(f,P)=U(f,P)\). Prove that
+  \(f:[a,b]\to\mb R\) is constant.
+\end{exercise}
+
+\begin{solution}
+    Let \(P\) be the partition where \(L(f, P) = U(f, P)\). Then
+    \[ 0 = U(f, P) - L(f, P) = \sum_{i=1}^{n} M_i(x_{i} - x_{i-1}) -
+                                \sum_{i = 1}^{n} m_i (x_{i} - x_{i-1}) 
+                            = \sum_{i=1}^{n} (M_{i} - m_{i})(x_{i} - x_{i-1}) .\]
+    Since \(x_{i} > x_{i-1}\), \((x_{i} - x_{i-1}) > 0\).  Similarly,
+    \((M_{i} - m_{i}) \geq 0\). This implies that the term 
+    \((M_{i} - m_{i})(x_{i} - x_{i-1})\) is nonnegative, but since 
+    the entire sum is zero, we must have \(M_{i} = m_{i}\) for
+    all \(i \in [n]\). It follows that \(f\) takes the same value
+    within each partition interval, and since 
+    \([x_{i - 1}, x_{i}] \cap [x_{i}, x_{i + 1}] = \{x_{i}\}\), \(f\)
+    takes the same value for all of \([a,b]\). Therefore, \(f\)
+    is constant.
+\end{solution}
+
+
+
+
+\section{The Archimedes-Riemann Theorem}
+
+
+\begin{lemma}[6.7]
+  For a bounded function \(f:[a,b]\to\mb R\) and a partition \(P\) of
+  \([a,b]\),
+  \[
+    L(f,P)
+      \leq
+    \underline{\int_a^b}f\leq\overline{\int_a^b}f\leq U(f,P)
+  .\]
+\end{lemma}
+
+\begin{proof}
+    By definition, \(\overline{\int_a^b} f \leq U(f, P)\) and
+    \(L(f, P) \leq \underline{\int_a^b} f\). Then, by Lemma 6.4
+    we have \(\underline{\int_a^b} f \leq \overline{\int_a^b} f\).
+    The result follows.
+\end{proof}
+
+
+\begin{theorem}[6.8, The Archimedes-Riemann Theorem]
+  Let \(f:[a,b]\to\mb R\) be a bounded function. Then \(f\) is integrable on
+  \([a,b]\) if and only if there is a sequence \(\{P_n\}\) of partitions
+  of the interval \([a,b]\) such that
+  \[
+    \lim_{n\to\infty}[U(f,P_n)-L(f,P_n)]=0
+  .\]
+  Moreover, for any such sequence of partitions,
+  \[
+    \lim_{n\to\infty} L(f,P_n)
+      =
+    \int_a^b f
+      =
+    \lim_{n\to\infty} U(f,P_n)
+  .\]
+\end{theorem}
+
+\begin{proof}
+    Suppose \(f\) is integrable on \([a,b]\). Then by definition
+    \[ \underline{\int_a^b} f = \int_a^b f = \overline{\int_a^b} f .\]
+    For convenience, let \(L = \underline{\int_a^b} f\) and
+    \(U = \overline{\int_a^b} f\). Now, for each \(n \in \mb N\), 
+    define \(L_n \equiv L - \frac{1}{n}\) and \(U_n \equiv U + \frac{1}{n}\).
+    Since \(L\) is the supremum of the lower Darboux sums of \(f\),
+    \(L_n\) is not an upper bound of this collection and so there
+    exists a partition \(P'\) such that \(L_n < L(f, P')\). By similar
+    reasoning, there exists a partition \(P''\) such that
+    \(U(f, P'') < U_n \). Define \(P_n = P' \cup P''\) as their common
+    refinement. This gives us
+    \[ 0 \leq U(f, P_n) - L(f, P_n) < U_n - L_n = 
+        \Bigg [ \int_a^b f + \frac{1}{n} \Bigg ] - 
+        \Bigg [ \int_a^b f - \frac{1}{n} \Bigg ] = \frac{2}{n}. \]
+    Hence,
+    \[ \limit [ U(f, P_n) - L(f, P_n) ] = 2 \limit \frac{1}{n} = 0 \]
+    and so \(\{P_n\}\) is an Archimedean sequence. 
+
+
+    Conversely, suppose we had an Archimedean sequence \(\{P_n\}\) so that 
+    \[ \limit [ U(f, P_n) - L(f, P_n) ] = 0 .\]
+    Because 
+    \[L(f, P_n) \leq \underline{\int_a^b} f \leq \overline{\int_a^b} f \leq U(f, P_n) \]
+    by Lemma 6.7, we have (by taking the limit), 
+    \[ 0 \leq \overline{\int_a^b} f - \underline{\int_a^b} f \leq \limit [U(f, P_n) - L(f, P_n)] = 0 .\]
+    Hence \(\underline{\int_a^b} f = \overline{\int_a^b} f \) and so \(f\)
+    is integrable.
+
+    Moreover, Lemma 6.7 shows that \( 0 = \limit U(f, P_n) - \overline{\int_a^b} f \)
+    and \(0 = \underline{\int_a^b} f - \limit L(f, P_n) \) and so we get
+    \[ \limit L(f, P_n) = \underline{\int_a^b} f = \int_a^b f = \overline{\int_a^b} f = \limit U(f, P_n) .\]
+\end{proof}
+
+
+\begin{example}[6.9]
+  Show that
+  a monotonically increasing function \(f:[a,b]\to\mb R\) is integrable.
+\end{example}
+
+\begin{solution}
+    Let \(P_n\) be the regular partition on \([a,b]\). Since \(f\) is 
+    monotonically increasing, on a partition interval \([x_{i-1}, x_i]\),
+    \(M_i = f(x_{i})\) and \(m_i = f(x_{i-1})\). Then
+    \begin{align*}
+        \limit [U(f, P_n) - L(f, P_n)] &= \limit \Bigg [ \sumi M_{i}(x_i - x_{i-1}) - \sumi m_i (x_i - x_{i-1}) \Bigg ]\\
+            &= \limit \Bigg [ \sumi (M_i - m_i)(x_i - x_{i-1}) \Bigg ] \\
+            &= \limit \Bigg [ \sumi (f(x_i) - f(x_{i-1})) \frac{b - a}{n} \Bigg ] \\
+            &= \limit \frac{b - a}{n} \Bigg [ \sumi (f(x_i) - f(x_{i-1})) \Bigg ] \\
+            &= \limit \frac{b - a}{n} (f(b) - f(a)) \\
+            &= 0.
+    \end{align*}
+    Therefore, by Theorem 6.8, \(f\) is integrable on \([a,b]\).
+\end{solution}
+
+\begin{example}[6.11]
+  Show that \(\int_0^1 x^2\,dx=\frac{1}{3}\).
+\end{example}
+
+\begin{solution}
+    Since \(f(x) = x^2\) is monotonically increasing on \([0,1]\), 
+    \(f\) is integrable by the above example. Let 
+    \(P_{n} = \{x_{0}, x_{1}, ..., x_{n}\}\) be the regular partition 
+    on \([0,1]\). Then \(x_i = \frac{i}{n}\) and using the fact that
+    \(\sum_{i=1}^{n} i^2 = \frac{n(n +1)(2n+1)}{6}\), we get
+    \begin{align*}
+        \int_0^1 x^2, dx&= \limit U(f, P_n) \\
+                        &= \limit \sumi M_i (x_i - x_{i-1}) \\
+                        &= \limit \sumi f(x_{i}) (x_i - x_{i-1}) \\
+                        &= \limit \sumi \frac{1}{n} \frac{i^2}{n^2} \\
+                        &= \limit \frac{1}{n^3} \sumi i^2 \\
+                        &= \limit \frac{1}{n^3} \Bigg [ \frac{n(n+1)(2n+1)}{6} \Bigg ]\\
+                        &= \limit \frac{2n^2 + 3n + 1}{6n^2} \\
+                        &= \frac{1}{3} .\\
+    \end{align*}
+\end{solution}
+
+\begin{exercise}[4]
+  Prove that for a natural number \(n\),
+  \[ \sum_{i=1}^n i = \frac{n(n+1)}{2} .\]
+  Then use this fact and the Archimedes-Riemann Theorem to show that
+  \(\int_a^b x\,dx=(b^2-a^2)/2\).
+\end{exercise}
+
+\begin{solution}
+    First, we prove the summation holds by induction on \(n\). If \(n = 1\),
+    \(\sum_{i=1}^1 i = 1 = \frac{1(2)}{2}\). Assume this identity holds
+    for all natural numbers \(k \leq n\) and now consider \(n + 1\). Then
+    \begin{align*}
+        \sum_{i=1}^{n+1} i &= \sum_{i = 1}^{n} i + (n + 1) \\
+                        &= \frac{n(n+1)}{2} + (n + 1) \\
+                        &= \frac{n^2 + 3n + 2}{2} \\
+                        &= \frac{ (n+1)((n+1) + 1)}{2} \\
+    \end{align*}
+    and hence the induction is complete.
+
+    We note that \(f(x) = x\) is monotonically increasing on \(\mb R\) and
+    consequently integrable. Thus, for a regular partition \(P_n\) on 
+    \([a,b]\), we have
+    \begin{align*}
+        \int_a^b x\,dx &= \limit U(f, P) \\
+                       &= \limit \sumi M_i (x_i - x_{i-1}) \\
+                       &= \limit \sumi x_i \frac{b - a}{n} \\
+                       &= \limit \sumi \Bigg (a + i \frac{b-a}{n} \Bigg ) \frac{b-a}{n} \\
+                       &= \limit \frac{b-a}{n} \Bigg [ \sumi a + \frac{b-a}{n} \sumi i \Bigg ] \\
+                       &= \limit \frac{b-a}{n} \Bigg [ na + \frac{b-a}{n} \cdot \frac{n(n+1)}{2} \Bigg ] \\
+                       &= \limit [(ab - a^2) + \frac{(b-a)^2 (n+1)}{2n}] \\
+                       &= ab - a^2 + \frac{(b-a)^2}{2} \\
+                       &= \frac{2ab - 2a^2 + b^2 - 2ab + a^2}{2} \\
+                       &= \frac{b^2 - a^2}{2} .\\
+    \end{align*}
+\end{solution}
+
+
+\begin{exercise}[6b]
+  Use the Archimedes-Riemann Theorem to show that for \(0\leq a<b\),
+  \[
+    \int_a^b x^2\,dx = \frac{b^3-a^3}{3}
+  .\]
+\end{exercise}
+
+\begin{solution}
+    Generalizing from Example 6.11, 
+     \begin{align*}
+        \int_a^b x^2, dx&= \limit U(f, P_n) \\
+                        &= \limit \sumi M_i (x_i - x_{i-1}) \\
+                        &= \limit \sumi f(x_{i}) (x_i - x_{i-1}) \\
+                        &= \limit \sumi \frac{b - a}{n} (a + \frac{b-a}{n} i)^2 \\
+                        &= \limit \frac{b - a}{n} \Bigg [ a^2 \sumi 1 + 2a \frac{b-a}{n} \sumi i + \frac{(b-a)^2}{n^2} \sumi i^2 \Bigg ] \\ 
+                        &= \limit \frac{b - a}{n} \Bigg [ na^2 + a(b - a)(n + 1) + \frac{ (n + 1)(2n + 1)(b - a)^2}{6n} \Bigg ] \\
+                        &= \limit a^2 (b - a) + \limit a(b - a)^2 \frac{n+1}{n} + \limit \frac{ (2n^2 + 3n + 1) (b - a)^3}{6n^2} \\
+                        &= a^2 (b - a) + a(b - a)^2 + \frac{(b - a)^3}{3} \\
+                        &= \frac{1}{3} \Bigg [ (3a^2 b - 3a^3) + (3ab^2 - 6a^2 b + 3a^3) + (b^3 - 3ab^2 + 3a^2 b - a^3) \Bigg ] \\  
+                        &= \frac{b^3 - a^3}{3} \\
+    \end{align*}
+\end{solution}
+
+
+\begin{exercise}[9]
+  Suppose that the functions \(f:[a,b]\to\mb R\) and
+  \(g:[a,b]\to\mb R\) are integrable. Show that there is a sequence
+  \(\{P_n\}\) of partitions of \([a,b]\) that is an Archimediean sequence
+  of partitions for \(f\) on \([a,b]\) and also an Archimedean sequence
+  of partitions for \(g\) on \([a,b]\).
+\end{exercise}
+\begin{solution}
+    By the Archimedes-Riemann Theorem, there exists Archimedean sequences
+    \(Q_n\) and \(R_n\) for \(f\) and \(g\), respectively, such that 
+    \( \limit [U(f, Q_n) - L(f, Q_n)] = 0\) and \(\limit [U(g, R_n) - L(g, R_n)] = 0\).
+    For each \(n\), define \(P_n = Q_n \cup R_n\). The Refinement lemma implies
+    \[ 0 = \limit [U(f, Q_n) - L(f, Q_n)] \geq \limit [U(f, P_n) - L(f, P_n)] \geq 0 \]
+    and 
+    \[ 0 = \limit [U(g, R_n) - L(g, R_n)] \geq \limit [U(g, P_n) - L(g, P_n)] \geq 0 .\]
+    Therefore, \(\{P_n\}\) is an Archimedean sequence for \(f\) and \(g\).
+\end{solution}
+
+
+
+
+\section{Additivity, Monotonicity, and Linearity}
+
+
+\begin{theorem}[6.12, Additivity over Intervals]
+  Let \(f:[a,b]\to\mb R\) be integrable on \([a,b]\) and let \(c\in(a,b)\).
+  Then \(f\) is integrable on \([a,c]\) and \([c,b]\), and furthermore
+  \[
+    \int_a^b f = \int_a^c f + \int_c^b f
+  .\]
+\end{theorem}
+
+\begin{proof}
+    By the Archimedes-Riemann Theorem, there exists an Archimedean sequence
+    \(Q_n\) of \(f\) on \([a,b]\). Define \(P_n = Q_n \cup \{c\}\) for
+    every \(n \in \mb N\). This refinement is also an Archimedean sequence
+    of \(f\) on \([a,b]\). Next, define \(R_n = P_n \cap [a, c]\) and
+    \(S_n = P_n \cap [b, c]\) for every \(n \in \mb N\). Since 
+    \(U(f, P_n) = U(f, R_n) + U(f, S_n)\) and \(L(f, P_n) = L(f, R_n) + L(f, S_n)\),
+    we have
+    \begin{align*}
+        0 &= \limit [ U(f, P_n) - L(f, P_n) ] \\
+          &= \limit [ (U(f, R_n) + U(f, S_n)) - (L(f, R_n) + L(f, S_n)) ] \\
+          &= \limit [ U(f, R_n) - L(f, R_n) ] + \limit [ U(f, S_n) - L(f, S_n) ] .\\
+    \end{align*}
+    Since the terms within the limits are nonnegative, both limits go 
+    to zero. Hence, \(R_n\) and \(S_n\) are Archimedean sequences of \(f\)
+    on \([a,c]\) and \([c, b]\), respectively. Thus, \(f\) is integrable
+    on \([a,c]\) and \([c, b]\). Moreover,
+    \begin{align*}
+        \int_a^b f &= \limit U(f, P_n) \\
+                   &= \limit (U(f, R_n) + U(f, S_n)) \\
+                   &= \limit U(f, R_n) + \limit U(f, S_n) \\
+                   &= \int_a^c f + \int_c^b f . \\
+    \end{align*}
+\end{proof}
+
+
+\begin{theorem}[6.13, Monotonicity of the Integral]
+  Suppose \(f,g:[a,b]\to\mb R\) are integrable and that \(f(x)\leq g(x)\)
+  for all \(x\in[a,b]\). Then
+  \[
+    \int_a^b f \leq \int_a^b g
+  .\]
+\end{theorem}
+
+\begin{proof}
+    By the Archimedes-Riemann theorem, we have Archimedean sequences 
+    \(\{Q_n\}\) and \(\{R_n\}\)for \(f\) and \(g\) on \([a,b]\), respectively. 
+    For each \(n \in \mb N\), define \(P_n = Q_n \cup R_n\). Since \(\{P_n\}\)
+    refines both sequences, it is an Archimedean sequence of both \(f\) and \(g\)
+    on \([a,b]\). Consequently,
+    \begin{align*}
+        \int_a^b f &= \limit U(f, P_n) \\
+                   &\leq \limit U(g, P_n) \\
+                   &= \int_a^b g \\
+    \end{align*}
+    following from the fact that \(f(x) \leq g(x)\) implies \(U(f, P) \leq U(g, P)\)
+    (by definition) for any partition \(P\).
+\end{proof}
+
+
+\begin{lemma}[6.14]
+  Let \(f,g:[a,b]\to\mb R\) be bounded and let \(P\) partition \([a,b]\).
+  Then
+  \[
+    L(f,P)+L(g,P)\leq L(f+g,P)
+      \text{~~and~~}
+    U(f+g,P)\leq U(f,P)+U(g,P)
+  .\]
+  Moreover, for any number \(\alpha\),
+  \[
+    U(\alpha f,P)=\alpha U(f,P)
+      \text{~~and~~}
+    L(\alpha f,P)=\alpha L(f,P)
+      \text{~~if~}
+    \alpha\geq 0
+  \]
+  \[
+    U(\alpha f,P)=\alpha L(f,P)
+      \text{~~and~~}
+    L(\alpha f,P)=\alpha U(f,P)
+      \text{~~if~}
+    \alpha< 0
+  .\]
+\end{lemma}
+
+\begin{proof}
+    Let \(B([a,b])\) be the set of bounded real functions on \([a,b]\).
+    For partition \(P = \{x_0, x_1, ..., x_n\}\), denote \(I_i = [x_{i-1}, x_i]\) 
+    for \(i \in [n]\). Then, define functions: 
+    \[M_i, m_i : B([a,b]) \rightarrow \mb R \word{by}\]
+    \[M_i = \sup \{ h(x) | x \in I_i \} \word{and} m_i = \inf \{ h(x) | x \in I_i \} . \]
+    Then, for all \(x \in I_i\), we have
+    \[ m_i(f) + m_i(g) \leq f(x) + g(x) \leq M_i(f) + M_i(g) .\]
+    This shows that \(m_i(f) + m_i(g)\) is a lower bound of \(f + g\) on \(I_i\),
+    and similarly for \(M_i(f) + M_i(g)\) (upper bound). Hence, by definition, and
+    noting that the pointwise sum of bounded functions is bounded, we get
+    \[ m_i(f) + m_i(g) \leq m_i(f + g) \word{and} M_i(f + g) \leq M_i(f) + M_i(g) .\]
+    Therefore, this implies that 
+    \[ L(f, P) + L(g, P) \leq L(f+g, P) \word{and} U(f + g, P) \leq U(f, P) + U(g, P) .\]
+
+   Next, by Exercise 4, we know that 
+   \[ M_i(\alpha f) = \alpha M_i(f) \word{and} m_i(\alpha f) = \alpha m_i(f) \word{if} \alpha \geq 0 \]
+   and so \(U(\alpha f, P) = \alpha U(f, P)\) and \(L(\alpha f, P) = \alpha L(f, P) \).
+   Likewise,
+   \[ M_i(\alpha f) = \alpha m_i(f) \word{and} m_i(\alpha f) = \alpha M_i(f) \word{if} \alpha \leq 0 \]
+   and thus \(U(\alpha f, P) = \alpha L(f, P)\) and \(L(\alpha f, P) = \alpha U(f, P) \).
+\end{proof}
+
+
+\begin{theorem}[6.15, Linearity of the Integral]
+  Let \(f,g:[a,b]\to\mb R\) be integrable. Then for any two numbers
+  \(\alpha,\beta\), the function \(\alpha f+\beta g:[a,b]\to\mb R\) is
+  integrable and
+  \[
+    \int_a^b[\alpha f+\beta g]=\alpha\int_a^b f + \beta\int_a^b g
+  .\]
+\end{theorem}
+
+\begin{proof}
+    It suffices to show two things: first, for any integrable function 
+    \(h: [a,b] \to \mb R\) and any number \(\alpha\), the function 
+    \(\alpha h\) is integrable on \([a,b]\) and 
+    \[ \int_a^b \alpha h = \alpha \int_a^b h .\]
+    Second, for integrable functions \(f, g\) on \([a,b]\), the function
+    \(f + g\) is integrable and 
+    \[ \int_a^b [f + g] = \int_a^b f + \int_a^b g .\]
+    From these, we get
+    \begin{align*} 
+        \int_a^b[ \alpha f + \beta g ] &= \int_a^b \alpha f + \int_a^b \beta g \\
+                                       &= \alpha \int_a^b f + \beta \int_a^b g .\\
+    \end{align*}
+
+
+    We now prove the first fact. Let \(\{P_n\}\) be an Archimedean sequence
+    of \(h\). Applying the previous lemma, regardless of the
+    value of \(\alpha\) we have
+    \[ U(\alpha h, P_n) - L(\alpha h, P_n) = |\alpha| [U(h, P_n) - L(h P_n)] \]
+    and so taking the limit tells us that \(\{P_n\}\) is an Archimedean 
+    sequence of \(\alpha h\). Now, for \(\alpha \geq 0\),
+    \[ \int_a^b \alpha h = \limit U(\alpha h, P_n) = \alpha \limit U(h, P_n) = \alpha \int_a^b h\]
+    while for \(\alpha \leq 0\),
+    \[ \int_a^b \alpha h = \limit U(\alpha h, P_n) = \alpha \limit L(h, P_n) = \alpha \int_a^b h .\]
+    This gives us our result.
+
+
+    Now we prove the second fact. From the proof of Theorem 6.13, we know
+    there exists an Archimedean sequence \(\{P_n\}\) common to both \(f\)
+    and \(g\). Then, applying the previous lemma, we get
+    \begin{align*}
+        0 &\leq  \limit [ U(f + g, P_n) - L(f + g, P_n) ] \\ 
+          &\leq \limit [ [U(f, P_n) + U(g, P_n)] - [L(f, P_n) + L(g, P_n)]] \\
+          &= \limit [U(f, P_n) - L(f, P_n)] + \limit [U(g, P_n) - L(g, P_n)] \\
+          &= 0 .
+    \end{align*}
+    This shows that \(\{P_n\}\) is an Archimedean sequence of \(f+g\). It follows
+    that
+    \begin{align*} 
+        \int_a^b f + \int_a^b g &= \limit U(f, P_n) + \limit U(g, P_n) \\
+                                &= \limit [U(f, P_n) + U(g, P_n)] \\
+                                &\geq \limit [U(f + g, P_n)] \\
+                                &= \int_a^b [f + g] \\
+                                &= \limit [ L(f + g, P_n) ] \\
+                                &\geq \limit [L(f, P_n) + L(g, P_n) ] \\
+                                &= \limit L(f, P_n) + \limit L(g, P_n) \\
+                                &= \int_a^b f + \int_a^b g \\
+    \end{align*}
+    and so \(\int_a^b [f + g] = \int_a^b f + \int_a^b g \).
+
+\end{proof}
+
+
+\begin{exercise}[1]
+  Suppose that the functions \(f,g,f^2,g^2,fg\) are integrable on \([a,b]\).
+  Prove that \((f-g)^2\) is also integrable on \([a,b]\) and that
+  \(\int_a^b(f-g)^2\geq0\). Use this to prove that
+  \[
+    \int_a^b fg
+      \leq
+    \frac{1}{2}\left[
+      \int_a^b f^2 + \int_a^b g^2
+    \right]
+  .\]
+\end{exercise}
+
+\begin{solution}
+    Since \((f - g)^2 = f^2 - 2fg + g^2\) and each term on the RHS
+    is integrable, by linearity, \((f-g)^2\) is integrable. Also,
+    since \((f - g)^2 \geq 0\) (the zero function) and \(\int_a^b 0 = 0\),
+    we have from the monotonicity property that
+    \[ \int_a^b f^2 - 2 \int_a^b fg + \int_a^b g^2 = \int_a^b (f - g)^2 \geq \int_a^b 0 = 0 .\]
+    Hence, \( \int_a^b f^2 + \int_a^b g^2 \geq 2 \int_a^b fg \) and thus
+    \[ \frac{1}{2} \left[ \int_a^b f^2 + \int_a^b g^2 \right] \geq \int_a^b fg .\] 
+\end{solution}
+
+\begin{exercise}[4]
+  Suppose that \(S\) is a nonempty bounded set of numbers and that \(\alpha\)
+  is a number. Define \(\alpha S\) to be the set \(\{\alpha x:x\in S\}\).
+  Prove that
+  \[
+    \sup\alpha S=\alpha\sup S
+      \text{~~and~~}
+    \inf\alpha S=\alpha\inf S
+      \text{~~if~}
+    \alpha\geq 0
+  \]
+  while
+  \[
+    \sup\alpha S=\alpha\inf S
+      \text{~~and~~}
+    \inf\alpha S=\alpha\sup S
+      \text{~~if~}
+    \alpha< 0
+  .\]
+\end{exercise}
+
+\begin{solution}
+    Since \(S\) is a nonempty, bounded set of real numbers, \(b = \sup S\)
+    exists by the Completeness Axiom. Next, because \(\alpha\) is a fixed nonnegative
+    number, \(\alpha S\) is also nonempty and bounded and so a supremum for this
+    set exists. Claim: \( \sup \alpha S = \alpha b \). In the case where \(\alpha = 0\),
+    then \(\alpha S = \{0\}\) and so \(\sup \alpha S = 0 = \alpha \sup S\),
+    trivially. Otherwise, if \(\alpha > 0\), note that \(b \geq s \) for all \(s \in S\)
+    and so \(\alpha b \geq \alpha s\). Since all elements of \(\alpha S\) take the 
+    form of \(\alpha s\) for some \(s \in S\), we have that \(\alpha b\) is an upper 
+    bound of \(\alpha S\). Now suppose that we have \(\alpha b > x\). 
+    Dividing by \(\alpha\), we get \(b > \alpha^{-1} x \). Then, by definition,
+    \(\alpha^{-1} x\) is not an upper bound of \(S\) and so there exists \(u \in S\)
+    such that \(b \geq u > \alpha^{-1} x\). This implies
+    \[ \alpha b \geq \alpha u > x \]
+    and so \(x\) cannot be an upper bound of \(\alpha S\). Thus, \(\alpha b = \sup \alpha S\).
+
+    Last, consider when \(\alpha < 0\) and let \(c = \inf S\). For all \(s \in S\),
+    \(s \geq c\) and so multiplying by \(\alpha\) gives us \(\alpha s \leq \alpha c\). 
+    By our earlier reasoning \(\alpha c\) is an upper bound of \(\alpha S\), so
+    suppose \(\alpha c > x\). Divide by \(\alpha\) to get \(c < \alpha^{-1}x\).
+    By definition of the infimum, there exists \(v \in S\) so that
+    \(v < \alpha^{-1}x\). Multiplying by \(\alpha\) yields \(\alpha v > x \)
+    and so \(x\) cannot be an upper bound of \(\alpha S\). Thus, \(\sup \alpha S = \alpha c\).
+
+    Repeat all of the above with the set \(-S\) and note that \(\sup -S = \inf S\)
+    to derive the equalities for the infimums of \(\alpha S\).
+\end{solution}
+
+
+\begin{exercise}[6]
+  Suppose that \(f:[a,b]\to\mb R\) is bounded and let \(a<c<b\). Prove that if
+  \(f\) is integrable on both \([a,c],[c,b]\), then it is integrable on
+  \([a,b]\).
+\end{exercise}
+
+\begin{solution}
+    By assumption, there exists Archimedean sequences \(\{Q_n\}\) and \(\{R_n\}\) on
+    \([a, c]\) and \([c, d]\), respectively, such that \(\limit U(f, Q_n) = \int_a^c f\)
+    and \(\limit U(f, R_n) = \int_c^b f\). For each \(n \in \mb N\), define the
+    set \(P_n : Q_n \cup R_n\) (with say \(Q_n = \{q_0, ..., q_k\}\) and 
+    \(R_n = \{r_0, ..., r_m\}\)). Then \(p_0 = q_0 = a\), \(p_k = q_k = c = r_0\),
+    and \(p_{k+m} = r_m = b\) and since \(Q_n \cap R_n = \{c\}\), \(P_n\) is 
+    a partition of \([a,b]\). Next, note that \(U(f, P_n) = U(f, Q_n) + U(f, R_n)\)
+    and \(L(f, P_n) = L(f, Q_n) + L(f, R_n)\). It then follows that
+    \begin{align*}
+        \limit [ U(f, P_n) - L(f, P_n) ] &= \limit [ (U(f, Q_n) + U(f, R_n) - (L(f, Q_n) + L(f, R_n) ] \\
+                &= \limit [U(f, Q_n) - L(f, Q_n)] + \limit [U(f, R_n) - L(f, R_n)] \\
+                &= 0 + 0 \\
+                &= 0 \\
+    \end{align*}
+    and so \(\{P_n\}\) is an Archimedean sequence. Therefore, \(f\) is integrable on \([a,b]\).
+\end{solution}
+
+
+
+
+\section{Continuity and Integrability}
+
+
+\begin{lemma}[6.17]
+  Let the function \(f:[a,b]\to\mb R\) be continuous let \(P\) partition
+  its domain. Then there is a partition interval of \(P\) that contains two
+  points \(u,v\) for which the following estimate holds:
+  \[
+    0
+      \leq
+    U(f,P)-L(f,P)
+      \leq
+    [f(v)-f(u)][b-a]
+  .\]
+\end{lemma}
+
+\begin{proof}
+    Let \(P = \{x_0, x_1, ..., x_n\}\) be a partition of \([a,b]\). For
+    \(i \in [n]\), consider the restriction of \(f\) to \([x_{i-1}, x_i]\).
+    Since \(f\) is continuous, so is its restriction. Morever, the partition
+    interval is a closed, bounded interval. Thus, by the Extreme value theorem,
+    there exists points \(u_i, v_i \in [x_{i-1}, x_i]\) such that
+    \(f(u_i) = \min f([x_{i-1}, x_i])\) and \(f(v_i) = \max f([x_{i-1}, x_i])\).
+    Now let \[k = \word{argmax}_{i \in [n]} \{ f(v_i) - f(u_i) \} \]
+    and set \(u = u_k\) and \(v = v_k\). Hence,
+    \begin{align*}
+        0  &\leq U(f, P) - L(f, P) \\
+           &= \sumi (M_i - m_i)(x_i - x_{i-1}) \\
+           &= \sumi (f(v_i) - f(u_i))(x_i - x_{i-1}) \\
+           &\leq \sumi (f(v) - f(u))(x_i - x_{i-1}) \\
+           &= [f(v) - f(u)] \sumi (x_i - x_{i-1}) \\
+           &= [f(v) - f(u)] [b - a] \\
+    \end{align*}
+\end{proof}
+
+
+\begin{theorem}[6.18]
+  A continuous function on a closed bounded interval is integrable.
+\end{theorem}
+
+\begin{proof}
+    Let \(f\) be a continuous function on \([a,b]\), and
+    let \(\{P_n\}\) be a sequence of partitions where \(\limit \text{gap~} P_n = 0\)
+    (for instance, regular partitions). For each \(n \in \mb N\),
+    apply the preceding lemma to obtain points \(u_n\) and \(v_n\). Since the two points
+    belong to the same partition interval, we have \(|v_n - u_n| \leq \text{gap~} P_n\).
+    It follows that
+    \[ 0 = \limit - \text{gap~} P_n \leq \limit [v_n - u_n] \leq \limit \text{gap~} P_n = 0. \]
+    Next, we note that a continuous function on a closed, bounded interval
+    is uniformly continuous and consequently, \(\limit [f(v_n) - f(u_n)] = 0\).
+    By the previous lemma,
+    \[ 0 \leq \limit [ U(f, P_n) - L(f, P_n)] \leq \limit [f(v_n) - f(u_n)][b - a] = 0 \]
+    and so \(\{P_n\}\) is an Archimedean sequence of \(f\). Thus, \(f\)
+    is integrable.
+\end{proof}
+
+
+\begin{theorem}[6.19]
+  Suppose \(f:[a,b]\to\mb R\) is bounded on \([a,b]\) and continuous on
+  \((a,b)\). Then \(f\) is integrable on \([a,b]\) and the value of
+  \(\int_a^b f\) does not depend on the values of \(f\) at the endpoints
+  of \([a,b]\).
+\end{theorem}
+
+\begin{proof}
+    Construct sequences \(\{a_n\}\) and \(\{b_n\}\) such that 
+    \[ a < a_n < b_n < b \word{for all} n ,\]
+    \(\limit a_n = a\), and \(\limit b_n = b\). For each \(n \in \mb N\),
+    the restriction of \(f\) to \([a_n, b_n]\) is continuous and hence
+    integrable. This means there exists a corresponding Archimedean
+    sequence and so we can choose a partition \(P_n^*\) of \([a_n, b_n]\)
+    such that 
+    \[ 0 \leq U(f, P_n^*) - L(f, P_n^*) \leq \frac{1}{n} \]
+    (by definition of the limit of a sequence). We then define
+    \(P_n = P_n^* \cup \{a, b\}\) so that \(P_n\) is a partition of 
+    \([a,b]\). Let \(A_n = U(f, \{a, a_n\}) - L(f, \{a, a_n\})\)
+    and \(B_n = U(f, \{b_n, b\}) - L(f, \{b_n, b\})\). Then
+    \[ U(f, P_n) - L(f, P_n) = U(f, P_n^*) - L(f, P_n^*) + A_n + B_n .\]
+
+    Because \(f\) is bounded, there exists \(M\) such that
+    \(-M \leq f(x) \leq M\) for \(x \in [a,b]\). Consequently, by Lemma 6.1,
+    \[ 0 \leq A_n \leq [M - (-M)][a_n - a] = 2M[a_n - a] \word{and} 0 \leq B_n \leq 2M[b_n - b] .\]
+    
+    This means that 
+    \[ 0 \leq U(f, P_n) - L(f, P_n) \leq [U(f, P_n^*) - L(f, P_n^*)] + 2M[a_n - a] + 2M[b_n - b] .\]
+
+    Since we know that 
+    \[0 \leq \limit [U(f, P_n^*) - L(f, P_n^*)] \leq \limit \frac{1}{n} = 0 ,\]
+    \(\limit [a_n - a] = 0\), and \(\limit [b_n - b] = 0\), we get
+    \[ \limit [U(f, P_n) - L(f, P_n)] = 0 .\]
+
+    Therefore, \(\{P_n\}\) is an Archimedean sequence for \(f\) on \([a,b]\),
+    and \(f\) is integrable.
+
+    
+    Moreover, 
+    \[ \limit [ U(f, P_n) - U(f, P_n^*) ] = \limit [ U(f, \{a, a_n\}) +  U(f, \{b_n, b\}) ] \leq \limit M[a_n - a] + \limit M[b_n - b] = 0 .\]
+    Thus,
+    \[ \int_a^b f = \limit U(f, P_n) = \limit U(f, P_n^*) \]
+    and so the integral is indepedent of the values of \(f(a)\) and \(f(b)\).
+
+\end{proof}
+
+\begin{exercise}[1]
+  Determine whether each of the following statements is true or false, and
+  justify your answer.
+  \begin{enumerate}[(a)]
+    \item If \(f:[a,b]\to\mb R\) is integrable and \(\int_a^b f=0\), then
+      \(f(x)=0\) for all \(x\in[a,b]\).
+    \item If \(f:[a,b]\to\mb R\) is integrable, then \(f\) is continuous.
+    \item If \(f:[a,b]\to\mb R\) is integrable and \(f(x)\geq0\) for all
+      \(x\in[a,b]\), then \(\int_a^b f\geq 0\).
+    \item A continuous function \(f:(a,b)\to\mb R\) defined on an open interval
+      \((a,b)\) is bounded.
+    \item A continuous function \(f:[a,b]\to\mb R\) defined on a closed interval
+      \([a,b]\) is bounded.
+  \end{enumerate}
+\end{exercise}
+\begin{solution}
+  \begin{enumerate}[(a)]
+    \item False. Define \(f\) to be identically zero on \((a,b)\) and
+          \(f(a) = f(b) = 1\). Then \(f\) on \([a,b]\) is not identically zero,
+          but \(\int_a^b f = 0\) by Theorem 6.19.
+    \item False. Define \(f: [a, b] \rightarrow \mb R\) by
+         \[ f(x) = \begin{cases} 
+                 0 &\word{if} x \leq (b - a)/2 \\
+                 1 &\word{if} x > (b - a)/2 \\
+             \end{cases} \]
+         Since \(f\) is monotonically increasing, it is integrable. However,
+         \(f\) is not continuous at \(x = 1/2\).
+    \item True. Since \(f(x) \geq 0(x) = 0\) on \([a,b]\), by monotonicity,
+        \[ \int_a^b f \geq \int_a^b 0 = 0 .\]
+    \item False. The function \(f(x) = 1/x\) on \((0,1)\) is continuous but
+        not bounded above. Indeed, suppose there exists a number \(M > 0\)
+        such that \(M \geq f(x)\) within this interval. Choose any point
+        greater than \(1 / M\) for the contradiction.
+    \item True. This is a consequence of the Extreme value theorem.
+  \end{enumerate}
+\end{solution}
+
+
+\begin{exercise}[5]
+  Suppose that the continuous function \(f:[a,b]\to\mb R\) has the property
+  \[
+    \int_c^d f\leq 0
+      \text{~~whenever~}
+    a\leq c<d\leq b
+  .\]
+  Prove that \(f(x)\leq 0\) for all \(x\in[a,b]\). Is this true if we only
+  require integrability of the function?
+\end{exercise}
+
+\begin{solution}
+    Suppose on the contrary that there exists \(x \in [a,b]\) such that
+    \(f(x) > 0\). Since \(f\) is continuous, \(f\) obtains a maximum \(f(x_0)\)
+    by the Extreme value theorem. By our assumption, it follows that 
+    \(f(x_0) > 0\). Now let \(\epsilon = f(x_0)\) so that, by continuity,
+    there exists \(\delta > 0\) such that 
+    \[ |x - x_0| < \delta \word{implies} |f(x_0) - 0| < \epsilon .\]
+    This implies that we can find an open neighborhood \(I\) contained
+    in \([a,b]\) such that \(x \in I\) implies \(f(x) > 0\). (Even
+    in the case where \(x_0\) is an endpoint, we can simply omit
+    \(x_0\) from consideration  and use the remaining open interval).
+    Consequently, \(f\) is integrable on \(I\) (by Theorem 6.19) 
+    and its integral is positive (by monotonicity). However, since 
+    the bounds of \(I\) are within \([a,b]\), we contradict the 
+    property that \(\int_c^d f \leq 0\) whenever \(a \leq c < d \leq b\).
+    Hence, \(f(x) \leq 0\) for all \(x \in [a,b]\).
+
+    Clearly, the statement becomes false if we only require the
+    integrability of \(f\). For instance, define \(f:[0,1] \rightarrow \mb R\)
+    by \[ f(x) = \begin{cases} 1  &\word{if} x < 1/3 \\
+                              -1 &\word{if} x \geq 1/3 \\
+                \end{cases}. \]
+    Then, \(\int_0^1 f = -\frac{1}{3} \leq 0 \) but not all
+    \(f(x) \leq 0\).
+\end{solution}
+
+
+\begin{exercise}[6]
+  Suppose that \(f:[0,1]\to\mb R\) is continuous and that \(f(x)\geq 0\) for
+  all \(x\in[0,1]\). Prove that \(\int_0^1 f>0\) if and only if there is a
+  point \(x_0\in[0,1]\) at which \(f(x_0)>0\).
+\end{exercise}
+
+\begin{solution}
+    We'll prove the contrapositives of the equivalency:
+    \[ \int_0^1 f \leq 0 \Leftrightarrow \word{for all} x \in [a,b], f(x) \leq 0 \]
+    
+    By assumption, \(f(x) \geq 0\) for all \(x \in [0, 1]\)
+    implies \(\int_0^1 f \geq 0\). Hence, if we suppose that
+    \(\int_0^1 f \leq 0\), then \(\int_0^1 f = 0\), which can
+    only happen if \(f(x) = 0\) for all \(x \in [a,b]\). This
+    clearly means \(f(x) \leq 0 \) for all \(x \in [a,b]\).
+    The converse follows from monotonicity.
+\end{solution}
+
+
+
+
+\section{The First Fundamental Theorem: Integrating Derivatives}
+
+
+\begin{lemma}[6.21]
+  Suppose \(f:[a,b]\to\mb R\) is integrable and that the number \(A\) has
+  the property that for every \(P\) partitioning \([a,b]\),
+  \[
+    L(f,P) \leq A \leq U(f,P)
+  .\]
+  Then
+  \[
+    \int_a^b f = A
+  .\]
+\end{lemma}
+
+\begin{proof}
+    By assumption, \(A\) is a lower bound for \(\{U(f, P)\}_P\)
+    and an upper bound for \(\{L(f, P)\}_P\) and so by definition
+    \[ \underline{\int_a^b f} \leq A \leq \overline{\int_a^b f} .\]
+    But since \(f\) is integrable, 
+    \[ \underline{\int_a^b f} = \int_a^b f = \overline{\int_a^b f} \]
+    and so 
+    \[\underline{\int_a^b f } = \int_a^b f \leq A \leq \int_a^b f = \overline{\int_a^b f} \] 
+    implies \(\int_a^b f = A\).
+\end{proof}
+
+
+\begin{theorem}[6.22, The First Fundamental Theorem: Integrating Derivatives]
+  Let \(F:[a,b]\to\mb R\) be continuous on \([a,b]\) and differentiable on
+  \((a,b)\). Moreover, suppose that its derivative
+  \(F':(a,b)\to\mb R\) is both continuous and bounded. Then
+  \[
+    \int_a^b F'(x)~dx
+      =
+    F(b)-F(a)
+  .\]
+\end{theorem}
+
+\begin{proof}
+    We must show two things: (1) that the integral exists, and (2) that it
+    is equal to \(F(b) - F(a)\). First, any extension of \(F'\) to \([a,b]\)
+    remains continuous on \((a,b)\) and bounded on \([a,b]\). Thus, by Theorem
+    6.19, any extension of \(F'\) is integrable. Further, every such integral
+    has the same value and so \(\int_a^b F'\) is unambiguously defined for
+    our original \(F'\).
+    
+    Second, we show that for every partition \(P = \{x_0, x_1, ..., x_n\}\) 
+    of \([a,b]\),
+    \[ L(F', P) \leq F(b) - F(a) \leq U(F', P) .\]
+    For \(i \in [n]\), the restriction of \(F\) to \([x_{i-1}, x_i]\) is
+    continuous on this closed interval, and differentiable on \((x_{i-1}, x_i)\).
+    Hence, by the Mean Value Theorem, there exists a point \(c_i \in (x_{i-1}, x_i)\)
+    so that 
+    \[ F(x_i) - F(x_{i-1}) = F'(c_i)(x_i - x_{i-1}) .\]
+    Consequently, \(m_i \leq F'(c_i) \leq M_i\) (where \(m_i\) and \(M_i\) are the infimum
+    and supremum of the restriction of \(F'\), respectively). Then, multiplying this 
+    inequality by \(x_i - x_{i-1}\) yields
+    \[ m_i (x_i - x_{i-1}) \leq F'(c_i)(x_i - x_{i-1}) = F(x_i) - F(x_{i-1}) \leq M_i (x_i - x_{i-1}) .\]
+    Taking the sum across all partition intervals, we have
+    \[ L(F', P) = \sumi m_i(x_i - x_{i-1}) \leq \sumi [F(x_i) - F(x_{i-1}) ] = F(b) - F(a) \leq \sumi M_i (x_i - x_{i-1}) = U(F', P) \] 
+    Thus, by the previous lemma
+    \[ \int_a^b F'(x) dx = F(b) - F(a) .\]
+\end{proof}
+
+
+\begin{exercise}[1]
+  Let \(m,b\) be positive numbers. Find the value of \(\int_0^1 mx+b ~dx\)
+  in the following three ways:
+  \begin{enumerate}[(a)]
+    \item Using elementary geometry, interpreting the integral as an area.
+    \item Using upper and lower Darboux sums based on regular partitions of
+      the interval \([0,1]\) and using the Archimedes-Riemann Theorem.
+    \item Using the First Fundamental Theorem (Integrating Derivatives).
+  \end{enumerate}
+\end{exercise}
+
+\begin{solution}
+    \begin{enumerate}[(a)]
+        \item Geometrically, the area between \(mx + b\) and the x-axis consists
+              of two shapes: a rectangular base and a triangle on top. The area
+              of the rectangle is \[A_r = l \times w = 1 \times b = b\] and the area
+              of the triangle is 
+              \[ A_t = \frac{1}{2} b \times h = \frac{1}{2}(1 \times (m + b - b)) = \frac{1}{2} m .\]
+              Consequently,
+              \[ \int_0^1 mx + b ~dx = A_r + A_t = b + \frac{1}{2} m .\]
+        \item The function \(f(x) = mx + b\) is monotonically increasing on \([0,1]\) 
+              and therefore integrable by the Archimedes-Riemann Theorem. Using a sequence
+              of regular partitions, we get
+              \begin{align*}
+                  \int_0^1 mx + b ~dx &= \limit U(f, P_n)\\
+                                      &= \limit \sumi M_i \frac{1}{n} \\
+                                      &= \limit \sumi (mx_i + b) \frac{1}{n} \\
+                                      &= \limit [ m \sumi \frac{i}{n^2} + \frac{b}{n} \sumi 1 ] \\
+                                      &= \limit [ m \frac{(n+1)}{2n} + b ] \\
+                                      &= \frac{1}{2}m + b \\
+              \end{align*}
+
+          \item By linearity, \[\int_0^1 mx + b ~dx  = m \int_0^1 x ~dx + b \int_0^1 1 ~dx .\]
+                Clearly, \(x\) and \(1\) are continuous and bounded on \([0, 1]\). Furthermore,
+                we know that \(\frac{d}{dx} \frac{x^2}{2} = x\) and \(\frac{d}{dx} x = 1\). Thus,
+                by the First Fundamental Theorem of Calculus
+                \[ \int_0^1 x ~dx = \frac{1^2}{2} - \frac{0^2}{2} = \frac{1}{2} \]
+                and
+                \[ \int_0^1 1 ~dx = 1 - 0 = 1 .\]
+                Putting it altogether, we get
+                \[ \int_0^1 mx + b ~dx = m \int_0^1 x ~dx + b \int_0^1 1 ~dx = m \frac{1}{2} + b .\]
+    \end{enumerate}
+\end{solution}
+
+
+\begin{exercise}[5]
+  The monotonicity property of the integral implies that if the functions
+  \(g,h:[0,\infty)\to\mb R\) are continuous and \(g(x)\leq h(x)\) for all
+  \(x\geq 0\), then
+  \[
+    \int_0^x g\leq \int_0^x h
+    \text{~~ for all~} x\geq 0
+  .\]
+  Use this and the First Fundamental Theorem to show that each of the following
+  inequalities implies the next:
+  \[
+    \cos x \leq 1
+    \text{~~ if~} x\geq 0
+  .\]
+  \[
+    \sin x \leq x
+    \text{~~ if~} x\geq 0
+  .\]
+  \[
+    1-\cos x \leq \frac{x^2}{2}
+    \text{~~ if~} x\geq 0
+  .\]
+  \[
+    x-\sin x \leq \frac{x^3}{6}
+    \text{~~ if~} x\geq 0
+  .\]
+  \[
+    x-\frac{x^3}{6} \leq \sin x \leq x
+    \text{~~ if~} x\geq 0
+  .\]
+\end{exercise}
+
+\begin{solution}
+    By assumption (of the first inequality), \(\text{cos~}x\) is bounded
+    on \([0, \infty)\). We also know that it is continuous. Moreover,
+    we know that \(\frac{d}{dx} \text{sin~} x = \text{cos~} x\) on \(\mb R\), and
+    that \(\text{sin}(0) = 0\). These facts, combined with knowing that
+    \(\frac{d}{dx} x^n = nx^{n-1}\) for \(n \geq 1\), we get
+    \[ \text{sin}(x) = \text{sin}(x) - \text{sin}(0) = 
+            \int_0^x \text{cos~} x ~dx \leq  \int_0^x 1 ~dx = x \]
+    for \(x \geq 0\). 
+
+    Next, since \(\text{sin}(x + 2\pi) = \text{sin}(x)\) for \(x \in \mb R\) and
+    \(\text{sin}(x)\) is continuous on \([0, 2\pi]\), \(\text{sin}(x)\) is 
+    bounded on \([0, 2\pi]\) (by the Extreme Value Theorem), and consequently,
+    \(\text{sin}(x)\) is bounded on \([0, \infty)\). We know that
+    \(\frac{d}{dx} -\text{cos}(x) = \text{sin}(x) \). Hence, we can apply the
+    first Fundamental Theorem of Calculus to obtain
+    \[ 1 - \text{cos}(x) = [ -\text{cos}(x) - (-\text{cos}(0)) ] 
+        = \int_0^x \text{sin~} x ~dx \leq \int_0^x x ~dx 
+    = \frac{x^2}{2} - \frac{0^2}{2} = \frac{x^2}{2} \]
+    for \(x \geq 0\).
+
+    And again
+    \[ x - \text{sin}(x) = \int_0^x [x - \text{sin}(x) ] ~ dx \leq \int_0^x \frac{x^2}{2} ~ dx = \frac{1}{2}[\frac{x^3}{3}] = \frac{x^3}{6}. \]
+
+    Rearranging this inequality with the second inequality gives us
+    \[ x - \frac{x^3}{6} \leq \text{sin~} x \leq x \]
+    for \(x \geq 0\).
+\end{solution}
+
+
+\section{The Second Fundamental Theorem: Differentiating Integrals}
+
+
+\begin{theorem}[6.26, The Mean Value Theorem for Integrals]
+  Suppose that \(f:[a,b]\to\mb R\) is continuous. Then there is a point \(x_0\)
+  in the interval \([a,b]\) at which
+  \[
+    \frac{1}{b-a}\int_a^b f
+      =
+    f(x_0)
+  .\]
+\end{theorem}
+
+\begin{proof}
+    Because \(f\) is continuous on \([a,b]\), by the Extreme value theorem, 
+    there exists points \(x_m, x_M \in [a,b]\) at which \(f\) obtains its 
+    minimum and maximum, respectively. In other words,
+    \[ f(x_m) \leq f(x) \leq f(x_M) \]
+    for all \(x \in [a,b]\). Applying the monotonicity property of integrals yields
+    \[ f(x_m)(b - a) = \int_a^b f(x_m) ~dx \leq \int_a^b f(x) ~dx \leq \int_a^b f(x_M) ~dx = f(x_M)(b - a) .\]
+    Dividing by \(b - a\), we get
+    \[ f(x_m) \leq \frac{1}{b - a} \int_a^b f(x) ~dx \leq f(x_M) .\]
+    And so, by the Intermediate value theorem, there exists a point \(x_0 \in (x_m, x_M)\)
+    such that \(\frac{1}{b-a} \int_a^b f = f(x_0) \).
+\end{proof}
+
+
+\begin{proposition}[6.27]
+  Suppose that the function \(f:[a,b]\to\mb R\) is integrable. Define
+  \[
+    F(x) = \int_a^x f
+    \text{~~for all~} x\in[a,b]
+  .\]
+  Then the function \(F:[a,b]\to\mb R\) is continuous.
+\end{proposition}
+
+\begin{proof}
+    Since \(f\) is integrable on \([a,b]\), then by additivity, 
+    \(f\) is integrable on \([a,x]\) for \(x \in [a,b]\). This
+    means that \(F\) is defined on \([a,b]\). Now, \(f\) is bounded
+    (since it is integrable) and so choose \(M > 0\) such that
+    \( |f(x)| \leq M\) for \(x \in [a,b]\). We will show that \(F\)
+    satisfies the Lipschitz condition, which implies continuity:
+    \[ |F(u) - F(v)|  \leq M |u - v| \]
+    for all points \(u, v \in [a,b]\). And so, let \(u, v \in [a,b]\)
+    with \(u < v\). Then by additivity,
+    \[ F(v) = \int_a^v f = \int_a^u f + \int_u^v f = F(u) + \int_u^v f \]
+    so that
+    \[ F(v) - F(u) = \int_u^v f .\]
+    Then, by Lemma 6.1 (or by monotonicity...it really doesn't matter), we get
+    \[ -M(v - u) \leq \int_u^v f = F(v) - F(u) \leq M(v - u) \]
+    so that
+    \[ |F(v) - F(u)| \leq M|u - v|. \]
+    And therefore, using the \(\epsilon-\delta\) definition of continuity
+    with \(\delta = \epsilon/ M\), \(F\) is continuous on \([a,b]\).
+\end{proof}
+
+
+\begin{theorem}[6.29, The Second Fundamental Theorem: Differentiating Integrals]
+  Suppose that \(f:[a,b]\to\mb R\) is continuous. Then
+  \[
+    \frac{d}{dx}\left[\int_a^x f \right]
+      =
+    f(x)
+    \text{~~for all~} x\in(a,b)
+  .\]
+\end{theorem}
+
+\begin{proof}
+    Define for \(x \in [a,b]\) the function 
+    \[ F(x) \equiv \int_a^x f . \]
+    By the previous proposition, \(F\) is defined on \([a,b]\) and continuous.
+    It then suffices to show that
+    \[ \lim_{x \to x_0} \frac{F(x) - F(x_0)}{x - x_0} = f(x_0) .\]
+    So let \(x \in (a,b)\) be different from \(x_0\). By additivity,
+    \[ F(x) = \int_a^x f = \int_a^{x_0} f + \int_{x_0}^x f = F(x_0) + \int_{x_0}^x f \]
+    if \(x_0 < x\) so that \(F(x) - F(x_0) = \int_{x^0}^x f \).
+    Similarly, \(F(x) - F(x_0) = - \int_{x^0}^x f \) if \(x < x_0\). Then,
+    by the Mean value theorem for integrals, there exists a point \(c\) between \(x\) and \(x_0\)
+    \[ \frac{1}{x - x_0} \int_{x_0}^x f = \frac{F(x) - F(x_0)}{x - x_0} = f(c) .\]
+    
+    By this reasoning, we construct a sequence \(\{x_n\}\) so that \(\limit x_n = x_0\).
+    Then, we construct another sequence \(\{c_n\}\) as the points chosen from
+    the MVT so that \(\limit c_n = x_0\), or equivalently, \(\lim_{x \to x_0} c_x = x_0\).
+    Consequently, by the continuity of \(f\),
+    \[ F'(x_0) = \lim_{x \to x_0} \frac{F(x) - F(x_0)}{x - x_0} = \lim_{x \to x_0} f(c_x) = f(x_0) .\]
+\end{proof}
+
+
+\begin{exercise}[2b]
+  Suppose \(f:[0,2]\to\mb R\) is defined by
+  \[
+    f(x) =
+    \begin{cases}
+      x^2 & \text{if } 0\leq x\leq 1 \\
+      x   & \text{if } 1< x\leq 2
+    \end{cases}
+  .\]
+  Define
+  \[
+    F(x)=\int_a^x f(t)~dt
+    \text{~~for all~} x\in[a,b]
+  \]
+  and find a formula for \(F(x)\) which does not involve integrals.
+\end{exercise}
+
+\begin{solution}
+    If \(x \in [0,1]\), by the First Fundamental Theorem of Calculus (FTC),
+    \[ F(x) = \int_0^x t^2 ~dt = \frac{x^3}{3} - \frac{0^3}{3} = \frac{x^3}{3} . \] 
+    Otherwise, if \(x \in [1,2]\), then
+    \[ F(x) = F(1) + \int_1^x t ~dt = \frac{1}{3} + [ \frac{x^{2}}{2} - \frac{1^2}{2} ] 
+        = \frac{x^{2}}{2} - \frac{1}{6} .\]
+    Notice that when \(x = 1\), both pieces of \(F\) agree. Thus,
+    \[ F(x) = \begin{cases}
+                    \frac{x^{3}}{3} &\text{if } x \in [0, 1] \\
+                    \frac{x^{2}}{2} - \frac{1}{6} &\text{if } x \in [1, 2] \\
+              \end{cases} .\]
+\end{solution}
+
+
+\begin{exercise}[5]
+  Suppose \(f:\mb R\to\mb R\) is continuous. Define
+  \[
+    G(x)
+      =
+    \int_0^x (x-t)f(t)~dt
+    \text{~~for all~} x
+  .\]
+  Prove that \(G''(x)=f(x)\) for all \(x\).
+\end{exercise}
+
+\begin{solution}
+    Since \(f\) is continous, \(f\) is integrable so let \(F(x) = \int_0^x f(t) ~dt\). 
+    Then because \( (x-t)f(t) = xf(t) - tf(t)\), it follows that
+    \begin{align*} 
+        \frac{d}{dx} G(x) &= \frac{d}{dx} [ \int_0^x (x - t)f(t) ~dt ] \\
+                          &= \frac{d}{dx} [ x \int_0^x f(t) ~dt - \int_0^x tf(t) ~dt ] \\
+                          &= \frac{d}{dx} [x F(x)] - \frac{d}{dx}[ \int_0^x tf(t) ~dt ] .\\
+    \end{align*}
+
+    Applying the product rule to the first term and the 2nd FTC to the continuous 
+    function \(t f(t)\), we get
+    \begin{align*}
+        G'(x) &= xF'(x) + F(x) - x f(x) \\
+              &= xf(x)  + F(x) - x f(x) \\
+              &= F(x) .\\
+    \end{align*}
+    Consequently, \(G''(x) = F'(x) = f(x)\).
+
+
+\end{solution}
+
+
+\begin{exercise}[12]
+  Suppose that \(f,g:[a,b]\to\mb R\) are continuous and that \(\alpha,\beta\)
+  are real numbers. Define
+  \[
+    H(x)
+      =
+    \int_a^x[\alpha f+\beta g]-\alpha\int_a^x[f]-\beta\int_a^x[g]
+    \text{~~for all~} x\in[a,b]
+  .\]
+  Prove that \(H(a)=0\) and \(H'(x)=0\) for all \(x\in(a,b)\).
+  Use this fact and the Identity Criterion to give an alternate proof of
+  Theorem 6.15 for continuous functions.
+\end{exercise}
+
+\begin{solution}
+    First, we note that since \(f\) and \(g\) are continuous on \([a,b]\), so is
+    \(\alpha f + \beta g\). Then, since continuity implies integrability,
+    \(f\), \(g\), and \(\alpha f + \beta g\) are integrable. Next, for any 
+    integrable function \(h\) on \([a,b]\), \(\int_a^a h = 0\). Consequently, 
+    we have
+    \[ H(a) = \int_a^a [\alpha f + \beta g] - \alpha \int_a^a [f] - \beta \int_a^a [g] 
+            = 0 - \alpha 0 - \beta 0 = 0 ,\]
+    
+    and we apply the 2nd FTC to obtain
+    \begin{align*}
+        H'(x) &= \frac{d}{dx} \Bigg[ \int_a^x \alpha f + \beta g \Bigg] - \alpha \frac{d}{dx} \Bigg[ \int_a^x [f] \Bigg] - \beta \frac{d}{dx} \Bigg[ \int_a^x [g] \Bigg] \\
+              &= (\alpha f + \beta g)(x) - \alpha f(x) - \beta f(x) \\
+              &= \alpha f(x) + \beta g(x) - \alpha f(x) - \beta f(x) \\
+              &= 0 \\
+    \end{align*}
+
+    Now, because \(H(a) = 0\), we have that
+    \[ \int_a^a [\alpha f + \beta g] = \alpha \int_a^a [f] + \beta \int_a^a [g] ,\]
+    and because \(H'(x)\) is identically zero, we have that
+    \[ \frac{d}{dx} \Bigg[ \int_a^x \alpha f + \beta g \Bigg] = \frac{d}{dx} \Bigg[ \alpha \int_a^x [f] + \beta \int_a^x [g] \Bigg] .\]
+    Therefore, by the Identity Criterion, 
+    \[ \int_a^x \alpha f + \beta g = \alpha \int_a^x f + \beta \int_a^x g \]
+    which proves the linearity property of integrals for continous functions.
+\end{solution}
+
+
+\setcounter{chapter}{9}
+\chapter{The Euclidean Space \texorpdfstring{\(\mb R^n\)}{Rn}}
+% 10.2
+% 10.3
+% 10.4
+% 10.6
+% 10.7
+% ex3
+% ex4
+% ex9
+% ex10
+% 10.9
+% 10.10
+% ex1
+% ex2
+% ex5
+% 10.12
+% 10.13
+% 10.15
+% 10.16
+% 10.17
+% 10.19
+% ex2
+% ex3
+% ex7
+% ex12
+% ex13
+
+\end{document}
