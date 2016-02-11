@@ -1096,8 +1096,18 @@ any questions.
     f(x_0)
   .\]
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Because \(f\) is continuous on \([a,b]\), by the Extreme value theorem, 
+    there exists points \(x_m, x_M \in [a,b]\) at which \(f\) obtains its 
+    minimum and maximum, respectively. In other words,
+    \[ f(x_m) \leq f(x) \leq f(x_M) \]
+    for all \(x \in [a,b]\). Applying the monotonicity property of integrals yields
+    \[ f(x_m)(b - a) = \int_a^b f(x_m) ~dx \leq \int_a^b f(x) ~dx \leq \int_a^b f(x_M) ~dx = f(x_M)(b - a) .\]
+    Dividing by \(b - a\), we get
+    \[ f(x_m) \leq \frac{1}{b - a} \int_a^b f(x) ~dx \leq f(x_M) .\]
+    And so, by the Intermediate value theorem, there exists a point \(x_0 \in (x_m, x_M)\)
+    such that \(\frac{1}{b-a} \int_a^b f = f(x_0) \).
 \end{proof}
 
 
@@ -1109,22 +1119,57 @@ any questions.
   .\]
   Then the function \(F:[a,b]\to\mb R\) is continuous.
 \end{proposition}
-\begin{proof}
 
+\begin{proof}
+    Since \(f\) is integrable on \([a,b]\), then by additivity, 
+    \(f\) is integrable on \([a,x]\) for \(x \in [a,b]\). This
+    means that \(F\) is defined on \([a,b]\). Now, \(f\) is bounded
+    (since it is integrable) and so choose \(M > 0\) such that
+    \( |f(x)| \leq M\) for \(x \in [a,b]\). We will show that \(F\)
+    satisfies the Lipschitz condition, which implies continuity:
+    \[ |F(u) - F(v)|  \leq M |u - v| \]
+    for all points \(u, v \in [a,b]\). And so, let \(u, v \in [a,b]\)
+    with \(u < v\). Then by additivity,
+    \[ F(v) = \int_a^v f = \int_a^u f + \int_u^v f = F(u) + \int_u^v f \]
+    so that
+    \[ F(v) - F(u) = \int_u^v f .\]
+    Then, by Lemma 6.1 (or by monotonicity...it really doesn't matter), we get
+    \[ -M(v - u) \leq \int_u^v f = F(v) - F(u) \leq M(v - u) \]
+    so that
+    \[ |F(v) - F(u)| \leq M|u - v|. \]
+    And therefore, using the \(\epsilon-\delta\) definition of continuity
+    with \(\delta = \epsilon/ M\), \(F\) is continuous on \([a,b]\).
 \end{proof}
 
 
 \begin{theorem}[6.29, The Second Fundamental Theorem: Differentiating Integrals]
   Suppose that \(f:[a,b]\to\mb R\) is continuous. Then
   \[
-    \frac{d}{dx}\left[\int_a^x\right]
+    \frac{d}{dx}\left[\int_a^x f \right]
       =
     f(x)
     \text{~~for all~} x\in(a,b)
   .\]
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Define for \(x \in [a,b]\) the function 
+    \[ F(x) \equiv \int_a^x f . \]
+    By the previous proposition, \(F\) is defined on \([a,b]\) and continuous.
+    It then suffices to show that
+    \[ \lim_{x \to x_0} \frac{F(x) - F(x_0)}{x - x_0} = f(x_0) .\]
+    So let \(x \in (a,b)\) be different from \(x_0\). By additivity,
+    \[ F(x) = \int_a^x f = \int_a^{x_0} f + \int_{x_0}^x f = F(x_0) + \int_{x_0}^x f \]
+    if \(x_0 < x\) so that \(F(x) - F(x_0) = \int_{x^0}^x f \).
+    Similarly, \(F(x) - F(x_0) = - \int_{x^0}^x f \) if \(x < x_0\). Then,
+    by the Mean value theorem for integrals, there exists a point \(c\) between \(x\) and \(x_0\)
+    \[ \frac{1}{x - x_0} \int_{x_0}^x f = \frac{F(x) - F(x_0)}{x - x_0} = f(c) .\]
+    
+    By this reasoning, we construct a sequence \(\{x_n\}\) so that \(\limit x_n = x_0\).
+    Then, we construct another sequence \(\{c_n\}\) as the points chosen from
+    the MVT so that \(\limit c_n = x_0\), or equivalently, \(\lim_{x \to x_0} c_x = x_0\).
+    Consequently, by the continuity of \(f\),
+    \[ F'(x_0) = \lim_{x \to x_0} \frac{F(x) - F(x_0)}{x - x_0} = \lim_{x \to x_0} f(c_x) = f(x_0) .\]
 \end{proof}
 
 
@@ -1140,12 +1185,22 @@ any questions.
   Define
   \[
     F(x)=\int_a^x f(t)~dt
-    \text{~~for all} x\in[a,b]
+    \text{~~for all~} x\in[a,b]
   \]
   and find a formula for \(F(x)\) which does not involve integrals.
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    If \(x \in [0,1]\), by the First Fundamental Theorem of Calculus (FTC),
+    \[ F(x) = \int_0^x t^2 ~dt = \frac{x^3}{3} - \frac{0^3}{3} = \frac{x^3}{3} . \] 
+    Otherwise, if \(x \in [1,2]\), then
+    \[ F(x) = F(1) + \int_1^x t ~dt = \frac{1}{3} + [ \frac{x^{2}}{2} - \frac{1^2}{2} ] 
+        = \frac{x^{2}}{2} - \frac{1}{6} .\]
+    Notice that when \(x = 1\), both pieces of \(F\) agree. Thus,
+    \[ F(x) = \begin{cases}
+                    \frac{x^{3}}{3} &\text{if } x \in [0, 1] \\
+                    \frac{x^{2}}{2} - \frac{1}{6} &\text{if } x \in [1, 2] \\
+              \end{cases} .\]
 \end{solution}
 
 
@@ -1159,7 +1214,25 @@ any questions.
   .\]
   Prove that \(G''(x)=f(x)\) for all \(x\).
 \end{exercise}
+
 \begin{solution}
+    Since \(f\) is continous, \(f\) is integrable so let \(F(x) = \int_0^x f(t) ~dt\). 
+    Then because \( (x-t)f(t) = xf(t) - tf(t)\), it follows that
+    \begin{align*} 
+        \frac{d}{dx} G(x) &= \frac{d}{dx} [ \int_0^x (x - t)f(t) ~dt ] \\
+                          &= \frac{d}{dx} [ x \int_0^x f(t) ~dt - \int_0^x tf(t) ~dt ] \\
+                          &= \frac{d}{dx} [x F(x)] - \frac{d}{dx}[ \int_0^x tf(t) ~dt ] .\\
+    \end{align*}
+
+    Applying the product rule to the first term and the 2nd FTC to the continuous 
+    function \(t f(t)\), we get
+    \begin{align*}
+        G'(x) &= xF'(x) + F(x) - x f(x) \\
+              &= xf(x)  + F(x) - x f(x) \\
+              &= F(x) .\\
+    \end{align*}
+    Consequently, \(G''(x) = F'(x) = f(x)\).
+
 
 \end{solution}
 
@@ -1177,8 +1250,31 @@ any questions.
   Use this fact and the Identity Criterion to give an alternate proof of
   Theorem 6.15 for continuous functions.
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    First, we note that since \(f\) and \(g\) are continuous on \([a,b]\), so is
+    \(\alpha f + \beta g\). Then, since continuity implies integrability,
+    \(f\), \(g\), and \(\alpha f + \beta g\) are integrable. Next, for any 
+    integrable function \(h\) on \([a,b]\), \(\int_a^a h = 0\). Consequently, 
+    we have
+    \[ H(a) = \int_a^a [\alpha f + \beta g] - \alpha \int_a^a [f] - \beta \int_a^a [g] 
+            = 0 - \alpha 0 - \beta 0 = 0 ,\]
+    
+    and we apply the 2nd FTC to obtain
+    \begin{align*}
+        H'(x) &= \frac{d}{dx} \Bigg[ \int_a^x \alpha f + \beta g \Bigg] - \alpha \frac{d}{dx} \Bigg[ \int_a^x [f] \Bigg] - \beta \frac{d}{dx} \Bigg[ \int_a^x [g] \Bigg] \\
+              &= (\alpha f + \beta g)(x) - \alpha f(x) - \beta f(x) \\
+              &= \alpha f(x) + \beta g(x) - \alpha f(x) - \beta f(x) \\
+              &= 0 \\
+    \end{align*}
+
+    Now, because \(H(a) = 0\), we have that
+    \[ \int_a^a [\alpha f + \beta g] = \alpha \int_a^a [f] + \beta \int_a^a [g] ,\]
+    and because \(H'(x)\) is identically zero, we have that
+    \[ \frac{d}{dx} \Bigg[ \int_a^x \alpha f + \beta g \Bigg] = \frac{d}{dx} \Bigg[ \alpha \int_a^x [f] + \beta \int_a^x [g] \Bigg] .\]
+    Therefore, by the Identity Criterion, 
+    \[ \int_a^x \alpha f + \beta g = \alpha \int_a^x f + \beta \int_a^x g \]
+    which proves the linearity property of integrals for continous functions.
 \end{solution}
 
 
