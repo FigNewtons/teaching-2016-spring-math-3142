@@ -1513,8 +1513,25 @@ and the Scalar Product}
   \(\{p_i(\vect u_k)\}\) converges to \(p_i(\vect u)\) for
   all \(1\leq i\leq n\).
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Suppose \(\vect u_k \to \vect u\). For any fixed \(i \in [n]\),
+    \[ 0 \leq |p_i(\vect u_k) - p_i(\vect u)| = |p_i(\vect u_k - \vect u)| = \leq \|\vect u_k - \vect u \| \]
+    for all \(k\). Taking the limit of \(k\), we get
+    \[ 0 \leq \lim_{k \to \infty} |p_i(\vect u_k) - p_i(\vect u)| \leq \lim_{k \to \infty} \|\vect u_k - \vect u\| = 0 .\]
+    Hence, \(p_i(\vect u_k) \to p_i(\vect u)\) for all \(i \in [n]\).
+
+
+    Now suppose the converse. Then \(p_i(\vect u_k - \vect u) \to 0\) for \(i \in [n]\)
+    and so
+    \[ \lim_{k \to \infty} \|\vect u_k - \vect u \|^2 
+        = \lim_{k \to \infty} \sumi [p_i(\vect u_k - \vect u)]^2 
+        = \sumi \lim_{k \to \infty} [p_i(\vect u_k - \vect u)]^2 
+        = \sumi 0 = 0 . \]
+
+    Then, since the square root function is continous, we get 
+    \[ \lim_{k \to \infty} \|\vect u_k - \vect u \| = 0 .\]
+    Therefore, \(\vect u_k \to \vect u\).
 \end{proof}
 
 \begin{theorem}[10.10]
@@ -1528,7 +1545,18 @@ and the Scalar Product}
     \alpha\vect u+\beta\vect v
   .\]
 \end{theorem}
+
 \begin{proof}
+    By the previous theorem, it suffices to show that 
+    \( p_{i}(\alpha \vect u_k + \beta \vect v_k) \to p_i(\alpha \vect u + \beta \vect v) \)
+    for all \(i \in [n]\). Note that
+    \[ p_i(\alpha \vect u_k + \beta \vect v_k) = \alpha p_i(\vect u_k) + \beta p_i(\vect v_k) .\]
+    Since \(\vect u_k \to \vect u\), \(p_i(\vect u_k) \to p_i(\vect u)\).
+    Likewise, \(p_i(\vect v_k) \to p_i(\vect v)\). Hence,
+    \[  p_i(\alpha \vect u_k + \beta \vect v_k) = 
+        \alpha p_i(\vect u_k) + \beta p_i(\vect v_k) 
+        \to \alpha p_i(\vect u) + \beta p_i(\vect v) 
+    = p_i(\alpha \vect u + \beta \vect v) .\]
 
 \end{proof}
 
@@ -1539,8 +1567,16 @@ and the Scalar Product}
     \lim_{k\to\infty}\<\vect u_k,\vect v\>=\<\vect u,\vect v\>
   .\]
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    Since \(\vect u_k \to \vect u\), \(p_i(\vect u_k) \to p_i(\vect u)\) for
+    \(i \in [n]\). Then,
+    \begin{align*} 
+        \lim_{k \to \infty} \<\vect u_k, \vect v \> &= \lim_{k \to \infty} \sumi p_i(\vect u_k) v_i \\
+                        &= \sumi [\lim_{k \to \infty} p_i(\vect u_k)] v_i \\
+                        &= \sumi p_i(\vect u) v_i \\
+                        &= \<\vect u, \vect v \> \\
+    \end{align*}
 \end{solution}
 
 \begin{exercise}[2]
@@ -1552,13 +1588,28 @@ and the Scalar Product}
   holds for all \(\vect v\in\mb R^n\), then \(\{\vect u_k\}\) converges
   to \(\vect u\).
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    Let \(\vect e_i\) be the ith standard coordinate vector in \(\mb R^n\).
+    Since \(p_i(\vect u_k) = \<\vect u_k, \vect e_i \>\), by assumption, we have for \(i \in [n]\)
+    \[ \lim_{k \to \infty} p_i(\vect u_k) = 
+        \lim_{k \to \infty} \<\vect u_k, \vect e_i\> = 
+    \< \vect u, \vect e_i \> .\]
+
+    From this follows
+    \begin{align*} 
+        \lim_{k \to \infty} \vect u_k &= \lim_{k \to \infty} \sumi p_i(\vect u_k) \vect e_i \\
+                    &= \lim_{k \to \infty} \sumi \<\vect u_k, \vect e_i \> \vect e_i \\
+                    &= \sumi [\lim_{k \to \infty} \<\vect u_k, \vect e_i \>] \vect e_i \\
+                    &= \sumi \<\vect u, \vect e_i \> \vect e_i \\
+                    &= \sumi p_i(\vect u) \vect e_i \\
+                    &= \vect u \\
+    \end{align*}
 \end{solution}
 
 \begin{exercise}[5]
   Let \(\{\vect u_k\}\) be a sequence in \(\mb R^n\) that converges to
-  \(\vect u\) where \(\|\vect u\|=>0\). Prove that there is an index \(K\)
+  \(\vect u\) where \(\|\vect u\|= r >0\). Prove that there is an index \(K\)
   where
   \[
     \|\vect u_k\|>\frac{r}{2}
@@ -1566,8 +1617,29 @@ and the Scalar Product}
     k\geq K
   .\]
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    We first claim that \(\vect u_k \to \vect u\) implies 
+    \(\|\vect u_k \| \to \|\vect u\|\). For this, it suffices to show that
+    \( \|\vect u_k \|^2 \to \|\vect u \|^2\). And so
+    \begin{align*}
+        \lim_{k \to \infty} \|\vect u_k\|^2 &= \lim_{k \to \infty} \<\vect u_k, \vect u_k \> \\
+                                            &= \lim_{k \to \infty} \sumi p_i(\vect u_k)^2 \\
+                                            &= \sumi \lim_{k \to \infty} p_i(\vect u_k)^2 \\
+                                            &= \sumi p_i(\vect u)^2 \\
+                                            &= \< \vect u, \vect u \> \\
+                                            &= \|\vect u\|^2 \\
+    \end{align*}
+
+    Choose \(\epsilon > 0\) to be less than \(r\). By convergence, there exists 
+    a natural number \(K\) such that
+    \[ | \|\vect u_k\| - \|\vect u\| | < \epsilon/2 \] 
+    for \(k \geq K\), or equivalently, 
+    \[ \|\vect u\| - \epsilon/2 < \|\vect u_k\| < \|\vect u\| + \epsilon/2 .\]
+    This implies
+    \[ 2 \|\vect u_k\| > 2\|\vect u\| - \epsilon = 2r - \epsilon > 2r - r = r \]
+    so that
+    \[ \|\vect u_k\| > \frac{r}{2} \text{~~if~~} k \geq K .\]
 \end{solution}
 
 
