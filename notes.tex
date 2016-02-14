@@ -1301,23 +1301,52 @@ and the Scalar Product}
     \<\vect u,\vect v\>=\<\vect v,\vect u\>
   \]
   \[
-    \<\alpha\vect u+\beta\vect w,v\>
+    \<\alpha\vect u+\beta\vect w, \vect v\>
       =
     \alpha\<\vect u,\vect v\>+\beta\<\vect w,\vect v\>
   \]
 \end{proposition}
-\begin{proof}
 
+\begin{proof}
+    Since \(\mb R\) is commutative, \(u_i v_i = v_i u_i\) for numbers
+    \(u_i, v_i\). It then follows that
+    \[ \<\vect u, \vect v \> = \sumi u_i v_i = \sumi v_i u_i = \<\vect v, \vect u \> .\]
+
+    Next,
+    \begin{align*} 
+        \< \alpha \vect u + \beta \vect w, \vect v \> &= \sumi (\alpha u_i + \beta w_i ) v_i \\
+                    &= \sumi (\alpha u_i v_i + \beta w_i v_i ) \\
+                    &= \sumi (\alpha u_i v_i) + \sumi (\beta w_i v_i) \\
+                    &= \alpha \sumi u_i v_i + \beta \sumi w_i v_i \\
+                    &= \alpha \< \vect u, \vect v \> + \beta \< \vect w, \vect v \> \\
+    \end{align*}
 \end{proof}
 
 \begin{lemma}[10.4]
   For \(\vect u,\vect v\in\mb R^n\), \(\vect u,\vect v\) are
   orthogonal if and only if
-  \(\|\vect u+\vect v\|=\|\vect u\|^2+\|\vect v\|^2\).
+  \(\|\vect u+\vect v\|^2 =\|\vect u\|^2+\|\vect v\|^2\).
 \end{lemma}
-\begin{proof}
 
+\begin{proof}
+    Here, we use the definition of the norm and apply Proposition 10.2
+    (taking \(\alpha = \beta = 1\)):
+
+    \begin{align*}
+         \|\vect u + \vect v \|^2 &= \< \vect u + \vect v , \vect u + \vect v \> \\
+                    &= \<\vect u, \vect u + \vect v \> + \<\vect v, \vect u + \vect v \> \\
+                    &= \<\vect u + \vect v, \vect u \> + \<\vect u + \vect v, \vect v \> \\
+                    &= \<\vect u, \vect u \> + \<\vect v, \vect u\> + \<\vect u, \vect v\> + \<\vect v, \vect v\> \\
+                    &= \| \vect u \|^2 + 2 \< \vect u, \vect v \> + \| \vect v \|^2 \\
+    \end{align*}
+
+    Since norms are nonzero, the above shows that 
+    \(\|\vect u + \vect v\|^2 = \|\vect u\|^2 + \|\vect v\|^2 \)
+    iff \(\< \vect u, \vect v\> = 0\), or equivalently, iff \(\vect u\) and 
+    \(\vect v\) are orthogonal.
 \end{proof}
+
+
 
 \begin{lemma}[10.5]
   For \(\vect u,\vect v\in\mb R^n\) where \(\vect v\not=\vect 0\),
@@ -1325,7 +1354,19 @@ and the Scalar Product}
   and \(\vect w=\vect u-\lambda\vect v\). Then \(\vect v,\vect w\)
   are orthogonal and \(\vect u=\vect w+\lambda\vect v\).
 \end{lemma}
+
 \begin{proof}
+    Clearly, 
+    \[ \vect w + \lambda \vect v = (\vect u - \lambda \vect v) + \lambda \vect v = \vect u .\]
+    
+    To show orthogonality,
+    \begin{align*} 
+        \< \vect w, \vect v \> &= \< \vect u - \lambda \vect v , \vect v \> \\
+                    &= \< \vect u, \vect v\> - \lambda \<\vect v, \vect v \> \\
+                    &= \< \vect u, \vect v\> - \frac{\<\vect u, \vect v\>}{\<\vect v, \vect v\>} \< \vect v, \vect v \> \\
+                    &= \< \vect u, \vect v\> - \< \vect u, \vect v \> \\
+                    &= 0
+    \end{align*}
 
 \end{proof}
 
@@ -1337,8 +1378,27 @@ and the Scalar Product}
     \|\vect u\|\|\vect v\|
   .\]
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    If \(\vect v = \vect 0\), then 
+    \[ \< \vect u, \vect v \>  = \< \vect u, \vect 0\> = \sumi u_i 0 = 0 \]
+    and \(\|\vect v\| = \<\vect v, \vect v\> = 0 \). It follows that
+    \[ 0 = | \< \vect u, \vect v \> | \leq \|\vect u\| \cdot \|\vect v \| = 0 .\]
+    Now consider when \(\vect v \neq \vect 0\). Define 
+    \(\lambda = \<\vect u, \vect v\> / \< \vect v, \vect v\>\) like in the previous
+    lemma. Then \(\vect u - \lambda \vect v\) is orthogonal to \(\vect v\) (and
+    consequently \(\lambda \vect v\)). Then,
+    \begin{align*} 
+        0 &\leq \<\vect u - \lambda \vect v, \vect u - \lambda \vect v \> \\
+          &= \|\vect u\|^2 + \|\lambda \vect v\|^2 - 2\<\vect u, \vect \lambda \vect v \> \\
+          &= \|\vect u\|^2 + \lambda^2 \|\vect v\|^2 - 2 \lambda \<\vect u, \vect v \> \\ 
+          &= \|\vect u\|^2 + \frac{\<\vect u, \vect v\>^2}{\<\vect v, \vect v\>^2} \<\vect v, \vect v\> - 2\lambda \<\vect u, \vect v\> \\
+          &= \|\vect u\|^2 + \frac{\<\vect u, \vect v\>^2}{\<\vect v, \vect v\>} - 2 \frac{\<\vect u, \vect v\>^2}{\<\vect v, \vect v\>} \\
+          &= \|\vect u\|^2 - \frac{\<\vect u, \vect v\>^2}{\|\vect v\|^2}. \\
+    \end{align*}
+
+    Therefore, we have \(\<\vect u, \vect v\>^2 \leq \|\vect u\|^2 \|\vect v\|^2 \), which
+    after taking the square root to both sides gives our result.
 \end{proof}
 
 \begin{theorem}[10.7, The Triangle Inequality]
@@ -1350,6 +1410,19 @@ and the Scalar Product}
   .\]
 \end{theorem}
 
+\begin{proof}
+    Clearly, the inequality holds iff 
+    \[ \|\vect u + \vect v\|^2 \leq (\|\vect u \| + \|\vect v\|)^2 .\]
+
+    From earlier computation, we know
+    \[ \|\vect u + \vect v\|^2 = \|\vect u\|^2 + 2\<\vect u, \vect v\> + \|\vect v\|^2 .\]
+
+    Then, by the Cauchy-Schwarz inequality,
+    \[ \|\vect u + \vect v\|^2 \leq 
+        \|\vect u\|^2 + 2\|\vect u\|\|\vect v\| + \|\vect v \|^2 
+        = (\|\vect u\| + \|\vect v\|)^2 \]
+\end{proof}
+
 \begin{exercise}[3]
   Show that for \(\vect u\in\mb R^n\), \(\alpha\in\mb R\):
   \begin{enumerate}[(a)]
@@ -1357,9 +1430,25 @@ and the Scalar Product}
     \item \(\|\alpha\vect u\|=|\alpha|\|\vect u\|\).
   \end{enumerate}
 \end{exercise}
-\begin{proof}
 
-\end{proof}
+\begin{solution}
+    (a) Suppose \(\vect u = \vect 0\), then for any \(\vect v \in \mb R^n\),
+    \[ \<\vect v, \vect 0\> = \sumi v_i 0 = \sumi 0 = 0 .\]
+    It follows that 
+    \[ \|\vect u\| = \sqrt{\<\vect u, \vect u \>} = \sqrt{\<\vect 0, \vect 0\>} = \sqrt{0} = 0 .\]
+
+    Conversely, suppose \(\|\vect u\| = 0\). Then \(\<\vect u, \vect u\> = \sumi u_i^2 = 0 \)
+    but since square terms are nonnegative, the sum can be zero iff \(u_i = 0\) for each
+    \(i \in [n]\). Consequently, \(\vect u = \vect 0\).
+
+    (b) We show that \( \|\alpha \vect u\|^2 = \alpha^2 \|\vect u\|^2\) from which the result
+    follows.
+    \[ \|\alpha \vect u\|^2 = \< \alpha \vect u, \alpha \vect u\> 
+        = \alpha \<\vect u, \alpha \vect u\> 
+        = \alpha \< \alpha \vect u, \vect u \>
+        = \alpha^2 \< \vect u, \vect u \>
+    = \alpha^2 \|\vect u\|^2 \]
+\end{solution}
 
 \begin{exercise}[4]
   For \(\vect u,\vect v\in\mathbb R^n\) verify the identity
@@ -1369,8 +1458,17 @@ and the Scalar Product}
     \|\vect u\|^2+\|\vect v\|^2-2\<\vect u,\vect v\>
   .\]
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    \begin{align*}
+        \|\vect u - \vect v \|^2 &= \<\vect u - \vect v, \vect u - \vect v\> \\
+                    &= \<\vect u + (-\vect v), \vect u + (-\vect v)\> \\
+                    &= \<\vect u, \vect u + (-\vect v)\> + \<-\vect v, \vect u + (-\vect v)\> \\
+                    &= \<\vect u + (-\vect v), \vect u\> - \< \vect v, \vect u + (-\vect v) \> \\
+                    &= \<\vect u, \vect u\> + \< -\vect v, \vect u\> - \<\vect u + (-\vect v), \vect v \> \\
+                    &= \|\vect u\|^2 - \<\vect v, \vect u\> - \<\vect u, \vect v\> - \<-\vect v, \vect v \>\\
+                    &= \|\vect u\|^2 - 2\<\vect u, \vect v\> + \|\vect v\|^2 \\
+    \end{align*}
 \end{solution}
 
 \begin{exercise}[9]
@@ -1379,18 +1477,31 @@ and the Scalar Product}
   \(\|\vect v-\vect u\|<1-\|\vect u\|\) implies
   \(\|\vect v\|<1\).
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    By the Triangle Inequality,
+    \[ \|\vect v\| = \|(\vect v - \vect u) + \vect u \| 
+        \leq \|\vect v - \vect u\| + \|\vect u\|
+        < (1 - \|\vect u\| ) + \|\vect u\|
+    = 1 .\]
 \end{solution}
 
 \begin{exercise}[10]
   Let \(\vect u\in\mb R^n\) and \(r>0\). Suppose \(\vect v,\vect w\in\mb R^n\)
   are at a distance less than \(r\) from \(\vect u\). Prove that if
-  \(0\leq t\leq 1\), then the point \(t\vect v+(1-t)]\vect w\) is also
+  \(0\leq t\leq 1\), then the point \(t\vect v+(1-t)\vect w\) is also
   at a distance less than \(r\) from \(\vect u\).
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    \begin{align*} 
+        \| [t\vect v + (1-t)\vect w] - \vect u \| &= \| t\vect v + (1-t)\vect w - t\vect u - (1-t) \vect u \| \\ 
+                        &= \| t[\vect v - \vect u] + (1-t)[\vect w - \vect u] \| \\
+                        &\leq \| t(\vect v - \vect u )\| + \|(1 - t)(\vect w - \vect u) \| \\
+                        &= t \|\vect v - \vect u \| + (1 - t) \| \vect w - \vect u \| \\
+                        &< tr + (1-t)r \\
+                        &= r
+    \end{align*}
 \end{solution}
 
 
