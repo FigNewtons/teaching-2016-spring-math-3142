@@ -1516,7 +1516,7 @@ and the Scalar Product}
 
 \begin{proof}
     Suppose \(\vect u_k \to \vect u\). For any fixed \(i \in [n]\),
-    \[ 0 \leq |p_i(\vect u_k) - p_i(\vect u)| = |p_i(\vect u_k - \vect u)| = \leq \|\vect u_k - \vect u \| \]
+    \[ 0 \leq |p_i(\vect u_k) - p_i(\vect u)| = |p_i(\vect u_k - \vect u)|  \leq \|\vect u_k - \vect u \| \]
     for all \(k\). Taking the limit of \(k\), we get
     \[ 0 \leq \lim_{k \to \infty} |p_i(\vect u_k) - p_i(\vect u)| \leq \lim_{k \to \infty} \|\vect u_k - \vect u\| = 0 .\]
     Hence, \(p_i(\vect u_k) \to p_i(\vect u)\) for all \(i \in [n]\).
@@ -1645,34 +1645,87 @@ and the Scalar Product}
 
 \section{Open Sets and Closed Sets in \texorpdfstring{$\mb R^n$}{Rn}}
 
+\begin{remark}
+    Whenever possible, I opt for a direct proof for open and
+    closed sets rather than rely on DeMorgan's laws and set-theoretic
+    identities. Why? I prefer the challenge!
+\end{remark}
 
 \begin{example}[10.11]
   Let \(a<b\) be in \(\mb R\). Then \(\interior(a,b]=(a,b)\).
 \end{example}
-\begin{proof}
 
+\begin{proof}
+    By definition, \(\interior(a,b] \subseteq (a,b]\). Hence,
+    it suffices to show that \((a,b) \subset \interior(a,b]\) but that
+    \(b\) is not an interior point.
+
+    Let \(u\) be a point in \((a,b)\). Define 
+    \(R = \text{min~}(u-a, b-u)\) and pick \(r < 0\) so that \(r < R\).
+    Now consider some \(v \in B_r(u)\). This means that 
+    \(u - r < v < u + r\). If \(R = u -a\), then \(u - a \leq b - u\)
+    so that \(2u \leq a + b \). From this we get
+    \[ a = u - (u - a) < u - r < v < u + r < u + (u - a) \leq u + (b - u) = b \]
+    and consequently, \(v \in (a, b)\). Else, if \(R = u - b\), 
+    then \(b - u \leq u - a\) and \(a + b \leq 2u\). Consequently,
+    \[ a = (a + b) - b  \leq 2u - b = u - (b - u) < u - r < v < u + r < u + (b - u) = b \]
+    which means \(v \in (a, b)\).
+    Altogether, this shows that \((a, b) \subset \interior(a,b]\). Last,
+    we consider point \(b\). For any \(r > 0\), \(B_r(b)\) is not a subset
+    of \((a,b]\) since we can pick a point \(z\) such that \(b < z < b + r\).
+    Therefore, \(b\) is not an interior point of \((a,b]\) and so
+    \(\interior(a,b] = (a,b)\).
 \end{proof}
 
 \begin{example}[10.12]
   Let \(\mb Q\subseteq\mb R\) be the set of rational real numbers.
   Then \(\interior\mb Q=\emptyset\).
 \end{example}
-\begin{proof}
 
+\begin{proof}
+    Trivially, \(\emptyset \subset \interior \mb Q\), so it 
+    suffices to show that no point in \(\mb Q\) is interior.
+
+    Let \(q\) be any rational number, and choose any \(r > 0\)
+    for an open ball \(B_r(q)\) in \(\mb R\). Because the irrational
+    numbers are dense in \(\mb R\) and \(B_r(q) = (q - r, q + r)\)
+    (an open interval), there exists an irrational number \(s\)
+    in \(B_r(q)\). Consequently, \(B_r(q) \not\subset \mb Q\).
+    Hence \(q\) is not an interior point and \(\interior \mb Q = \emptyset\).
 \end{proof}
 
 \begin{proposition}[10.13]
   Every open ball \(B_r(\vect u)\) in \(\mb R^n\) is open.
 \end{proposition}
-\begin{proof}
 
+\begin{proof}
+    Let \(\vect v \in B_r(\vect u)\). Then, by definition
+    \(dist(\vect u , \vect v) < r\) and so we define 
+    \(R = r - dist(\vect u, \vect v) > 0 \). Now consider
+    any \(w \in B_{R}(\vect v)\). Then by the Triangle
+    Inequality
+    \[ dist(\vect w, \vect u) \leq dist(\vect w, \vect v) + dist(\vect v, \vect u)
+        < R + dist(\vect v, \vect u) 
+        = [r - dist(\vect u, \vect v)] + dist(\vect u, \vect v) 
+    = r \]
+    which shows that \(B_{R}(\vect v) \subseteq B_{r}(\vect u)\).
+
+    Hence, every point in \(B_r(\vect u)\) is interior, and so
+    \(B_r(\vect u)\) is open.
 \end{proof}
 
 \begin{example}[10.14]
   Let \(a<b\) be in \(\mb R\). Then \([a,b]\) is closed.
 \end{example}
-\begin{proof}
 
+\begin{proof}
+    This follows from Theorem 2.22 and by definition of 
+    a closed set. As a brief summary, we show that for 
+    \(c_n \to c \) in \([a,b]\), we must have
+    \(\limit [b - c_n] = b - c\) and \(\limit [c_n - a] = c - a\).
+    Then since \(b - c \geq 0 \) and \(c - a \geq 0\), we
+    have by transitivity thant \(b \geq c \geq a \) and so
+    \(c \in [a,b]\).
 \end{proof}
 
 \begin{example}[10.15]
@@ -1684,60 +1737,148 @@ and the Scalar Product}
   \]
   is closed in \(\mb R^2\).
 \end{example}
-\begin{proof}
 
+\begin{proof}
+    Let \(\{(x_n, y_n)\}\) be a sequence in \([-1,1]\times[-1,1]\) that
+    converges to \((x,y)\). By the Componentwise Convergence Criterion,
+    we must have that \(x_n \to x\) and \(y_n \to y\). Now since 
+    \(\{x_n\}, \{y_n\}\) are sequences in \([-1, 1]\) and \([-1,1]\)
+    is closed in \(\mb R\) (by the previous example), it follows that \(x, y \in [-1,1]\).
+    Consequently, \((x,y) \in [-1,1] \times [-1,1]\) and so this
+    set is closed in \(\mb R^2\).
 \end{proof}
 
 \begin{theorem}[10.16, The Complementing Characterization]
   A subset \(A\subseteq\mb R^n\) is open if and only if its complement
   \(\mb R^n\setminus A\) is closed.
 \end{theorem}
+
 \begin{proof}
+    From now on, we use the notation \(A^c\) for \(\mb R^n \setminus A\).
+    Suppose \(A\) is open, and let \(\{\vect x_n\}\) be a sequence in
+    \(A^c\) that converges to point \(\vect x\). Suppose on the contrary
+    that \(\vect x \not\in A^c\). Then \(\vect x \in A\). Because \(A\)
+    is open, there exists an open ball \(B_r(\vect x) \subset A\). However
+    this means that no point in the sequence \(\{\vect x_n\}\) lies in
+    \(B_r(\vect x)\); this contradicts our assumption that 
+    \(\vect x_n \to \vect x\). Hence \(\vect x \in A^c\) and so \(A^c\)
+    is closed.
+
+    Conversely, suppose \(A^c\) is closed, and let \(\vect y \in A\).
+    Suppose on the contrary that \(\vect y\) is not an interior point 
+    of \(A\). Then, every open ball around \(\vect y\) intersects
+    \(A^c\) at a point distinct from \(\vect y\). From this, we can 
+    construct the following sequence: for each natural number \(k\),
+    pick a point \(\vect y_k\) from \(B_{\frac{1}{k}}(\vect y) \cap A^c\).
+    Then, because \(\frac{1}{k} \to 0\) as \(k \to \infty\), we
+    have that \(\vect y_k \to \vect y\). However, this means that
+    \(\vect y_k\) is a convergent sequence in \(A^c\). By assumption,
+    \(A^c\) is closed and so \(\vect y \in A^c\); this is a contradiction.
+    Hence, \(\vect y\) is an interior point of \(A\). Thus, \(A\)
+    is open.
 
 \end{proof}
 
 \begin{proposition}[10.17.i]
   The union of a collection of open subsets of \(\mb R^n\) is open.
 \end{proposition}
-\begin{proof}
 
+\begin{proof}
+    Let \(U = \bigcup_{\alpha \in I} U_\alpha\) where \(\{U_\alpha\}\) is a collection
+    of open subsets of \(\mb R^n\). We show that every point \(\vect x\)
+    in \(U\) is interior. Since \(\vect x \in U\), \(\vect x \in U_\alpha\)
+    for some \(\alpha\). Because \(U_\alpha\) is open, there exists \(r > 0\)
+    such that \(B_r(\vect x) \subset U_\alpha\). Then because
+    \(U_\alpha \subset U\), we have that \(B_r(\vect x) \subset U\).
+    Hence, \(U\) is open.
 \end{proof}
 
 \begin{proposition}[10.17.ii]
   The intersection of a collection of closed subsets of \(\mb R^n\) is closed.
 \end{proposition}
-\begin{proof}
 
+\begin{proof}
+    Let \(C = \bigcap_{\alpha \in I} C_\alpha\) where \(\{C_\alpha\}\) is
+    a collection of closed subsets of \(\mb R^n\). Let \(\{\vect x_n\}\)
+    be a sequence in \(C\) that converges to \(\vect x\). By definition,
+    this sequence \(\{\vect x_n\}\) is in every \(C_\alpha\). Since 
+    each of these sets is closed, we have that \(\vect x \in C_\alpha\)
+    for all \(\alpha\). Hence \(\vect x \in C\). Thus \(C\) is closed.
 \end{proof}
 
 \begin{proposition}[10.18.i]
   The intersection of a finite collection of
   open subsets of \(\mb R^n\) is open.
 \end{proposition}
-\begin{proof}
 
+\begin{proof}
+    Let \(U = U_1 \cap U_2 \cap ... \cap U_n\) be the intersection
+    of finitely many open subsets \(U_i\) of \(\mb R^n\).
+    Let \(\vect x \in U\). Then \(\vect x \in U_i\) for all \(i \in [n]\).
+    Since each of these \(U_i\) is open, there exists \(r_i > 0\)
+    where \(B_{r_i}(\vect x) \subset U_i\). Define 
+    \(r = \text{min~}\{r_1, r_2, ..., r_n\}\). It immediately
+    follows that \(B_{r}(\vect u) \subset B_{r_i}(\vect u) \subset U_i\)
+    for \(i \in [n]\). Thus, \(B_{r}(\vect u) \in U\) and so \(U\)
+    is open.
 \end{proof}
 
 \begin{proposition}[10.18.ii]
   The union of a finite collection of
   closed subsets of \(\mb R^n\) is closed.
 \end{proposition}
-\begin{proof}
 
+\begin{proof}
+    Let \(C = C_1 \cup C_2 \cup ... \cup C_n \) be the union
+    of finitely many closed subsets \(C_i\) in \(\mb R^n\).
+    Then let \(\{\vect x_n\}\) be a sequence in \(C\) that
+    converges to \(\vect x\). By definition, \(\vect x_n \in C_i\)
+    for some \(i\) for every \(n\). Since \(n\) is finite, it
+    follows that there exists some particular \(j \in [n]\) for which
+    \(\{\vect x_n\} \cap C_j \) is nonempty and countable (not finite). 
+    To put it another way, the mapping \(k \mapsto nk\) is an injection
+    on the natural numbers and so by the Pigeonhole Principle, at
+    least one intersection must contain a countable number of elements.
+    Anyway, this intersection is a subsequence \(\{\vect x_{n_j}\}\) of 
+    \(\{\vect x_n\}\). Then clearly \(\vect x_{n_j} \to \vect x\). 
+    Because \(C_j\) is closed, \(\vect x \in C_j\) and so \(\vect x \in C\).
 \end{proof}
 
 \begin{proposition}[10.19.i]
   \(A\subseteq\mb R^n\) is open if and only if \(A\cap\boundary A=\emptyset\).
 \end{proposition}
-\begin{proof}
 
+\begin{proof}
+    Suppose \(A\) is open, and let \(\vect x \in A \cap \boundary A\). 
+    Because \(\vect x \in A\), there exists \(r > 0\) such that 
+    \(B_{r}(\vect x) \subset A\). However, this implies that 
+    \(B_{r}(\vect x) \cap \boundary A = \emptyset\) because
+    \(B_{r}(\vect x)\) does not intersect \(A^c\). Consequently,
+    \(\vect x \not\in \boundary A\), a contradiction. Therefore,
+    \(A \cap \boundary A = \emptyset \).
+
+    Conversely, suppose \(A \cap \boundary A = \emptyset\) and
+    let \(\vect x \in A\). By assumption, \(\vect x \not\in \boundary A\)
+    and so, by definition, there exists an open ball \(B_r(\vect x)\)
+    that does not intersection \(A^c\). Hence \(B_r(\vect x) \subset A\)
+    and so \(A\) is open.
 \end{proof}
 
 \begin{proposition}[10.19.ii]
   \(A\subseteq\mb R^n\) is closed if and only if \(\boundary A\subseteq A\).
 \end{proposition}
-\begin{proof}
 
+\begin{proof}
+    Suppose \(A\) is closed. Let \(\vect x \in \boundary A\). Then
+    every open ball around \(\vect x\) intersects \(A\). In particular,
+    we form a sequence of points \(\vect x_k \) in \(A\) taken from
+    \(B_{1/k}(\vect x)\). Then \(\vect x_k \to \vect x\). Since \(A\)
+    is closed, we have that \(\vect x \in A\). Thus, \(\boundary A \subseteq A\).
+
+    Now suppose the converse. We show that \(A^c\) is open. Let \(\vect x \in A^c\).
+    Then \(\vect x \not\in \boundary A \), which means there exists an open
+    ball \(B_r(\vect x)\) contained in \(A^c\). Hence \(A^c\) is open. By 
+    Theorem 10.16, this means its complement is closed, which is \(A\).
 \end{proof}
 
 \begin{exercise}[2]
