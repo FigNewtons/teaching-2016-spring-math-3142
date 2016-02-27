@@ -1891,12 +1891,69 @@ and the Scalar Product}
     \item \(\{(x,y):x\geq 0,~y\geq0\}\)
   \end{enumerate}
 \end{exercise}
+
 \begin{solution}
   \begin{enumerate}[(a)]
-    \item
-    \item
-    \item
-    \item
+    \item This set is open in \(\mb R^2\). To see why, let \((h, k)\) be a
+          point from the set. We claim that there exists a point \((x_0, y_0)\)
+          on the curve \(g(x) = x^2\) where the distance \(R\) from \(g(x)\) to 
+          \((h,k)\) is smallest. It follows that if we pick any \(r > 0\) less
+          than \(R\), then \(B_{r}((x_0, y_0))\) lies entirely in the set.
+          Consider the function \[f(x) = (x - h)^2 + (x^2 - k)^2 .\] Taking the
+          derivative and setting it to zero, we get
+          \[ 0 = (x - h) + 2x(x^2 - k) = 2x^3 + x(1 - 2k) - h .\]
+          This is an odd-degree polynomial, and thus must have at least one 
+          real root. Moreover, a positive leading coefficient tells us
+          that \(f'(x) \to \infty\) as \(x \to \infty\) and \(f'(x) \to -\infty\)
+          as \(x \to -\infty\). This implies that a real root must be a 
+          minimum (by the First Derivative test); call this root \((x_0, y_0)\).
+          This proves our claim, and therefore every point in the set is 
+          an interior point. Thus, our set is open.
+
+          This set is not closed because it doesn't include \(g(x)\), which
+          is its boundary.
+
+    \item The unit circle \(S^1\) is closed in \(\mb R^2\): First, we note
+          that \(B_{1}(\vect 0)\) is open by Proposition 10.13. Second, 
+          we can either appeal to Exercise 3 (below) or re-adapt the argument
+          from (a) to show that the set 
+          \(O = \{\vect u \in \mb R^2 : \|\vect u\| > 1 \}\) is open. Then
+          \(\mb R^2 \setminus S^1 = B_{1}(\vect 0) \cup O\) is the union of
+          two open sets, which is open (by Proposition 10.17i). Therefore,
+          \(S^1\) is closed by Theorem 10.16.
+
+          Now, since \(\boundary S^1 = S^1\), \(S^1\) is not open
+          (by Proposition 10.19i).
+
+    \item This set is neither open or closed. To show that the
+          set is not open, we note that this set is equivalent to
+          \(\mb Q \times \mb R\) in \(\mb R^2\). By Example 10.12, 
+          \(\interior \mb Q = \emptyset\), and since \(\mb R\) is 
+          open, \(\interior \mb R = \mb R\). It follows that 
+          \[\interior (\mb Q \times \mb R) = \emptyset \times \mb R .\]
+          Thus, this set cannot be open since it is not equal to its 
+          interior (a more direct approach would be to repeat the 
+          argument of example 10.12 but with open circles). 
+
+          To show that the set is not closed, construct the
+          sequence \( \{ (1 + \frac{1}{n})^n, 0) \}\). Since \(n\)
+          is a natural number, \(1 + \frac{1}{n}\) is rational 
+          and hence \((1 + \frac{1}{n})^n\) is rational. The
+          sequence converges to \((e, 0)\), but because \(e\)
+          is an irrational number, this point is not inside
+          the set. Hence, the set is not closed.
+
+    \item The first quadrant \(Q_1\) is closed in \(\mb R^2\): Let 
+          \(\{(x_n, y_n)\}\) be a sequence in \(Q_1\) that converges to
+          the point \((x, y)\). By the Componentwise Criterion,
+          \(x_n \to x\) and \(y_n \to y\) in \(\mb R\). Now, since
+          \(x_n \geq 0\) for all indices \(n\), \(x \geq 0\) by Lemma
+          2.21. Similarly, \(y \geq 0\). Hence, \((x, y) \in Q_1\)
+          and so \(Q_1\) is closed.
+        
+          \(Q_1\) is not open since \( Q_1 \cap \boundary Q_1 \)
+          is the union of the nonnegative \(x\) and \(y\) axes.
+        
   \end{enumerate}
 \end{solution}
 
@@ -1904,8 +1961,16 @@ and the Scalar Product}
   Let \(r>0\) and \(O=\{\vect u\in\mb R^n:\|\vect u\|>r\}\). Prove that \(O\)
   is open.
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    Let \(v \in O\). Choose \(R = \|\vect u\| - r > 0\) and consider
+    \(B_R(\vect u)\). Then for \(\vect v \in B_R(\vect u)\), we have
+    \[ \|\vect u\| = \|(\vect u - \vect v) + \vect v\| 
+                  \leq \|\vect u - \vect v\| + \|\vect v\|
+              < R + \|\vect v\| = \|\vect u\| - r + \|\vect v\| .\]
+    Adding \(r - \|\vect u\|\) to both sides then gives us
+    \(r < \|\vect v\|\), as desired. Hence \(B_R(\vect u) \subset O\)
+    and so \(O\) is open.
 \end{solution}
 
 \begin{exercise}[7a]
@@ -1915,8 +1980,24 @@ and the Scalar Product}
   \]
   is open for all \(\vect w\in\mb R^n\).
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    Suppose \(A\) is open. Fix some \(\vect w \in \mb R^n\),
+    and let \(\vect y \in \vect w + A\). Then 
+    \(\vect y = \vect w + \vect u\) for some \(\vect u \in A\). 
+    Since \(A\) is open, there exists \(r > 0\) such that
+    \(B_r(\vect u) \subset A\). We claim that 
+    \(B_r(\vect y) \subset \vect w + A\). Indeed, if \(\vect z \in B_r(\vect y)\),
+    then
+    \[ r > \| \vect z - \vect y \| = \| \vect z - (\vect w + \vect u) \| 
+    = \| (\vect z - \vect w) - \vect u \| \]
+    which shows that \(\vect z - \vect w \in B_r(\vect u)\) and therefore
+    is an element of \(A\). It follows that
+    \[ \vect z = \vect w + (\vect z - \vect w) \in w + A \]
+    and so \(B_r(\vect y) \subset \vect w + A\). Thus, \(\vect w + A\) is open.
+
+    Now suppose the converse and take \(\vect w = 0\). Then
+    \(\vect w + A = \vect 0 + A = A\) is open.
 \end{solution}
 
 \begin{exercise}[12]
@@ -1927,8 +2008,21 @@ and the Scalar Product}
   Prove that \(A\subseteq \closure A\). Then prove that
   \(A=\closure A\) if and only if \(A\) is closed.
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    Let \(\vect x \in A\). If \(\vect x \in \interior A\),
+    then by definition \(\vect x \in \closure A\). Otherwise,
+    every open ball around \(\vect x\) intersects \(A^c\)
+    (by definition of not being in the interior of \(A\)). But
+    since \(\vect x \in A\), every open ball around \(\vect x\)
+    intersects both \(A\) and \(A^c\). Hence, \(\vect x \in \boundary A\).
+    Therefore, \(A \subseteq \closure A\).
+
+    By a previous proposition, we know that \(A\) is closed iff
+    \(\boundary A \subseteq A\). The latter implies that
+    \(\closure A = \interior A \cup \boundary A \subseteq A\). 
+    And so, combining the previous step, \(A\) is closed iff
+    \(\closure A = A \).
 \end{solution}
 
 
