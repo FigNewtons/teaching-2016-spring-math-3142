@@ -2282,8 +2282,19 @@ the partition \(P_n\) of \([a,b]\) for each
 natural number \(n\), and \(\{P_n\}\) is an Archimedian sequence of
 partitions for \(f\) on \([a,b]\), then \(\{Q_n\}\) is also Archimedian.
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    By definition of an Archimedean sequence, we have 
+    \[\limit [U(f, P_n) - L(f, P_n) ] = 0 . \]
+    Since \(Q_n\) refines \(P_n\), by the Refinement lemma
+    \[ L(f, P_n) \leq L(f, Q_n) \text{~and~} U(f, Q_n) \leq U(f, P_n) \]
+    so that 
+    \[ 0 \leq U(f, Q_n) - L(f, Q_n) \leq U(f, P_n) - L(f, P_n) \]
+    for each \(n \in \mb N\). Taking the limit as \(n\) approaches
+    infinity, we get
+    \[ 0 \leq \limit [U(f, Q_n) - L(f, Q_n)] \leq \limit [U(f, P_n) - L(f, P_n)] = 0 \]
+    and hence, \(\limit [U(f, Q_n) - L(f, Q_n)] = 0\). Therefore,
+    \(\{Q_n\}\) is also an Archimedean sequence.   
 \end{solution}
 
 \begin{exercise}[2]
@@ -2315,8 +2326,29 @@ Prove that
 
 (Hint: Corollary 6.30 says that \(\frac{d}{dx}[\int_{x}^0f]=-f(x)\).)
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    By Theorem 6.12, we can express the above integral as
+    \[ \int_{-x}^{x} f = \int_{-x}^{0} f + \int_{0}^{x} f .\]
+    Then, by the sum rule for derivatives, we have
+    \[ \frac{d}{dx} \left[\int_{-x}^{x} f \right] = 
+    \frac{d}{dx} \left[\int_{-x}^{0} f  + \int_{0}^{x} f \right] =
+    \frac{d}{dx} \left[ \int_{-x}^{0} f \right] + 
+    \frac{d}{dx} \left[ \int_{0}^{x} f \right] .\]
+    The Second Fundamental Theorem of Calculus tells us that 
+    \[ \frac{d}{dx} \left[ \int_{0}^{x} f \right] = f(x) .\]
+    Now, define \(g(x) = -x\) on \(\mb R\). Then 
+    \(g((-x, x)) \subseteq (-x, x)\) and so by Corollary 6.30
+    and 6.32, we have
+    \[ \frac{d}{dx} \left[ \int_{-x}^{0} f \right] = 
+       \frac{d}{dx} \left[ \int_{g(x)}^{0} f \right] =
+       - f(g(x)) g'(x) = - f(-x) (-1) = f(-x) = f(x) ,\]
+    the last step following from \(f\) being an even function. 
+    Altogether,
+    \[ \frac{d}{dx} \left[\int_{-x}^{x} f \right] = 
+       \frac{d}{dx} \left[ \int_{-x}^{0} f \right] + 
+       \frac{d}{dx} \left[ \int_{0}^{x} f \right]  = 
+       f(x) + f(x) = 2f(x) .\]
 \end{solution}
 
 \begin{exercise}[4]
