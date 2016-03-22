@@ -2026,9 +2026,6 @@ and the Scalar Product}
 \end{solution}
 
 
-
-
-
 \chapter{Continuity, Compactness, and Connectedness}
 
 
@@ -2038,8 +2035,12 @@ and the Scalar Product}
   For each \(i\in\{1,\dots,n\}\), the \(i\)th projection map
   \(p_i:\mb R^n\to\mb R\) is continuous.
 \end{proposition}
-\begin{proof}
 
+\begin{proof}
+    Suppose \(\vect u_k \to \vect u\). By the Componentwise
+    criterion, \(p_i(\vect u_k) \to p_i(\vect u)\) for an 
+    arbitrary \(i \in [n]\). Since \(\vect u\) is an arbitrary
+    point in \(\mb R^n\), we have that \(p_i\) is continuous.
 \end{proof}
 
 \begin{theorem}[11.3]
@@ -2057,8 +2058,26 @@ and the Scalar Product}
     \frac{h}{g} : A\to\mb R
   .\]
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Suppose \(\vect u_k \to \vect u\). Then, by the linearity property of 
+    sequences and the fact that \(g\) and \(h\) are continuous at \(\vect u\), 
+    we have
+    \[ \lim_{k \to \infty} (\alpha h + \beta g)(\vect u_k) = 
+    \alpha \lim_{k \to \infty} h(\vect u_k) + \beta \lim_{k \to \infty} g(\vect u_k) = 
+    \alpha h(\vect u) + \beta g(\vect u) = (\alpha h + \beta g)(\vect u) .\]
+    Similarly,
+    \[ \lim_{k \to \infty} (h \cdot g)(\vect u_k) = 
+       \lim_{k \to \infty} [h(\vect u_k) g(\vect u_k)] = 
+       [\lim_{k \to \infty} h(\vect u_k)][\lim_{k \to \infty} g(\vect u_k)] = 
+       h(\vect u)g(\vect u) = (h \cdot g)(\vect u) \]
+    and
+    \[ \lim_{k \to \infty} \frac{h}{g}(\vect u_k) = 
+       \lim_{k \to \infty} \frac{h(\vect u_k)}{g(\vect u_k)} = 
+       \frac{ \lim_{k \to \infty} h(\vect u_k) }{ \lim_{k \to \infty} g(\vect u_k) } =
+       \frac{h(\vect u)}{g(\vect u)} =
+       \frac{h}{g}(\vect u) \]
+    for \(g(\vect v) \neq 0\), \(\vect v \in A\).
 \end{proof}
 
 \begin{theorem}[11.5]
@@ -2070,8 +2089,13 @@ and the Scalar Product}
   \]
   is continuous at \(\vect u\).
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Suppose \(\vect u_k \to \vect u\) in \(A\). By continuity, 
+    \(G(\vect u_k) \to G(\vect u)\). Since \(G(A) \subseteq B\), this
+    is a sequence in \(B\) and so by continuity 
+    \( H(G(\vect u_k)) \to H(G(\vect u)) \). Thus, 
+    \[\lim_{k \to \infty} (H \circ G)(\vect u_k) = H(G(\vect u)) = (H \circ G)(\vect u).\]
 \end{proof}
 
 \begin{theorem}[11.9, The Componentwise Continuity Criterion]
@@ -2080,8 +2104,14 @@ and the Scalar Product}
   \(F_i=p_i\circ F:A\to\mb R\) is continuous at \(\vect u\) for each
   \(i\in\{1,\dots,n\}\).
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    By the Componentwise convergence criterion, the sequence \(\{F(\vect u_k)\}\)
+    converges iff \(\{p_i(F(\vect u_k))\}\) converges for \(i \in [n]\). By 
+    definition, \(p_i \circ F = F_i\). Hence, \(F\) is continuous at \(\vect u\)
+    iff \(\vect u_k \to \vect u\) implies \(F(\vect u_k) \to F(\vect u)\), which
+    occurs iff \(\vect u_k \to \vect u\) implies \(F_i(\vect u_k) \to F_i(\vect u)\)
+    (that is, \(F_i\) is continuous for \(i \in [n]\)).
 \end{proof}
 
 \begin{theorem}[11.11, Exercise 12]
@@ -2091,8 +2121,8 @@ and the Scalar Product}
   \(\|\vect v-\vect u\|<\delta\)
   implies \(\|F(\vect v)-F(\vect u)\|<\epsilon\).
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
 \end{proof}
 
 \begin{theorem}[11.12]
