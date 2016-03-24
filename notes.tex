@@ -2123,6 +2123,24 @@ and the Scalar Product}
 \end{theorem}
 
 \begin{proof}
+    Suppose that \(F\) is continuous at \(\vect u\) but the epsilon-delta
+    criterion does not hold. Then there exists \(\epsilon > 0\) where
+    for all \(\delta > 0\) we have \(\|\vect v - \vect u\| < \delta\)
+    but \(\|F(\vect v) - F(\vect u)\| \geq \epsilon\). Taking \(\delta = 1/n\) 
+    for all natural numbers \(n\), we have a sequence \(\{\vect u_k\}\) 
+    that converges to \(\vect u\). Hence, by continuity \(\{F(\vect u_k)\}\) 
+    converges to \(F(\vect u)\), which contradicts the assumption that
+    \(\|F(\vect u_k) - F(\vect u)\| \geq \epsilon\) for all \(n\).  
+
+    Conversely, suppose the epsilon-delta criterion holds at \(\vect u\).
+    Let \(\vect u_k \to \vect u\). By assumption, for any \(\epsilon > 0\),
+    there exists \(\delta > 0\) such that \(\|\vect u_k - \vect u\| < \delta\)
+    imples \(\|F(\vect u_k) - F(\vect u)\| < \epsilon\). Since \(\{\vect u_k\}\)
+    is a convergent sequence, there exists index \(N\) where \(k \geq N\) implies
+    \(\|\vect u_k - \vect u\| < \delta\). Hence, there exists \(N\) such
+    that \(k \geq N\) imples \(\|F(\vect u_k) - F(\vect u)\| < \epsilon\).
+    Therefore, we have \(F(\vect u_k) \to F(\vect u)\), which shows that
+    \(F\) is continuous.
 \end{proof}
 
 \begin{theorem}[11.12]
@@ -2131,8 +2149,28 @@ and the Scalar Product}
   if and only if \(F^{-1}(V)\) is an open subset of \(\mb R^n\) for every
   open \(V\subseteq\mb R^m\).
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Suppose \(F\) is continuous, and let \(V\) be an open set in \(\mb R^m\).
+    To show that \(F^{-1}(V)\) is open, we prove that every point is 
+    interior. Let \(\vect u \in F^{-1}(V)\). Then \(F(\vect u) \in V\),
+    and since \(V\) is open, there exists \(\epsilon > 0\) such that
+    \(B_{\epsilon}(F(\vect u)) \subset V\). By continuity, there exists
+    a \(\delta > 0\) such that \(\|\vect v - \vect u\| < \delta\) implies
+    \(\|F(\vect v) - F(\vect u)\| < \epsilon\). In other words,
+    \(F(B_{\delta}(\vect u)) \subset B_{\epsilon}(F(\vect u)) \subset V\),
+    and so by definition \(B_{\delta} \subset F^{-1}(V)\). Hence, the
+    inverse image is open.
+
+    Now suppose the converse. Let \(\epsilon > 0\). Then
+    \(B_{\epsilon}(F(\vect u))\) is open in \(\mb R^m\), and so by assumption,
+    \(F^{-1}(B_{\epsilon}(F(\vect u)))\) is open in \(U\). Since \(\vect u\)
+    is an element of this set, it is an interior point. Consequently, 
+    there exists \(\delta > 0\) such that \(B_{\delta}(\vect u)\) is 
+    a subset. Moreover, this implies 
+    \(F(B_{\delta}(\vect u)) \subset B_{\epsilon}(F(\vect u))\), which
+    is equivalent to the epsilon-delta criterion. Therefore, \(F\)
+    is continuous.
 \end{proof}
 
 \begin{example}[11.15]
@@ -2140,16 +2178,28 @@ and the Scalar Product}
   \(U=\{\vect u\in\mb R^n:a<\|\vect u\|<b\}\) is open.
   (You may assume \(f(\vect u)=\|\vect u\|\) is continuous.)
 \end{example}
-\begin{solution}
 
+\begin{solution}
+    We know that \(f\) is continuous since we can
+    take \(\delta = \epsilon\) and by the reverse Triangle Inequality obtain
+    \[ | \|\vect u\| - \|\vect v\| | \leq \|\vect u - \vect v\| < \delta = \epsilon .\]
+    It then follows from Corollary 11.13 that the sets
+    \(U_1 = \{\vect u \in \mb R^n : \|\vect u\| < b\}\) and
+    \(U_2 = \{\vect u \in \mb R^n : \|\vect u\| > a\}\) are open.
+    Noting that \(U = U_1 \cap U_2\), since the union of two
+    open sets is open, \(U\) is open.
 \end{solution}
 
 \begin{exercise}[3]
   Fix a point \(\vect v\in\mb R^n\). Prove that \(f:\mb R^n\to\mb R\)
   defined by \(f(\vect u)=\<\vect u,\vect v\>\) is continuous.
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    Suppose \(\vect u_k \to \vect u\). By exercise 1 in section 10.2,
+    we have that 
+    \(\lim_{k \to \infty} \<\vect u_k, \vect v\> = \<\vect u, \vect v\>\).
+    Hence, by definition, \(f\) is continuous.
 \end{solution}
 
 \begin{exercise}[6]
@@ -2157,8 +2207,19 @@ and the Scalar Product}
   \(\{\vect u\in\mb R^n:f(\vect u)=g(\vect u)=0\}\) is closed.
   (Hint: use corollary 11.13 and proposition 10.17.ii.)
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    First, the sets \(C = \{\vect u \in \mb R^n : f(\vect u) = 0\}\)
+    and \(D = \{\vect u \in \mb R^n: g(\vect u) = 0\}\) are closed:
+    being the complement of the open sets
+    \(\{\vect u \in \mb R^n : f(\vect u) < 0\} \cup 
+      \{\vect u \in \mb R^n : f(\vect u) > 0\} \)
+    and
+    \(\{\vect u \in \mb R^n : g(\vect u) < 0\} \cup 
+      \{\vect u \in \mb R^n : g(\vect u) > 0\} \), respectively.
+    It follows that 
+    \(\{\vect u \in \mb R^n : f(\vect u) = g(\vect u) = 0\} = C \cap D\)
+    is closed, being the intersection of two closed sets.
 \end{solution}
 
 \begin{exercise}[11]
@@ -2175,6 +2236,29 @@ and the Scalar Product}
   and \(\exterior A\), but not continuous at points in \(\boundary A\).
 \end{exercise}
 
+\begin{solution}
+    Let \(\vect u \in \interior A\). Then by definition, there exists
+    an \(\epsilon > 0\) such that \(B_{\epsilon}(\vect u) \subset A\).
+    So consider \(\vect u_k \to \vect u\). Then, there exists natural
+    number \(N\) such that \(k \geq N\) implies 
+    \(\vect u_k \in B_{\epsilon}(\vect u)\). For these terms,
+    \(\phi_A(\vect u_k) = 1\) and \(\phi_A(\vect u) = 1\). Thus,
+    \(\lim_{k \to \infty} \phi_A(\vect u_k) = 1 = \phi_A(\vect u) \).
+    Similarly, if \(\vect v \in \exterior A\) and \(\vect v_k \to \vect v\),
+    we get \(\lim_{k \to \infty} \phi_A(\vect v_k) = 0 = \phi_A(\vect v)\).
+    Last, consider \(\vect w \in \boundary A\). For each natural number \(k\),
+    there exists points \(\vect y_k, \vect z_k \in B_{1/k}(\vect w)\)
+    such that \(\vect y_k \in A\) and \(\vect z_k \not\in A\). It follows
+    that \(\vect y_k \to \vect w\) and \(\vect z_k \to \vect w\), but
+    \(\lim_{k \to \infty} \phi_A(\vect y_k) = 1\) while 
+    \(\lim_{k \to \infty} \phi_A(\vect z_k) = 0\). If \(\vect w \not\in A\),
+    then the former sequence does not converge to \(\phi_A(\vect w) = 0\), and
+    if \(\vect w \in A\), then the latter sequence does not converge to
+    \(\phi_A(\vect w) = 1\). Hence, \(\phi_A\) cannot be continuous at \(\vect w\).
+    Since the points \(\vect u, \vect v\) and \(\vect w\) were arbitrary, this
+    shows that \(\phi_A\) is continuous on \(\interior A\) and \(\exterior A\),
+    but not on \(\boundary A\).
+\end{solution}
 
 \section{Sequential Compactness, Extreme Values, and Uniform Continuity}
 
