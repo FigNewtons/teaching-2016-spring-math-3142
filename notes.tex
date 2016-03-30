@@ -2265,23 +2265,63 @@ and the Scalar Product}
 \begin{theorem}[11.16]
   Every sequentially compact subset of \(\mb R^n\) is bounded and closed.
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Let \(A\) be a sequentially compact subset of \(\mb R^n\). Suppose
+    on the contrary that \(A\) is not bounded. Then, by definition
+    (negating quantifiers), for every number \(M\) there exists a 
+    point \(\vect u \in A\) such that \(\|\vect u\| > M \). In particular,
+    there exists a \(\vect u_k\) for each natural number \(k\) where
+    this holds. This forms a sequence \(\{\vect u_k\}\) in \(A\). 
+    Because \(A\) is sequentially compact, a subsequence \(\{\vect u_{k_j}\}\)
+    of \(\{\vect u_k\}\) converges to some \(\vect u\) in \(A\).
+    A consequence of convergence is that \(\vect u_{k_j} \to \vect u\) implies 
+    \(\|\vect u_{k_j}\| \to \|\vect u\|\), but we assumed that
+    \(\|\vect u_{k_j}\| > k_j \geq j\) (recall that \(k_j\) is increasing).
+    This is a contradiction. Thus, \(A\) is bounded.
+
+    Now, suppose we have a sequence \(\{\vect v_k\}\) in \(A\) that converges
+    to \(\vect v\). We must show that \(\vect v \in A\). Because \(A\)
+    is sequentially compact, a subsequence \(\{\vect v_{k_j}\}\) converges
+    to a point in \(A\). Since \(\vect v_k \to \vect v\), we must have
+    \(\vect v_{k_j} \to \vect v\), and so \(\vect v \in A\). Thus, \(A\)
+    is closed.
 \end{proof}
 
 \begin{theorem}[11.17]
   Every bounded sequence in \(\mb R^n\) has a convergent subsequence.
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    This is a proof by induction on the dimension of the vector space.
+    If \(n = 1\), then this follows from Theorem 2.33. Suppose this
+    property holds for \(n > 1\) and now consider the \(n + 1\) case.
+    Let \(\{\vect u_k\}\) be a bounded sequence in \(\mb R^{n+1}\).
+    For each \(k\), we can write
+    \[ \vect u_k = (u_1, u_2, ...., u_n, u_{n+1}) = (\vect v_k, x_k) \]
+    where \(\vect v_k = (u_1, u_2, ..., u_n)\) and \(x_k = u_{n+1}\).  
+    Now, \(\vect v_k\) is a sequence in \(\mb R^n\) and so 
+    has a convergent subsequence \(\vect v_{k_j} \to \vect v\). 
+    Using the same indices, we have \(x_{k_j}\). This is a sequence in \(\mb R\)
+    and so we have a convergent subsequence \(x_{k_{j_h}} \to x\). 
+    It follows that \((\vect v_{k_{j_h}}, x_{k_{j_h}}) \to (\vect v, x)\)
+    by the componentwise convergence criterion. Letting \(\vect u = (v_1, v_2, ..., v_n, x)\),
+    this means that \(\{\vect u_k\}\) has a subsequence that converges
+    to \(\vect u\), as desired.
 \end{proof}
 
 \begin{theorem}[11.18, The Sequential Compactness Theorem]
   A subset of \(\mb R^n\) is sequentially compact if and only if
   it is closed and bounded.
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Theorem 11.16 proved one direction. Hence, we must show that 
+    a closed and bounded set \(A\) is sequentially compact. Let
+    \(\{\vect u_k\}\) be a sequence in \(A\). By the previous Theorem,
+    \(\{\vect u_k\}\) has a convergent subsequence: \(\vect u_{k_j} \to \vect u\).
+    But since \(A\) is closed, \(\vect u \in A\). Hence, \(A\)
+    is sequentially compact.
 \end{proof}
 
 \begin{corollary}[11.19]
@@ -2289,8 +2329,28 @@ and the Scalar Product}
   \(\prod_{i=1}^n[a_i,b_i]=[a_1,b_1]\times\dots\times[a_n,b_n]\subseteq\mb R^n\)
   is sequentially compact.
 \end{corollary}
-\begin{proof}
 
+\begin{proof}
+    Let \(C_1, C_2, ... , C_n\) be closed sets, and let \(\vect u_k\) be 
+    a sequence in \(\prod_{i=1}^n C_i \) that converges to \(\vect u\). 
+    By the componentwise convergence criterion, we have 
+    \(p_i(\vect u_k) \to p_i(\vect u)\). Now since \(\{p_i(\vect u_k)\}\)
+    is a convergent sequence in \(C_i\), and \(C_i\) is closed, 
+    \(p_i(\vect u) \in C_i\) for \(i \in [n]\). Hence, \(\vect u \in \prod_{i=1}^n C_i\)
+    and so \(\prod_{i = 1}^n C_i\) is closed.
+
+    From an earlier result, we know that \([a_i, b_i]\) is closed. Hence
+    we have that \(\prod_{i = 1}^n [a_i, b_i]\) is closed. 
+
+    Next, let \(a = \text{min}\{a_1, a_2, ..., a_n\}\) and 
+    \(b = \text{max}\{b_1, b_2, ..., b_n\}\). Then, the resulting interval
+    \([a, b]\) is bounded by a number \(M\). Furthermore, 
+    \([a_i, b_i] \subset [a,b]\) and so \([a_i, b_i]\) is bounded by \(M\)
+    as well (for \(i \in [n]\)). Then, for \(\vect u \in \prod_{i=1}^n [a_i, b_i]\),
+    we have \(|u_i| \leq M\) and so
+    \[ \|\vect u\| = \sqrt{ \sumi u_i^2 } \leq \sqrt{n} M . \]
+    This shows that \(\prod_{i=1}^n [a_i, b_i]\) is bounded. Therefore, the
+    generalized rectangle is sequentially compact.
 \end{proof}
 
 \begin{theorem}[11.20]
@@ -2298,16 +2358,33 @@ and the Scalar Product}
   If \(A\) is sequentially compact then \(F(A)\) is also sequentially
   compact.
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Let \(\vect v_k\) be a sequence in \(F(A)\). By definition of 
+    the image, for each \(k\), there exists \(\vect u_k\) in \(A\)
+    such that \(F(\vect u_k) = \vect v_k\). Since \(A\) is sequentially
+    compact, we have a subsequence \(\{\vect u_{k_j}\}\) that converges
+    to a point \(\vect u\) in \(A\). Then by continuity, we have
+    that \(\vect u_{k_j} \to \vect u\) implies 
+    \(F(\vect u_{k_j}) = v_{k_j} \to F(\vect u)\). Thus, \(F(A)\) is 
+    sequentially compact.
 \end{proof}
 
 \begin{lemma}[11.21]
   Every nonempty seqeuntially compact subset of \(\mb R\) has a
   maximum and minimum element.
 \end{lemma}
-\begin{proof}
 
+\begin{proof}
+    Let \(A\) be a nonempty sequentially compact subset of \(\mb R\).
+    Then \(A\) is bounded. By the Completeness axiom, \(A\) has a
+    supremum \(b\). We show that \(b \in A\). For every natural number
+    \(k\), \(b - \frac{1}{k}\) is not an upper bound of \(A\) and so
+    there exists an element \(x_k \in (b - \frac{1}{k}, b]\). Since
+    the sequence \(b - \frac{1}{k} \to b\), we have \(x_k \to b\).
+    Since \(A\) is sequentially compact, \(A\) is closed and hence
+    \(b \in A\). Repeat this argument for the infimum of \(A\) to 
+    obtain the result.
 \end{proof}
 
 \begin{theorem}[11.22, The Extreme Value Theorem, Bolzano-Weierstrass Theorem]
