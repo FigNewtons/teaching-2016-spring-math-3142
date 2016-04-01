@@ -2392,8 +2392,15 @@ and the Scalar Product}
   and suppose \(f:A\to\mb R^m\) is continuous.
   Then \(f\) attains a smallest and largest value.
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Let \(F_i = p_i \circ f: A \rightarrow \mb R\) for \(i \in [m]\). 
+    Since \(F_i\) is continuous and \(A\) is sequentially compact,
+    so is \(F_i(A)\), which, by the lemma, means that the set has
+    a largest and smallest element \(B_i\) and \(b_i\), respectively.
+    It follows that \(B = (B_1, B_2, ..., B_m)\) and \(b = (b_1, b_2, ..., b_m)\)
+    are the largest and smallest values of \(f(A)\) (using the
+    norm for our ordering). 
 \end{proof}
 
 \begin{theorem}[11.24]
@@ -2402,16 +2409,56 @@ and the Scalar Product}
   every continuous \(f:A\to\mb R\) attains a smallest and largest value
   (i.e. it has the Extreme Value Property).
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Suppose \(A\) has the Extreme value property. Since the mapping
+    \(g(\vect u) = \|\vect u\|\) is continuous on \(A\), \(g\)
+    obtains a largest and smallest value. This implies that \(A\)
+    is bounded. Let \(\{\vect v_k\}\) be a sequence in \(A\)
+    that converges to \(\vect v\). Define \(h(\vect u) = \|\vect u - \vect v\|\)
+    for all \(\vect u \in A\). Let \(\vect u_{\star}\) be the
+    minimizer of \(h\) (since \(h\) is continuous). Now since
+    \(dist(\vect v_k, \vect v) \to 0\) and \(h(\vect u) \geq 0\)
+    for all \(\vect u \in A\), it follows that \(h(\vect u_{\star}) = 0\).
+    In other words, \(\|\vect u_{\star} - \vect v\| = 0\), which 
+    occurs only if \(\vect u_{\star} = \vect v\). Hence we have
+    \(\vect v \in A\), which shows that \(A\) is closed. Therefore,
+    \(A\) is sequentially compact.
+
+    The other direction follows from Theorem 11.22.
 \end{proof}
 
 \begin{theorem}[11.25, Exercise 5]
   Let \(A\subseteq\mb R^n\) and \(f:A\to\mb R^m\) be continuous.
   If \(A\) is sequentially compact then \(f\) is uniformly continuous.
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Let \(\{\vect u_k\}\) and \(\{\vect v_k\}\) be sequences in \(A\)
+    where \(\lim_{k \to \infty} dist(\vect u_k, \vect v_k) = 0\), but
+    \[ \lim_{k \to \infty} dist(f(\vect u_k), f(\vect v_k)) \neq 0 .\] 
+    Then by definition (negating quantifiers), there exists an 
+    \(\epsilon_0 > 0\) such that for all \(N\), \(k \geq N\) implies
+    \[ dist(f(\vect u_k), f(\vect v_k)) \geq \epsilon .\]
+    Since \(A\) is sequentially compact, there exists subsequences
+    \(\{\vect u_{k_j}\}\) and \(\{\vect v_{k_j}\}\) that converge
+    in \(A\). Now since \(\lim_{k \to \infty} dist(\vect u_{k_j}, \vect v_{k_j}) = 0\),
+    we have that the subsequences converge to the same point; 
+    call this point \(\vect x_0\). By continuity, \(\vect u_{k_j} \to \vect x_0\)
+    implies \(f(\vect u_{k_j}) \to f(\vect x_0)\). Likewise,
+    \(\vect v_{k_j} \to \vect x_0\) implies \(f(\vect v_{k_j}) \to f(\vect x_0)\).
+
+    By definition of a converging sequence, for \(\epsilon_0 / 2\)
+    there exists \(N_u\) such that \(k_j \geq N_u\) implies
+    \(dist(f(\vect u_{k_j}),  f(\vect x_0)) < \epsilon_0 / 2\).
+    Likewise, there exists \(N_v\) such that \(k_j \geq N_v\) implies
+    \(dist(f(\vect v_{k_j}), f(\vect x_0)) < \epsilon_0 / 2\). 
+    Let \(N = \text{max}\{N_u, N_v\}\). By the Triangle inequality, for \(k_j \leq N\),
+    \[ dist(f(\vect u_{k_j}), f(\vect v_{k_j})) \leq
+    dist(f(\vect u_{k_j}), f(\vect x_0)) + dist(f(\vect x_0), f(\vect v_{k_j})) < 
+    \frac{\epsilon_0}{2} + \frac{\epsilon_0}{2} = \epsilon_0 .\]
+    This contradicts our earlier assumption, and so \(f\) is uniformly
+    continuous.
 \end{proof}
 
 \begin{theorem}[11.27, Exercise 11]
@@ -2420,24 +2467,59 @@ and the Scalar Product}
   there exists \(\delta>0\) such that \(\|\vect u-\vect v\|<\delta\)
   implies \(\|f(\vect u)-f(\vect v)\|<\epsilon\).
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Suppose \(f\) is uniformly continuous, but the epsilon-delta
+    criterion does not hold. Then there exists an \(\epsilon_0 > 0\)
+    where for all \(\delta > 0\), \(\|\vect u - \vect v\| < \delta\)
+    does not imply \(\|f(\vect u) - f(\vect v)\| < \epsilon \). So
+    at an abritrary point \(\vect x \in A\), for each \(k\), there is a point \(\vect x_k\)
+    where \(\|\vect x_k - \vect x\| < 1/k\) but 
+    \(\|f(\vect x_k) - f(\vect x)\| \geq \epsilon \). This means
+    \(\vect x_k \to \vect x\). So set \(\vect u_k = \vect x_n\) and
+    \(\vect v_k = \vect x\) (constant sequence). By uniform continuity,
+    \(\lim_{k \to \infty} \|\vect u_k - \vect v_k \| = 0\) implies
+    \(\lim_{k \to \infty} \|f(\vect u_k) - f(\vect v_k)\| = 0\), a
+    contradiction.
+
+    Now suppose the converse. Let \(\{\vect u_k\}\) and \(\{\vect v_k\}\)
+    be sequences in \(A\) where \(\lim_{k \to \infty} dist(\vect u_k, \vect v_k) = 0\).
+    Let \(\epsilon > 0\). Then there exists \(\delta > 0\) such that
+    \(\|\vect u - \vect v\| < \delta \) implies
+    \(\|f(\vect u) - f(\vect v)\| < \epsilon \). In particular, we 
+    have that for this \(\delta > 0\) an index \(N\) such that 
+    \(k \geq N\) implies \( \|\vect u_k - \vect v_k\| < \delta\). Since
+    this occurs, we have for \(k \geq N\),
+    \( \|f(\vect u_k) - f(\vect v_k)\| < \epsilon \). This is precisely
+    the definition of a convergent sequence. Hence,
+    \( \lim_{k \to \infty} dist(f(\vect u_k), f(\vect v_k)) = 0\)
+    and so \(f\) is uniformly continuous.
 \end{proof}
 
 \begin{exercise}[3,4]
   Recall that \(B_r(\vect u)=\{\vect v:\|\vect u-\vect v\|<r\}\).
   Is \(B_r(\vect u)\) bounded? Sequentially compact?
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    The open ball is open and not closed, so it cannot
+    be sequentially compact. However, it is bounded: for 
+    \(\vect v \in B_r(\vect u)\), we have
+    \[ \|\vect v\| \leq \|\vect u - \vect v\| + \|\vect u\| < r + \|\vect u\| .\]
+    Since \(r\) and \(\vect u\) are fixed, the number
+    \(M = r + \|\vect u\|\) is also fixed.  
 \end{solution}
 
 \begin{exercise}[2]
   Let \(D_r(\vect u)=\{\vect v:\|\vect u-\vect v\|\leq r\}\).
   Prove \(D_r(\vect u)\) is sequentially compact.
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    The complement of \(D_r(\vect u)\) is open, and so
+    \(D_r(\vect u)\) is closed. Then we know from the previous
+    exercise that this set is also bounded. Hence, the
+    set is sequentially compact.
 \end{solution}
 
 \begin{exercise}[optional, Heine-Borel Theorem]
@@ -2448,7 +2530,87 @@ and the Scalar Product}
   \(A\subseteq\bigcup\mathcal F\). Prove that \(A\) is compact if and only if
   \(A\) is closed and bounded.
 \end{exercise}
+
 \begin{solution}
+
+    (\(\Rightarrow)\)
+    Suppose \(A\) is compact, but that \(A\) is not bounded. Then
+    for every natural number \(k\) there exists a point \(\vect x_k \in A\)
+    such that \(\|\vect x_k\| > k \). Form the open collection
+    \[ \mathcal U = \bigcup_{k \in \mb N} B_{k}(\vect 0) .\]
+    Since \(\mathcal U\) covers \(\mb R^n\), it clearly covers \(A\). 
+    By compactness, there is finite subcover 
+    \(\bigcup_{i = 1}^{m} B_{k_i}(\vect 0) \) of \(A\). 
+    Set \(K = \text{max}\{k_1, ..., k_m\}\). Then \(A \subseteq B_{K}(\vect 0)\),
+    but this contradicts our assumption. Hence \(A\) is bounded.
+
+    To prove that \(A\) is closed, we make the following observation:
+    any two distinct points in \(\mb R^n\) have disjoint open neighborhoods.
+    Let \(\vect x, \vect y\) be distinct. Then \(\|\vect x - \vect y\| > 0\)
+    and so set \(\epsilon = \|\vect x - \vect y\| / 2\). It follows that
+    \(B_{\epsilon}(\vect x)\) and \(B_{\epsilon}(\vect v)\) are disjoint.
+    We call this the Hausdorff condition.
+
+    We now show that \(A^c\) is open. Let \(\vect z \in A^c\). For 
+    each point \(\vect v\) in \(A\), choose disjoint open neighborhoods
+    \(Z_v\) and \(U_v\) for \(\vect z\) and \(\vect v\), respectively. 
+    It follows that the collection \(\mathcal U = \bigcup_{\vect v \in A} U_v \) 
+    is an open cover of \(A\). By compactness, we a finite subcover
+    \[ \mathcal U_m = \bigcup_{i = 1}^m U_{v_i} .\]
+    Since there are finitely many indices here, the set
+    \[ Z = Z_{v_1} \cap ... \cap Z_{v_n} \]
+    is open. Further, we have that \(\mathcal U_m\) and \(Z\)
+    are disjoint, and because \(A \subset \mathcal U_m\),
+    it follows that \(Z \subset A^c\) and contains \(\vect z\).
+    Hence \(\vect z\) is an interior point of \(A^c\), and so
+    \(A^c\) is open. Therefore \(A\) is closed.
+
+    (\(\Leftarrow\))
+    Next, suppose \(A\) is closed and bounded. This means that
+    \(A\) is sequentially compact. I claim that given \(\epsilon > 0\),
+    there exists a finite covering of \(A\) by open balls with
+    radius \(\epsilon\). Suppose this wasn't true. Pick a point
+    \(\vect u_1 \in A\). By assumption, \(B_{\epsilon}(\vect u_1)\)
+    doesn't cover \(A\), and so pick \(\vect u_2 \in A / B_{\epsilon}(\vect u_1)\).
+    Continue this procedure. In general, we have that point \(\vect u_{n + 1}\)
+    is in \(A\) but not in \(B_{\epsilon}(\vect u_1) \cup ... \cup B_{\epsilon}(\vect u_n)\).
+    This implies that \(dist(\vect u_{n+1}, \vect u_i) > \epsilon \) for 
+    all \(i \in [n]\). However, \(\{\vect u_k\}\) is a sequence in \(A\),
+    and since \(A\) is sequentially compact, \(\{\vect u_k\}\) must have
+    a convergent subsequence. However, no two points have distance less
+    than \(\epsilon\), a contradiction.
+
+    So far so good. Next I claim that for any open covering \(\mathcal U\) of
+    \(A\), there is a \(\delta > 0\) such that each subset \(X \subset A\)
+    having a diameter less than \(\delta\) is contained in an element 
+    of \(\mathcal U\): \(X \subset U\). Note: by diameter,
+    I mean \(\text{diam}(X) = \text{sup}\{dist(\vect x, \vect y)\}\) 
+    for \(\vect x, \vect y \in X\). Since \(A\) is bounded, this number will
+    exist.
+    
+    We proceed by contradiction. For each natural number \(k\), there exists
+    a subset \(X_{k}\) having diameter less than \(1/k\) not contained in 
+    any \(U \in \mathcal U\). Pick a point \(\vect u_k \in X_k\). Since \(A\)
+    is sequentially compact, there is a convergent subsequence 
+    \(\vect u_{k_j} \to \vect u\). Since \(\vect u \in A\), \(\vect u \in U\)
+    for some \(U \in \mathcal U\) (definition of open cover). Because \(U\) is open, 
+    there exists \(\epsilon > 0\) such that \(B_{\epsilon}(\vect u) \subset U\). 
+    Pick \(j\) large enough so that \(1 / k_j < \epsilon / 2\) and 
+    \(dist(\vect u_{k_j}, \vect u) < \epsilon/2 \). It follows that
+    \(X_{k_{j}} \subset B_{\epsilon/2}(\vect u_{k_j})\) (because its diameter
+    is smaller than the radius of the open ball), and that for any \(\vect v \in X_{k_j}\),
+    \[ dist(\vect v, \vect u) \leq dist(\vect v, \vect u_{k_j}) + dist(\vect u_{k_j}, \vect u)
+    < \epsilon /2 + \epsilon / 2 = \epsilon .\]
+    Thus, \(X_{k_{j}} \subset B_{\epsilon}(\vect u) \subset U\), a contradiction.
+
+    Putting the previous two facts together, we can now prove the theorem. Let
+    \(\mathcal U\) be an open cover of \(A\). Pick \(\epsilon = \delta / 3\), where
+    \(\delta\) is the number corresponding to this particular open cover. We 
+    find a finite covering of \(A\) by these open balls of radius \(\epsilon\). Since
+    each open ball will have a diameter less than \(\epsilon\), they will lie
+    in some element of \(\mathcal U\). For each ball, keep the element of \(\mathcal U\)
+    containing it. This is a finite subcover of \(\mathcal U\). Thus, \(A\) is compact.
+
 
 \end{solution}
 
