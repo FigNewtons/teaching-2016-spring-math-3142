@@ -2634,8 +2634,20 @@ and the Scalar Product}
   \(dist(\vect p,\vect q)=\|\vect q-\vect p\|\) is
   a metric on \(\mathbb R^n\).
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    First, \(\vect q = \vect p\) iff \(\vect q - \vect p = \vect 0\) 
+    iff \(\|\vect q - \vect p\| = 0\) since, in the definition,
+    \((q_i - p_i)^2 \geq 0\) for \(i \in [n]\). Next, since 
+    \((q_i - p_i)^2 = (p_i - q_i)^2\), we have 
+    \(\|\vect q - \vect p\| = \|\vect p - \vect q\|\). Last,
+    \begin{align*}
+        d(p, q) &= \|\vect q - \vect p\| \\
+        &= \|(\vect q - \vect w) + (\vect w - \vect p)\| \\
+        &\leq \|\vect q - \vect w\| + \|\vect w - \vect p\| \\
+        &= \|\vect w - \vect p\| + \|\vect q - \vect w\| \\
+        &= d(p, w) + d(w, q) \\
+    \end{align*}
 \end{proof}
 
 \begin{definition}
@@ -2656,8 +2668,15 @@ and the Scalar Product}
   Let \((X,d)\) be a metric space. Let \(p\in X,r>0\). Then
   \(B_r(p)\) is open.
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    By definition of the interior, \(\interior B_r(p) \subset B_r(p)\). Let
+    \(q \in B_r(p)\). Let \(R = r - d(p, q)\). Then for \(u \in B_R(q)\), we
+    have 
+    \[ d(u, p) \leq d(u, q) + d(q, p) < r - d(q, p) + d(p, q) = r \]
+    so that \(u \in B_r(p)\). Because \(u\) was arbitrary, this implies
+    \(B_R(q) \subset B_r(p)\) and so \(B_r(p) \subset \interior B_r(p)\).
+    Therefore, \(B_r(p) = \interior B_r(p)\) and so \(B_r(p)\) is open. 
 \end{proof}
 
 \begin{definition}
@@ -2672,8 +2691,17 @@ and the Scalar Product}
   \(s(\vect u,\vect v)=\max\{|p_i(\vect v)-p_i(\vect u)|:1\leq i\leq n\}\)
   is a metric on \(\mb R^n\).
 \end{example}
-\begin{proof}
 
+\begin{proof}
+    First, it's clear that \(\vect u = \vect v\) iff \(\vect v - \vect u = \vect 0\). Then
+    \[ \vect u = \vect v \Leftrightarrow \max\{ |p_i(\vect v) - p_i(\vect u)|\} = 
+    \max\{ |p_i(\vect v - \vect u)|\} = \max\{ |p_i(\vect 0)|\} = 0 .\]
+    
+    Second, because of the absolute value, 
+    \[ s(\vect u, \vect v) = \max\{ |p_i(\vect v) - p_i(\vect u)| \} = 
+    \max \{ |p_i(\vect u) - p_i(\vect v)|\} = s(\vect v, \vect u) .\]
+
+    % TODO: Finish this example!
 \end{proof}
 
 \begin{theorem}
@@ -2733,9 +2761,33 @@ and the Scalar Product}
 \begin{theorem}[12.3]
   \(d(f,g)=\max\{|f(x)-g(x)|:x\in[a,b]\}\) is a metric on \(C([a,b],\mb R)\).
 \end{theorem}
-\begin{proof}
 
-\end{proof}
+\begin{proof}
+    It's clear that if \(f\) and \(g\) are continuous, so is
+    \(f - g\) and consequently, \(|f - g|\). Then since the domain is a compact
+    set, the Extreme value theorem applies and so \(d(f, g)\) is well-defined.
+
+    First, \(d(f, g) = 0\) iff \(\max\{|f - g|(x) : x \in [a,b]\} = 0\), which
+    due to the absolute value, happens iff \(|(f - g)(x)| = 0\) for all \(x \in [a,b]\).
+    This means that \(f - g\) is the zero function, and consequently,
+    \(f(x) = g(x)\) on \([a,b]\). In other words, \(d(f, g) = 0 \Leftrightarrow f = g\).
+    Again, the absolute value implies that \(d(f,g) = d(g, f)\).
+
+    Last,
+    \begin{align*} 
+        d(f, h) &= \max\{ |f(x) - h(x)| : x \in [a,b] \} \\
+                &= \max\{ |f(x) - g(x) + g(x) - h(x)| : x \in [a,b] \} \\
+                &\leq \max\{ |f(x) - g(x)| + |g(x) - h(x)| : x \in [a,b] \} \\
+                &\leq \max\{ |f(x) - g(x)| : x \in [a, b] \} + \max\{ |g(x) - h(x)| : x \in [a,b] \} \\
+                &= d(f, g) + d(g, h) \\
+    \end{align*}
+
+    The third step applies the Triangle inequality to the absolute value. The
+    fourth step means that \(|f - g|\) can achieve its maximum at a different value
+    of \(x\) than \(|g - h|\), and so this sum may be larger than the maximum of 
+    \(\max\{ [|f - g| + |g - h|](x) : x \in [a,b] \} \), taken pointwise.
+
+\end{proof} 
 
 \begin{definition}
   Let \(\{p_k\}\) denote a \textit{sequence} in a metric space \((X,d)\),
@@ -2756,16 +2808,39 @@ and the Scalar Product}
 \begin{example}[12.11]
   The set \(\{f\in C([a,b],\mb R):f(x)\geq 0\}\) is closed.
 \end{example}
-\begin{proof}
 
+\begin{proof}
+    Let \(\{f_k\}\) be a sequence of functions in the above set
+    that converge to \(f\). We show that \(f(x) \geq 0\) on \([a,b]\).
+
+    % TODO: FINISH THIS PROOF 
 \end{proof}
 
 \begin{theorem}[12.12, The Complementing Characterization]
   Let \((X,d)\) be a metric space and \(A\subseteq X\). Then \(A\) is
   open in \((X,d)\) if and only if \(X\setminus A\) is closed in \((X,d)\).
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Suppose \(A\) is open. Let \(\{p_k\}\) be a sequence in \(X \setminus A\)
+    that converges to \(p\), but suppose \(p \not\in X \setminus A\).
+    Then \(p \in A\), and since \(A\) is open, there exists \(\epsilon > 0\)
+    such that \(B_{\epsilon}(p) \subset A\). By definition of
+    convergence, for this \(\epsilon\), there exists \(N\) such that \(k \geq N\) implies
+    \(d(p_k, p) < \epsilon\). However, this means \(p_k \in A\) since
+    \(p_k \in B_{\epsilon}(p)\), but cannot happen since we assumed
+    \(p_k \in X \setminus A\). Thus, \(p \in X \setminus A\) and so this
+    set is closed.
+
+    Conversely, suppose \(X \setminus A\) is closed. Let \(p \in A\). 
+    Suppose on the contrary there exists no \(r > 0\) such that
+    \(B_r(p) \subset A\). Then for every natural number \(k\), 
+    \(B_{1/k}(p) \cap X \setminus A\) is nonempty. Pick a point from
+    this intersection and call it \(p_k\). It follows that \(\{p_k\}\)
+    is a sequence of points in \(X \setminus A\) that converge to 
+    \(p\). But, since \(X \setminus A\) is closed, \(p\) should be in 
+    \(X \setminus A\), a contradiction. Hence, there exists a \(r > 0\) such that
+    \(B_r(p) \subset A\). Therefore, \(A\) is open.
 \end{proof}
 
 \begin{definition}
@@ -2777,29 +2852,64 @@ and the Scalar Product}
 \begin{proposition}[12.15]
   Every convergent sequence in a metric space is Cauchy.
 \end{proposition}
-\begin{proof}
 
+\begin{proof}
+    Suppose \(p_k \to p\) in metric space \((X, d)\). Let \(\epsilon > 0\).
+    Then by definition of convergence, for \(\epsilon / 2\), there
+    exists integers \(N_0, N_1\) such that \(k \geq N_0\), \(l \geq N_1\)
+    implies \( d(p_k, p ) < \epsilon/2\) and \(d(p_l, p) < \epsilon / 2\),
+    respectively. Now pick \(N = \max\{N_0, N_1\}\). Then, for \(k, l \geq N\),
+    we have
+    \[ d(p_k, p_l) \leq d(p_k, p) + d(p, p_l) < \epsilon/2 + \epsilon/2 = \epsilon .\]
+    Thus, \(\{p_k\}\) is a Cauchy sequence.
 \end{proof}
 
 \begin{lemma}[9.3]
   Every Cauchy sequence in \((\mb R,dist)\) is bounded.
 \end{lemma}
-\begin{proof}
 
+\begin{proof}
+    Let \(\epsilon > 0\) and \(\{p_k\}\) be a Cauchy sequence.
+    By definition, there exists integer \(N\) such that \(k, l \geq N\) implies 
+    \(d(p_k, p_l) < \epsilon\). Set 
+    \(M = \max\{ |p_1|, |p_2|, ..., |p_{N-1}|, |p_N| + \epsilon \} \).
+    Then for an arbitary index \(j\): if \(j < N\), \(|p_j| \leq M\) trivially;
+    otherwise,
+    \[ |p_j| = |(p_j - p_N) + p_N| \leq |p_j - p_N| + |p_N| < \epsilon + |p_N| \leq M .\]
 \end{proof}
 
 \begin{theorem}[9.4]
   A sequence in \((\mb R,dist)\) is Cauchy if and only if it is convergent.
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Since \((\mb R, dist)\) is a metric space, every convergent sequence is Cauchy.
+    Now suppose \(\{p_k\}\) is Cauchy. By the previous lemma, \(\{p_k\}\) is bounded.
+    Consequently, this sequence has a convergent subsequence \(p_{k_j} \to p\) (following
+    from the fact that every sequence has a monotone subsequence, and since it is bounded,
+    must converge). By definition of a Cauchy sequence, for \(\epsilon/2 > 0\), there
+    exists integer \(N_0\) such that \(k, k_j \geq N_0\) implies \(d(p_k, p_{k_j}) < \epsilon/2\).
+    By definition of convergence, for \(\epsilon/2\), there exists integer \(N_1\)
+    such that \(k_j \geq N_1\) implies \(d(p_{k_j}, p) < \epsilon/2\). Combining
+    the two, with \(N = \max\{N_0, N_1\}\), \(k \geq N\) implies
+    \[ d(p_k, p) \leq d(p_k, p_{k_j}) + d(p_{k_j}, p) = \epsilon/2 + \epsilon/2 = \epsilon .\]
+    Hence, every Cauchy sequence converges.
 \end{proof}
 
 \begin{corollary}[Example 12.16]
   A sequence in \((\mb R^n,dist)\) is Cauchy if and only if it is convergent.
 \end{corollary}
-\begin{proof}
 
+\begin{proof}
+    By the Componentwise convergence criterion, a sequence \(\{\vect u_k\}\) converges
+    iff each of its coordinate sequences converges \(\{p_i(\vect u_k)\}\). Since the latter
+    are in \((\mb R, dist)\), these sequences converge iff they are Cauchy. Using 
+    \(\epsilon / \sqrt{n} > 0\), \(k, j \geq N_i\) implies 
+    \[ |p_i(\vect u_k) - p_i(\vect u_j)| < \epsilon/ \sqrt{n} . \]
+    Taking \(N = \max\{N_1, N_2, ..., N_n\}\), we get \(k, j \geq N\) implies
+    \[ dist(\vect u_j, \vect u_k) = \sqrt{\sumi [p_i(\vect u_j) - p_i(\vect u_k)]^2} 
+    < \sqrt{ \sumi \epsilon^2/n } = \sqrt{\epsilon^2} = \epsilon \]
+    
 \end{proof}
 
 \begin{definition}
