@@ -2701,14 +2701,30 @@ and the Scalar Product}
     \[ s(\vect u, \vect v) = \max\{ |p_i(\vect v) - p_i(\vect u)| \} = 
     \max \{ |p_i(\vect u) - p_i(\vect v)|\} = s(\vect v, \vect u) .\]
 
-    % TODO: Finish this example!
+    Last,
+    \begin{align*}
+        s(\vect u, \vect v) &= \max\{|p_i(\vect u) - p_i(\vect v)| : i \in [n] \} \\
+                            &= \max\{|p_i(\vect u) - p_i(\vect w) + p_i(\vect w) - p_i(\vect v)| : i \in [n] \} \\
+                            &\leq \max\{ |p_i(\vect u) - p_i(\vect w)| + |p_i(\vect w) - p_i(\vect v)| : i \in [n] \} \\
+                            &\leq \max\{ |p_i(\vect u) - p_i(\vect w)| : i \in [n] \} + \max\{ |p_i(\vect w) - p_i(\vect v)| : i \in [n] \} \\
+                            &= s(\vect u, \vect w) + s(\vect w, \vect v) \\
+    \end{align*}
 \end{proof}
 
 \begin{theorem}
   \(s\) is compatible with the usual topology on \(\mb R^n\).
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Let \(\vect u \in \mb R^n\). We observe that
+    \[ s(\vect u, \vect v) \leq dist(\vect u, \vect v) \leq \sqrt{n} s(\vect u, \vect v) .\]
+    From this, it's clear that if \(dist(\vect u, \vect v) < \epsilon\), then 
+    \(s(\vect u, \vect v) < \epsilon\); in other words, \(B_{\epsilon}(\vect u, dist) \subset B_{\epsilon}(\vect u, s)\).
+    Conversely, if \(s(\vect u, \vect v) < \epsilon\), then 
+    \(dist(\vect u, \vect v) < \epsilon / \sqrt{n} \). Then, 
+    \( B_{\epsilon}(\vect u, s) \subset B_{\epsilon / \sqrt{n}}(\vect u, dist) \).
+    This shows that each metric generates the open sets of the other's topology. Hence,
+    \(s\) is compatible with \(dist\).
 \end{proof}
 
 
@@ -2717,15 +2733,40 @@ and the Scalar Product}
   \(t(\vect u,\vect v)=\sum_{i=1}^n |p_i(\vect v)-p_i(\vect u)|\)
   is a metric on \(\mb R^n\).
 \end{example}
-\begin{proof}
 
+\begin{proof}
+    Since the absolute value is nonnegative, \(t(\vect u, \vect v) = 0\) iff \(p_i(\vect v) - p_i(\vect u) = 0\)
+    for \(i \in [n]\). This means \(p_i(\vect v) = p_i(\vect u)\) and so \(\vect u = \vect v\).
+    Hence, \(t(\vect u, \vect v) = 0\) iff \(\vect u = \vect v\). Now, \(t\) is symmetric
+    since \(|p_i(\vect v) - p_i(\vect u)| = |p_i(\vect u) - p_i(\vect v)|\). Last,
+    \begin{align*}
+        t(\vect u, \vect v) &= \sumi |p_i(\vect v) - p_i(\vect u)| \\
+                            &= \sumi |p_i(\vect v) - p_i(\vect w) + p_i(\vect w) - p_i(\vect u)| \\
+                            &\leq \sumi |p_i(\vect v) - p_i(\vect w)| + |p_i(\vect w) - p_i(\vect u)| \\
+                            &= \sumi |p_i(\vect v) - p_i(\vect w)| + \sumi |p_i(\vect w) - p_i(\vect u)| \\
+                            &= t(\vect w, \vect v) + t(\vect u, \vect w) \\
+                            &= t(\vect u, \vect w) + t(\vect w, \vect v) \\
+    \end{align*}
 \end{proof}
 
 \begin{theorem}
   \(t\) is compatible with the usual topology on \(\mb R^n\).
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Let \(\vect u \in \mb R^n\). We note that
+    \[ dist(\vect u, \vect v) \leq t(\vect u, \vect v) \leq \sqrt{n} \cdot dist(\vect u, \vect v) .\]
+    To see this,
+    \[ dist(\vect u, \vect v)^2 = \sumi (u_i - v_i)^2 \leq 
+        \sumi (u_i - v_i)^2 + 2 \sum_{i < j}^n |u_i - v_i||u_j - v_j| = 
+        [\sumi |u_i - v_i|]^2 = t(\vect u, \vect v)^2  \]
+    and using Cauchy-Schwarz, 
+    \[ t(\vect u, \vect v) = \sumi |u_i - v_i| = \sumi |u_i - v_i| \cdot 1 
+    \leq \sqrt{ \sumi (u_i - v_i)^2} \sqrt{\sumi 1^2} = \sqrt{n} \cdot dist(\vect u, \vect v). \]
+
+    Hence, we have \(B_{\epsilon}(\vect u, t) \subset B_{\epsilon}(\vect u, dist)\) and
+    \(B_{\epsilon}(\vect u, dist) \subset B_{\epsilon / \sqrt{n}}(\vect u, t)\). In other
+    words, \(t\) is compatible with \(dist\).
 \end{proof}
 
 \begin{definition}
@@ -2739,8 +2780,16 @@ and the Scalar Product}
 \begin{theorem}[12.4]
   The discrete metric on \(X\) is a metric.
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    By definition, \(d(p, q) = 0\) iff \(p = q\). Since equality is symmetric,
+    so is \(d\). Last, we must show that
+    \[ d(p, q) \leq d(p, r) + d(r, q) .\]
+
+    There are several cases to consider. If \(p = q = r\), then
+    we have \(0 \leq 0 + 0\). If \(p = q\) but \(p \neq r\), then
+    \(0 \leq 2 \). Now we consider when \(p \neq q\). If \(p = r\)
+    or \(q = r\), then \(1 \leq 1\). Otherwise, \(1 \leq 2\). 
 \end{proof}
 
 \begin{theorem}
@@ -2748,8 +2797,14 @@ and the Scalar Product}
   topology on \(\mb R^n\). (Hint: show that every subset of a discrete
   metric space is open.)
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Let \(A \subset \mb R^n\). For \(x \in A\), choose \(1 > \epsilon > 0\).
+    It follows that w.r.t the discrete metric, \(B_{\epsilon}(x) = \{x\} \subset A\)
+    and so \(A\) is open. Since \(A\) is open, it follows that every subset
+    is open under the discrete topology. Hence, this topology has more 
+    open sets than the usual topology and thus is not compatible with the
+    usual topology.
 \end{proof}
 
 \begin{definition}
@@ -2811,9 +2866,18 @@ and the Scalar Product}
 
 \begin{proof}
     Let \(\{f_k\}\) be a sequence of functions in the above set
-    that converge to \(f\). We show that \(f(x) \geq 0\) on \([a,b]\).
-
-    % TODO: FINISH THIS PROOF 
+    that converge to \(f\). This means that for \(\epsilon > 0\),
+    there exists index \(N\) such that \(k \geq N\) implies
+    \( \max\{ |f_k(x) - f(x)| : x \in [a,b] \}  < \epsilon \). In
+    other words, \(\epsilon\) holds for all \(x\) since it holds
+    for the maximum. Hence, \(\{f_k\}\) converges uniformly 
+    under this metric. Then, because each \(f_k\) is continuous
+    (by definition of this metric space), we have that \(f\) is
+    continuous by Theorem 9.31. Further, since \(\{f_k\}\) converges
+    uniformly, the sequence also converges pointwise. So for each
+    \(x\), since \(f_k(x) \geq 0\) for all \(k\), \(f(x) \geq 0\)
+    by lemma 2.21. Hence \(f(x) \geq 0\) for all \(x \in [a,b]\).
+    Hence, \(f\) is a member of the set. Therefore, the set is closed.
 \end{proof}
 
 \begin{theorem}[12.12, The Complementing Characterization]
