@@ -3214,8 +3214,16 @@ and the Scalar Product}
     f_y(x,y,z)=xz-6xy
   .\]
 \end{example}
-\begin{proof}
 
+\begin{proof}
+    Let \((x_0, y_0, z_0)\) be an arbitrary point in \(\mb R^3\). 
+    By definition, we must show that
+    \[ \lim_{t \to 0} \frac{f(x_0, y_0 + t, z_0) - f(x_0, y_0, z_0)}{t} \]
+    exists. Now, since only the \(y\) value varies, we define the
+    function \(g: \mb R \to \mb R\) by \[g(y) = x_0yz_0 - 3x_0y^2. \]
+    Then \(f_y(x_0, y_0, z_0) = g'(y_0)\) and so
+    \(g'(y_0) = x_0z_0 - 6x_0y_0\). This implies that
+    \(f_y(x,y,z) = g'(y) = xz - 6xy\).
 \end{proof}
 
 \begin{example}[13.9]
@@ -3228,8 +3236,26 @@ and the Scalar Product}
   \]
   has first-order partial derivatives, but is not continuous.
 \end{example}
-\begin{proof}
 
+\begin{proof}
+    For every nonzero point in \(\mb R^2\), there exists an open
+    neighborhood of nonzero points. This means \(f\) is defined
+    on these neighborhoods and will have a nonzero denominator.
+    Consequently, \(f\) has partial derivatives, and so taking
+    the partial derivatives of \(f\) on these neighborhoods 
+    (via quotient rule) gives us
+    \[ f_x(x, y) = \frac{ y(x^2 + y^2) - xy(2x)}{ (x^2 + y^2)^2 } 
+    = \frac{ y^3 - x^2 y}{ (x^2 + y^2)^2} \]
+    and similarly
+    \[ f_y(x, y) = \frac{ x^3 - y^2 x}{ (x^2 + y^2)^2 } .\]
+    At \((0, 0)\), we have that \(f(0, 0) = 0\),
+    \(f(0, 0 + t) = f(0, t) = 0\), and \(f(0 + t, 0) = f(t, 0) = 0\).
+    Thus, the definition implies \(f_x(0,0) = 0 = f_y(0,0)\). Hence,
+    \(f_x\) and \(f_y\) are defined everywhere on \(\mb R^2\).
+
+    However, it's clear from Example 13.4 that \(f\) is not
+    continuous at \((0,0)\): we know that \((1/k, 1/k) \to (0,0)\),
+    but \(f(1/k, 1/k) \to 1/2 \neq 0\).
 \end{proof}
 
 \begin{definition}
@@ -3272,7 +3298,47 @@ and the Scalar Product}
   points \((x_1,y_1),(x_2,y_2)\in U\) such that
   \(f_{xy}(x_1,y_1)=f_{yx}(x_2,y_2)\).
 \end{lemma}
+
 \begin{proof}
+    Since \(U\) is open, \((x_0, y_0)\) is an interior point. This
+    means there exists an open ball around \((x_0, y_0)\) contained in \(U\).
+    Now, since the metric \(s\) is compatible with the usual topology
+    on \(\mb R^2\), this means there exists an open square around
+    \((x_0, y_0)\) contained in \(U\) as well. Hence we have some \(r > 0\)
+    where \(I = (x_0 - 2r, x_0 + 2r), J = (y_0 - 2r, y_0 + 2r)\) such
+    that \(I \times J \subset U\).
+
+    First, we hold \(y\) fixed and consider the function \(\varphi: I \to \mb R\) by
+    \[ \varphi(x) = f(x, y_0 + r) - f(x, y_0) .\]
+    By assumption, \(f_x\) exists and so \(\varphi'(x)\) exists. Then,
+    applying the MVT to \([x_0, x_0 + r]\), there exists point \(x_1 \in (x_0, x_0 + r)\)
+    such that
+    \[  f_x(x_1, y_0 + r) - f_x(x_1, y_0) = \varphi'(x_1) = \frac{ \varphi(x_0 + r) - \varphi(x_0)}{r} .\]
+    Now define \(\alpha: J \to \mb R\) by
+    \[ \alpha(y) = f_x(x_1, y) \]
+    Since \(f_{xy}\) exists, \(\alpha'(y)\) exists and so we apply the MVT to
+    \([y_0, y_0 + r]\) to get that there exists \(y_1 \in (y_0, y_0 + r)\) such that
+    \[ f_{xy}(x_1, y_1) = \frac{\alpha(y_0 + r) - \alpha(y_0)}{r} 
+        = \frac{ f_x(x_1, y_0 + r) - f_x(x_1, y_0)}{r} = \frac{ \varphi(x_0 + r) - \varphi(x_0)}{r^2}. \]
+
+    Next, we repeat the above argument except we hold \(x\) fixed. Define
+    \(\psi: J \to \mb R\) by \(\psi(y) = f(x_0 + r, y) - f(x_0, y)\). Apply the
+    MVT on \([y_0, y_0 + r]\) to get \(y_2\) where
+    \[f_y(x_0 + r, y_2) - f_y(x_0, y_2) = \psi'(y_2) = \frac{ \psi(y_0 + r) - \psi(y_0)}{r} .\]
+    Now define \(\beta: I \to \mb R\) by \(\beta(x) = f_y(x, y_2) \). Apply
+    the MVT again to get \(x_2\) where
+    \[ f_{yx}(x_2, y_2) = \frac{ \beta(x_0 + r) - \beta(x_0)}{r} = 
+        \frac{ f_y(x_0 + r, y_2) - f_y(x_0, y_2)}{r} = \frac{ \psi(y_0 + r) - \psi(y_0)}{r^2}. \]
+
+    Finally, we compare our results. In the first case, we have
+    \[ r^2 f_{xy}(x_1, y_1) = \varphi(x_0 + r) - \varphi(x_0) 
+    = [f(x_0 + r, y_0 + r) - f(x_0 + r, y_0)] - [ f(x_0, y_0 + r) - f(x_0, y_0)] \]
+    and
+    \[ r^2 f_{yx}(x_2, y_2) = \psi(y_0 + r) - \psi(y_0) 
+    = [f(x_0 + r, y_0 + r) - f(x_0, y_0 + r)] - [ f(x_0 + r, y_0) - f(x_0, y_0)] .\]
+    Since the RHS of both equations are equal, we have
+    \[ r^2 f_{xy}(x_1, y_1) = r^2 f_{yx}(x_2, y_2) \]
+    which implies \(f_{xy}(x_1, y_1) = f_{yx}(x_2, y_2) \).
 
 \end{proof}
 
@@ -3282,8 +3348,24 @@ and the Scalar Product}
   Then for all \(1\leq i,j\leq n\), it follows that
   \(f_{x_ix_j}=f_{x_jx_i}\).
 \end{theorem}
-\begin{proof}[Proof for n=2]
 
+\begin{proof}[Proof for n=2]
+    Let \((x_0, y_0) \in U\). Since \(U\), there exists \(r > 0\)
+    such that \(B_{r}((x_0, y_0)) \subset U\). For each natural
+    number \(k\), applying the lemma to \(B_{r/k}((x_0, y_0))\)
+    we get that there exists points \((x_k, y_k), (u_k, y_k)\)
+    in this open ball where \( f_{xy}(x_k, y_k) = f_{yx}(u_k, v_k)\).
+    By assumption, \(f_{xy}\) and \(f_{yx}\) are continuous at
+    \((x_0, y_0)\). Since \((x_k, y_k) \to (x_0, y_0)\) and 
+    \((u_k, v_k) \to (x_0, y_0)\), we must have that
+    \[ \lim_{k \to \infty} f_{xy}(x_k, y_k) = f_{xy}(x_0, y_0) \]
+    and 
+    \[ \lim_{k \to \infty} f_{yx}(u_k, v_k) = f_{yx}(x_0, y_0).\]
+    Since \(f_{xy}(x_k, y_k) = f_{yx}(u_k, v_k)\), the above
+    sequences are equal and since the limit of a sequence is
+    unique, we must have that
+    \[ f_{xy}(x_0, y_0) = f_{yx}(x_0, y_0) \]
+    as desired.
 \end{proof}
 
 \begin{example}[13.12, exercise 13]
@@ -3296,13 +3378,28 @@ and the Scalar Product}
   \]
   has second-order partial derivatives, but
   \[
-    f_{xy}(0,0)=-1
+    f_{xy}(0,0)=1
       ~~~\text{while}~~~
-    f_{yx}(0,0)=1
+    f_{yx}(0,0)=-1
   .\]
 \end{example}
-\begin{proof}
 
+\begin{proof}
+    Readapting Example 13.9, we know that \(f_x\) and \(f_y\) exist
+    with 
+    \[ f_x(x, y) = \frac{ x^4y + 4x^2y^3 - y^5}{ (x^2 + y^2)^2 }, f_x(0,0) = 0 \]
+    and
+    \[ f_y(x, y) = \frac{x^5 - xy^4 - 4x^3y^2}{ (x^2 + y^2)^2 }, f_y(0,0) = 0 .\]
+
+    By the same reasoning, \(f_{xx}, f_{xy}, f_{yx}, f_{yy}\) must exist. However,
+    taking the sequence \((1/k, 1/k)\), we have
+    \[ f_x(1/k, 1/k) = \frac{4 / k^4}{4/ k^4} = 1 \]
+    while
+    \[ f_y(1/k, 1/k) = \frac{-4 / k^4}{4 / k^4} = -1 \]
+    for all \(k \in \mb N\). So the limits do not agree at \((0,0)\)
+    and so \(f_{xy}(0,0) = 1 \neq -1 = f_{yx}(0,0)\) while 
+    \[ f_{xy} = f_{yx} = \frac{x^6 + 9x^4y^2 -9x^2y^4 - y^6}{ (x^2 + y^2)^3} \]
+    for all nonzero points.
 \end{proof}
 
 \begin{exercise}[4]
@@ -3310,8 +3407,17 @@ and the Scalar Product}
   must have partial derivatives with respect to both \(x\) and \(y\)
   at the point \((0,0)\).
 \end{exercise}
-\begin{solution}
 
+\begin{solution}
+    First, we note that \( |g(0,0)| \leq 0^2 + 0^2 = 0\) implies that
+    \(g(0,0) = 0\). Hence,
+    \[ \bigg| \frac{g(0 + r, 0) - g(0,0)}{r} \bigg| 
+    = \bigg| \frac{g(r,0)}{r} \bigg| \leq \frac{r^2}{r} = r \]
+    and likewise
+    \[ \bigg| \frac{g(0, 0 + r) - g(0,0)}{r} \bigg| \leq r \]
+    And so, as \(r \to 0\), we have that both quotients must
+    also go to \(0\). Hence, \(g_x\) and \(g_y\) exist at the
+    point \((0,0)\).
 \end{solution}
 
 
