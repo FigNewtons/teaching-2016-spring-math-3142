@@ -3436,8 +3436,19 @@ and the Scalar Product}
     a\frac{\partial f}{\partial x_i}(\vect x+\theta a\vect e_i)
   .\]
 \end{lemma}
-\begin{proof}
 
+\begin{proof}
+    Since \(U\) is open, there exists an open interval \(I\) such
+    that \([0, a] \subset I\) and for \(t \in I\), 
+    \(\vect x + t\vect e_i \in U\). Define the function 
+    \(\varphi: I \to \mb R\) by \(\varphi(t) = f(\vect x + t \vect e_i)\).
+    By assumption, \(f_i\) exists and 
+    \(\varphi'(t) = f_{x_i}(\vect x + t \vect e_i)\) so that
+    \(\varphi\) is differentiable on \(I\). Applying the MVT on
+    \([0, a]\), we get some \(\theta \in (0, 1)\) such that
+    \[ \varphi(a) - \varphi(0) = \varphi'(\theta a)a .\]
+    This is equivalent to
+    \[ f(\vect x + a\vect e_i) - f(\vect x) = f_x(\vect x + \theta a\vect e_i)a .\]
 \end{proof}
 
 \begin{proposition}[13.15, The Mean Value Proposition]
@@ -3456,8 +3467,34 @@ and the Scalar Product}
     \frac{\partial f}{\partial x_i}(\vect z_i)
   .\]
 \end{proposition}
-\begin{proof}
 
+\begin{proof}
+    We expand out the difference as follows:
+    \begin{align*}
+        f(\vect x + \vect h) - f(\vect x) &= f(x_1 + h_1, x_2 + h_2, ..., x_n + h_n) - f(x_1, x_2, ..., x_n) \\
+                                          &= f(x_1 + h_1, x_2 + h_2, ..., x_n + h_n) - f(x_1 + h, x_2 + h, ..., x_{n-1} + h, x_n) \\
+                                          &+ f(x_1 + h, x_2 + h, ..., x_{n-1} + h, x_n) - f(x_1 + h, x_2 + h, ..., x_{n-1}, x_n) \\
+                                          &+ ... \\
+                                          &+ f(x_1 + h, x_2 + h, ..., x_n) - f(x_1 + h, x_2, ..., x_n) \\
+                                          &+ f(x_1 + h, x_2, ..., x_n) - f(x_1, x_2, ..., x_n) \\
+    \end{align*}
+    By the previous lemma, there exists \(\theta_1, \theta_2, ... \theta_n \in (0, 1)\)
+    such that 
+    \begin{align*} 
+        f(\vect x + \vect h) - f(\vect x) &= f_{x_n}(x_1 + h_1, ..., x_n + \theta_n h_n) h_n \\
+                            &+ f_{x_{n-1}}(x_1 + h_1, ..., x_{n-1} + \theta_{n-1} h_{n-1}, x_n) h_{n-1} \\
+                            &+ ... \\
+                            &+ f_{x_2}(x_1 + h_1, x_2 + \theta_2 h_2, ..., x_n) h_2 \\
+                            &+ f_{x_1}(x_1 + \theta_1 h_1, x_2, ..., x_n) h_1 \\
+    \end{align*}
+    If we replace each argument on the RHS with \(\vect z_n, ..., \vect z_2, \vect z_1\), respectively, we
+    get
+    \[ f(\vect x + \vect h) - f(\vect x) = 
+    f_{x_n}(\vect z_n) h_n + ... + f_{x_2}(\vect z_2) h_2 + f_{x_1}(\vect z_1) h_1 =
+    \sumi p_i(\vect h) f_i(\vect z_i) .\]
+
+    It's also clear that \(\vect z_i - \vect x = (h_1, ..., \theta_i h_i, 0, ..., 0)\) so that
+    \[ \|\vect x - \vect z_i\|^2 = \sum_{j=1}^{i-1} h_j^2 + (\theta_i h_i)^2 <\sum_{j=1}^{i} h_j^2 \leq \sum_{j = 0}^n h_j^2 = \|\vect h\|^2. \]
 \end{proof}
 
 \begin{definition}
@@ -3496,8 +3533,24 @@ and the Scalar Product}
     \<\vect p,\nabla f(\vect x)\>
   .\]
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Since \(U\) is open, there exists \(r > 0\) such that
+    \(B_{r}(\vect p) \subset U\). Restricting \(f\) to this open ball, 
+    we apply the Mean Value Proposition so that for any \(t\) satisfying
+    \(|t|\|\vect p\| < r\), we have
+    \[ f(\vect x + t \vect p) - f(\vect x) = 
+    \sumi t p_i f_i(\vect z_i) = t \sumi p_i f_{x_i}(\vect z_i) \]
+    for points \(\vect z_i\) and \(\|\vect z_i - \vect x\| \leq |t|\|\vect p\|\)
+    for \(i \in [n]\). It follows that for \(t \neq 0\),
+    \[ \frac{ f(\vect x + t \vect p) - f(\vect x)}{t} = \sumi p_i f_{x_i}(\vect z_i) .\]
+    Note that as \(t \to 0\), \(\vect z_i \to \vect x\). Since \(f\)
+    is continuously differentiable, this implies \(f_{x_i}(\vect z_i) \to f_{x_i}(\vect x)\).
+    Hence,
+    \[ \lim_{t \to 0} \frac{f(\vect x + t \vect p) - f(\vect x)}{t} =
+       \lim_{t \to 0} \sumi p_i f_{x_i}(\vect z_i) =
+       \sumi p_i \lim_{t \to 0} f_{x_i}(\vect z_i) =
+   \sumi p_i f_{x_i}(\vect x) = \< \vect p, \nabla f(\vect x) \> .\]
 \end{proof}
 
 \begin{theorem}[13.17, The Mean Value Theorem]
@@ -3510,11 +3563,22 @@ and the Scalar Product}
       -
     f(\vect x)
       =
-    \<\vect h,\nabla f(\vect x+\theta\vect h)\>
+    \<\nabla f(\vect x+\theta\vect h), \vect h\>
   .\]
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Since \(U\) is open, there exists an open interval \(I\) such that
+    \([0, 1] \subset I\) and for \(t \in I\), \(\vect x + t \vect h \in U\).
+    Define \(\varphi: I \to \mb R\) by \(\varphi(t) = f(\vect x + t \vect h)\).
+    Applying the Directional Derivative Theorem, we get
+    \[ \varphi'(t) = \< \nabla f(\vect x + t \vect h), \vect h\> .\]
+    This means we can apply the MVT to \(\varphi\) on \([0,1]\):
+    there exists \(\theta \in (0,1)\) such that
+    \[ f(\vect x + \vect h) - f(\vect x) = 
+        \varphi(1) - \varphi(0) = 
+        \varphi'(\theta) =
+    \< \nabla f(\vect x + \theta \vect h), \vect h\> .\]
 \end{proof}
 
 \begin{corollary}[13.18]
@@ -3527,16 +3591,45 @@ and the Scalar Product}
     \frac{\nabla f(\vect x)}{\|\nabla f(\vect x)\|}
   .\]
 \end{corollary}
-\begin{proof}
 
+\begin{proof}
+    By the Directional Derivative theorem and the Cauchy Schwarz inequality,
+    \[ \bigg|\frac{\partial f}{\partial \vect p}(\vect x)\bigg| = 
+        |\<\nabla f(\vect x), \vect p\>| \leq \|\nabla f(\vect x)\| \cdot \|\vect p\| =
+    \|\nabla f(\vect x)\| \]
+    for any unit vector \(\vect p\). If we consider \(\vect p_0\), then
+    \[ \<\nabla f(\vect x), \vect p_0\> = \< \nabla f(\vect x), \frac{\nabla f(\vect x)}{\|\nabla f(\vect x)\|}\>
+    = \frac{\< \nabla f(\vect x), \nabla f(\vect x)\>}{\|\nabla f(\vect x)\|} = \|\nabla f(\vect x)\|.\]
+    This means 
+    \[ \frac{\partial f}{\partial \vect p}(\vect x) \leq \frac{\partial f}{\partial \vect p_0}(\vect x) \]
+    and so \(\vect p_0\) maximizes the directional derivative of \(f\) at \(\vect x\).
 \end{proof}
 
 \begin{theorem}[13.20]
   Let \(U\subseteq\mb R^n\) be open and \(f:U\to\mb R\) be continuously
   differentiable. Then \(f\) is continuous.
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Let \(\vect x \in U\). Since \(U\) is open, there exists \(r > 0\) such that
+    \(B_r(\vect x) \subset U\). Form a sequence \(\{\vect x_k\}\) in this
+    open ball that converges to \(\vect x\). For each \(k\), take the difference
+    \(\Delta x_k = \vect x_k - \vect x\). By the MVT, there exists 
+    \(\theta_k \in (0, 1)\) such that
+    \[ f(\vect x_k) - f(\vect x) = f(\vect x + \Delta x_k) - f(\vect x) =
+    \< \nabla f(\vect x + \theta_k \Delta x_k), \Delta x_k \> \]
+    By convergence, \(\Delta x_k \to \vect 0\) and 
+    \(\vect x + \theta_k \Delta x_k \to \vect x\). Since \(f\) is continuously
+    differentiable, we can take the limit of the gradient:
+    \[ \lim_{k \to \infty} \nabla f(\vect x + \theta_k \Delta_k) = \nabla f(\vect x).\]
+    Consequently,
+    \begin{align*}
+       \lim_{k \to \infty}[f(\vect x_k) - f(\vect x)] &= \lim_{k \to \infty}\< \nabla f(\vect x + \theta_k \Delta x_k), \Delta x_k \> \\
+                                                      &= \< \lim_{k \to \infty} \nabla f(\vect x + \theta_k \Delta x_k), \lim_{k \to \infty} \Delta x_k \> \\
+                                                      &= \< \nabla f(\vect x), \vect 0 \> \\
+                                                      &= 0 \\
+    \end{align*}
+    Thus, \(f(\vect x_k) \to f(\vect x)\) and so \(f\) is continuous.
 \end{proof}
 
 \begin{exercise}[4]
@@ -3546,7 +3639,19 @@ and the Scalar Product}
   \(\vect y\in B_\epsilon(\vect x)\), \(f(\vect y)\geq f(\vect x)\).
   Prove that \(\nabla f(\vect x)=\vect 0\).
 \end{exercise}
+
 \begin{solution}
+    For each \(i \in [n]\), define the function \(\varphi_i: I \to \mb R\) 
+    by \(\varphi_i(t) = f(\vect x + t \vect e_i)\) where \(I = (-\epsilon, \epsilon)\).
+    It follows by the assumption that \(\varphi_i(t) \geq \varphi_i(0)\) 
+    for all \(t \in I\). Hence \(0\) is a local minimizer for \(\varphi_i\).
+    By lemma 4.16, this means that \(\varphi_i'(0) = 0\). Then, by definition
+    of the derivative, we get
+    \[ 0 = \lim_{h \to 0} \frac{ \varphi_i(0 + h) - \varphi_i(0)}{h} =
+        \lim_{h \to 0} \frac{ f(\vect x + h \vect e_i) - f(\vect x)}{h} = 
+    \frac{\partial f}{\partial x_i}(\vect x) .\]
+    Since \(\nabla f = (\frac{\partial f}{\partial x_1},...,\frac{\partial f}{\partial x_n})\),
+    we get \(\nabla f(\vect x) = (0,0,...,0) = \vect 0 \).
 
 \end{solution}
 
