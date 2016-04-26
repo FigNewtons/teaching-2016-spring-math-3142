@@ -3658,12 +3658,12 @@ and the Scalar Product}
 
 
 \setcounter{chapter}{-1}
-\chapter[Log, Exp, and Trig Functions]{Logrithmic, Exponential, and Trigonometric Functions}
+\chapter[Log, Exp, and Trig Functions]{Logarithmic, Exponential, and Trigonometric Functions}
 
 Assume all sequences in this chapter are indexed by the nonnegative integers,
 and that \(0^0=1\).
 
-\section{Logrithms and Exponential Functions}
+\section{Logarithms and Exponential Functions}
 
 \begin{theorem}[The Identity Criterion]
   A differentiable function \(g:U\to\mb R\) where \(U\) is an open interval
@@ -3695,17 +3695,30 @@ and that \(0^0=1\).
     \end{cases}
   .\]
 \end{proposition}
-\begin{proof}
 
+\begin{proof}
+    Since \(\int_{x_0}^{x_0} f = 0\), we have 
+    \[ F(x_0) = y_0 + \int_{x_0}^{x_0} f = y_0 + 0 = y_0 .\]
+    Next, since \(f\) is continuous, we apply the 2nd FTC to obtain
+    \[ F'(x) = \frac{d}{dx}\bigg[y_0 + \int_{x_0}^x f \bigg] = 
+    \frac{d}{dx} y_0 + \frac{d}{dx}\bigg[ \int_{x_0}^x f \bigg] = 0 + f(x) = f(x) \text{~for all~} x \in U .\]
+
+    To show uniqueness, suppose \(G: U \to \mb R\) also satisfies the above
+    properties, and consider \(H: U \to \mb R\) defined by \(H = F - G\).
+    Then, \[H(x_0) = (F - G)(x_0) = F(x_0) - G(x_0) = y_0 - y_0 = 0 \]
+    and 
+    \[ H'(x) = (F - G)'(x) = F'(x) - G'(x) = f(x) - f(x) = 0 .\]
+    Hence, by the Identity criterion, \(H\) is identically zero, and
+    so \(F = G\). Thus, \(F\) is unique.
 \end{proof}
 
 \begin{definition}
-  Define the \textit{natural logrithm} function
+  Define the \textit{natural logarithm} function
   \(\ln:(0,\infty)\to\mb R\) by \(\ln(x)=\int_1^x\frac{1}{t}~dt\).
 \end{definition}
 
 \begin{theorem}[5.1]
-  The natural logrithm function satisfies the following properties for
+  The natural logarithm function satisfies the following properties for
   all \(a,b>0\), \(c\in\mb R\), and \(r\in\mb Q\).
   \begin{enumerate}[(a)]
     \item \(\ln(ab)=\ln(a)+\ln(b)\).
@@ -3715,23 +3728,51 @@ and that \(0^0=1\).
 \end{theorem}
 \begin{proof}
   \begin{enumerate}[(a)]
-    \item
-
-    \item
-
-    \item
-
+    \item Fix some \(a > 0\) and define \(L: (0, \infty) \to \mb R\) by 
+        \(L(x) = \ln(ax) - [\ln(a) + \ln(x)]\). We show that \(L\) is identically
+        zero. First, 
+        \[ L(1) = \ln(a) - \ln(a) - \ln(1) = -\ln(1) = - \int_1^1 \frac{1}{t} ~dt = 0 .\]
+        Second, since \(f(t) = \frac{1}{t}\) is continuous on \((0, \infty)\), 
+        by the 2nd FTC (and Corollary 6.32) we have
+        \[ L'(x) = \frac{d}{dx} \ln(ax) - \frac{d}{dx} \ln(a) - \frac{d}{dx} \ln(x) = 
+        \frac{1}{ax} \cdot a - 0 - \frac{1}{x} = \frac{1}{x} - \frac{1}{x} = 0 .\]
+        Hence, by the Identity Criterion, \(L = 0\) and
+        \(\ln(ax) = \ln(a) + \ln(x)\) for all \(x > 0\). Moreover, since \(a\) was 
+        arbitrary, we have that \(\ln(ab) = \ln(a) + \ln(b)\) holds for all \(a, b > 0\).
+    \item Fix \(r \in \mb Q\) and define \(H: (0, \infty) \to \mb R\) by
+        \(H(x) = \ln(x^r) - r\ln(x) \). Since \(\ln(1) = 0\), we have
+        \(H(1) = \ln(1^r) - r\ln(1) = \ln(1) - 0 = 0 \). Next, 
+        \[ H'(x) = \frac{d}{dx} \ln(x^r) - \frac{d}{dx} [r \ln(x)] = 
+        \frac{1}{x^r} \cdot r x^{r-1} - \frac{r}{x} = \frac{r}{x} - \frac{r}{x} = 0 .\]
+        Thus, by the Identity criterion, \(H = 0\) and so
+        \(\ln(x^r) = r \ln(x)\). Therefore, \(\ln(a^r) = r\ln(a)\) holds for
+        all \(a > 0\) and \(r \in \mb Q\).
+    \item Since \(\frac{d}{dx} \ln(x) = 1/x > 0\) for all \(x \in (0, \infty)\), 
+        \(\ln(x)\) is strictly increasing. By property (i), for \(x > 0\), we have
+        \[ 0 = F(1) = F(x \cdot \frac{1}{x}) = F(x) + F(\frac{1}{x}) .\]
+        This means \(-F(x) = F(\frac{1}{x})\) and so we only need to check \(c > 0\)
+        for \(x > 1\). Moreover, since \(F\) is differentiable, \(F\) is continuous;
+        by the IVT, it suffices to show that there exists \(x_0 > 1\) such that
+        \(F(x_0) > c\). By the Archimedean property, there exists natural number
+        \(n\) such that \(n > \frac{c}{F(2)}\), or \(nF(2) > c\). By property 
+        (ii), for all \(n \in \mb N\),
+        \[ F(2^n) = nF(2) > c .\]
+        Hence, we set \(x_0 = 2^n\). 
   \end{enumerate}
 \end{proof}
 
 \begin{proposition}[pg. 120]
-  The natural logrithm
+  The natural logarithm
   \(\ln:(0,\infty)\to\mb R\)
   has a differentiable inverse function \(\exp:\mb R\to(0,\infty)\),
   called the \textit{exponential} function.
 \end{proposition}
-\begin{proof}
 
+\begin{proof}
+    Theorem 5.1(c) showed that \(\ln(x)\) is strictly increasing 
+    on \((0, \infty)\) and surjective on \(\mb R\). Further, since
+    \(ln(x)\) is differentiable, by Theorem 4.11, a differentiable
+    inverse exists.
 \end{proof}
 
 \begin{definition}
@@ -3750,8 +3791,17 @@ and that \(0^0=1\).
     \end{cases}
   .\]
 \end{proposition}
-\begin{proof}
 
+\begin{proof}
+    Since \(\ln(\exp(x)) = x\) for all \(x \in \mb R\), 
+    by the Chain rule
+    \[ 1 = \frac{d}{dx} x = 
+        \frac{d}{dx}[ \ln(\exp(x)) ] = \frac{\exp'(x)}{\exp(x)} \]
+    so that \(\exp'(x) = \exp(x)\).
+    Next, since \(\ln(1) = 0\), we apply the definition of the inverse to get
+    \[ \exp(0) = \exp(\ln(1)) = 1 .\]
+    Last, since \(\ln(x)\) is strictly increasing and surjective on \(\mb R\),
+    \(\ln(x) = 1\) has only one solution, and that's \(\exp(1)\).
 \end{proof}
 
 \begin{definition}
@@ -3763,8 +3813,16 @@ and that \(0^0=1\).
   The above definition is compatible with the previously given definition
   for exponentiation for rational numbers.
 \end{proposition}
-\begin{proof}
 
+\begin{proof}
+    If \(x \in \mb Q\), then \(x = m/n\) for integers \(m, n \neq 0\). 
+    By the previous definition,
+    \[ a^x = (a^m)^{\frac{1}{n}} . \]
+    By the new definition, we apply Theorem 5.1(b) to get
+    \[ a^x = \exp(x \ln(a)) = 
+        \exp(\frac{m}{n} \ln(a)) = 
+        \exp(\frac{1}{n} \ln(a^m)) =
+    (a^m)^{\frac{1}{n}} .\]
 \end{proof}
 
 \begin{proposition}[5.2, 5.3]
@@ -3778,8 +3836,14 @@ and that \(0^0=1\).
     ~~~\text{ for all } x>0
   .\]
 \end{proposition}
-\begin{proof}
 
+\begin{proof}
+    First, 
+    \[ \frac{d}{dx}[a^x] = \frac{d}{dx}[ \exp(x \ln(a)) ] = 
+    \exp(x \ln(a)) \frac{d}{dx} [x\ln(a)] = a^x \ln a . \]
+    Second,
+    \[ \frac{d}{dx}[x^r] = \frac{d}{dx} [ \exp(r \ln(x)) ] =
+    \exp(r \ln(x)) \frac{d}{dx}[r \ln(x)] = x^r \frac{r}{x} = r x^{r-1} .\]
 \end{proof}
 
 \begin{theorem}[5.4]
@@ -3792,8 +3856,22 @@ and that \(0^0=1\).
     \end{cases}
   .\]
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    We first check that \(c \cdot \exp(kx)\) is a solution:
+    \[c \cdot \exp(k \cdot 0) = c \exp(0) = c \cdot 1 = c\] and
+    \[\frac{d}{dx}[ c\exp(kx) ] = c \exp(kx) k = k [c \exp(kx)] . \]
+
+    We then show that this is the only solution. Suppose \(F\)
+    is also a solution, and define \(h: \mb R \to \mb R\) by
+    \[ h(x) = \frac{F(x)}{e^{kx}} - c .\]
+    We show that \(h\) is identically zero. First,
+    \[h(x) = \frac{F(0)}{e^{k0}} - c = \frac{c}{1} - c = 0 \]
+    and second,
+    \[ h'(x) = \frac{e^{kx} F'(x) - F(x) k e^{kx}}{(e^{kx})^2}
+    = \frac{ e^{kx} k F(x) - F(x) k e^{kx}}{(e^{kx})^2} = 0 .\]
+    Hence, by the Identity criteron, \(h = 0\) and so 
+    \(ce^{kx}\) is unique.
 \end{proof}
 
 \section{Power Series}
