@@ -3938,8 +3938,23 @@ Calculus II course), as well as assume the following theorem without proof.
     \sum_{k=0}^\infty \frac{1}{k!}x^k
   .\]
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    By the ratio test, for any real \(x\),
+    \[ \lim_{k \to \infty} \bigg| \frac{x^{k+1}}{(k+1)!} \frac{k!}{x^k} \bigg| = 
+       \lim_{k \to \infty} \bigg| \frac{x}{k+1} \bigg| = 0 < 1\]
+    and so the series converges absolutely. Hence, the
+    domain of convergence is \(\mb R\). Next, we note that since \(0^0 = 0! = 1\), we have
+    \[ \sum_{k=0}^{\infty} \frac{1}{k!} 0^k = \frac{0^0}{0!} = 1 .\]
+    We can also apply Theorem 9.41:
+    \[ \frac{d}{dx}\bigg[\sum_{k=0}^{\infty} \frac{x^k}{k!} \bigg] = 
+        \sum_{k=0}^{\infty} \frac{d}{dx}\bigg[ \frac{x^k}{k!} \bigg] =
+        \sum_{k=1}^{\infty} \frac{k x^{k-1}}{k!} = \sum_{k=1}^{\infty} \frac{x^{k-1}}{(k-1)!} = 
+        \sum_{k=0}^{\infty} \frac{x^k}{k!}. \]
+
+    By an earlier proposition, \(\exp(x)\) is the unique function
+    satisfying the above two properties, and thus, we have that
+    \[ \exp(x) = \sum_{k=0}^{\infty} \frac{x^k}{k!} .\]
 \end{proof}
 
 \section{Trigonometric Functions}
@@ -3964,7 +3979,26 @@ Calculus II course), as well as assume the following theorem without proof.
     \end{cases}
   .\]
 \end{theorem}
+
 \begin{proof}
+    By the ratio test, for any \(x\),
+    \[ \lim_{k \to \infty} \bigg| \frac{(-1)^{k+1}x^{2(k+1)}}{(2(k+1))!} \frac{(2k)!}{(-1)^k x^{2k}} \bigg| =
+    \lim_{k \to \infty} \bigg| \frac{-x^2}{(2k + 1)(2k + 2)} \bigg| = 0 < 1 \]
+    and so the series converges absolutely. Hence, the domain of convergence 
+    is \(\mb R\). Next,
+
+    \[ \cos(0) = \sum_{k=0}^{\infty} \frac{(-1)^k 0^{2k}}{(2k)!} = 
+    \frac{(-1)^0 0^0}{0!} = 1 .\]
+
+    Applying Theorem 9.41,
+    \[ \cos'(x) = \sum_{k=1}^{\infty} \frac{(-1)^k x^{2k - 1}}{(2k - 1)!} \]
+    so that \(\cos'(0) = 0\).
+    
+    It's easy to show that the derivative has the same domain of convergence and
+    so we apply Theorem 9.41 one more time:
+    \[ \cos''(x) = \sum_{k=2}^{\infty} \frac{(-1)^k x^{2k - 2}}{(2k - 2)!} = 
+    \sum_{k = 0}^{\infty} \frac{(-1)^{k + 2} x^{2k + 2}}{(2k + 2)!} = 
+- \sum_{k = 0}^{\infty} \frac{(-1)^{k + 1} x^{2(k + 1)}}{(2(k+1))!} = -\cos(x).\]
 
 \end{proof}
 
@@ -3979,8 +4013,17 @@ Calculus II course), as well as assume the following theorem without proof.
   \]
   is the constant function valued at \(0\).
 \end{lemma}
-\begin{proof}
 
+\begin{proof}
+    Define \(g(x) = [z(x)]^2 + [z'(x)]^2\) for all \(x \in \mb R\).
+    We show that \(g\) is identically zero: by the first condition, 
+    \[ g'(x) = 2z(x)z'(x) + 2z'(x)z''(x) = 2z'(x)[z(x) + z''(x)] = 2z'(x)0 = 0 \]
+    and by the initial values, \(g(0) = [z(0)]^2 + [z'(0)]^2 = 0 \).
+    Hence, by the identity criterion, \(g\) is the zero function.
+
+    Now, because of how we defined \(g\),
+    \[ 0 = g(x) \geq [z(x)]^2 \geq 0 \]
+    and so \(z\) is identically zero. 
 \end{proof}
 
 
@@ -3994,8 +4037,16 @@ Calculus II course), as well as assume the following theorem without proof.
     \end{cases}
   .\]
 \end{corollary}
-\begin{proof}
 
+\begin{proof}
+    Theorem 9.42 showed that \(\cos(x)\) was a solution, so suppose
+    \(G\) is another solution to the above differential equation. Define
+    \(H(x) = G(x) - \cos(x)\). Then, \[H(0) = G(0) - \cos(0) = 1 - 1 = 0 , \]
+    \[H'(0) = G'(0) - \cos'(0) = 0 \text{~,and~} \] 
+    \[ H''(x) = G''(x) - \cos''(x) = -G(x) + \cos(x) = -[G(x) - \cos(x)] = -H(x) .\]
+    This shows that \(H\) is a solution to the differential equation of lemma 5.5.
+    Consequently, \(H\) is identically zero and so \(G(x) = \cos(x)\). 
+    Therefore, \(\cos(x)\) is the unique solution.
 \end{proof}
 
 \begin{definition}
@@ -4020,8 +4071,34 @@ Calculus II course), as well as assume the following theorem without proof.
     \end{cases}
   .\]
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    First,
+    \begin{align*} 
+        \sin(x) &= - \cos'(x) \\
+                &= - \sum_{k=1}^{\infty} \frac{(-1)^k x^{2k - 1}}{(2k - 1)!} \\
+                &= - \sum_{k=0}^{\infty} \frac{(-1)^{k + 1} x^{2k + 1}}{(2k + 1)!} \\ 
+                &= \sum_{k=0}^{\infty} \frac{(-1)^{k + 2} x^{2k + 1}}{(2k + 1)!} \\ 
+                &= \sum_{k=0}^{\infty} \frac{(-1)^k x^{2k + 1}}{(2k + 1)!} \\
+    \end{align*}
+
+    Next, \(\sin(0) = -\cos'(0) = 0\) and \(\sin'(0) = -\cos''(0) = -[-\cos(0)] = \cos(0) = 1 .\) 
+
+    Last, we show that \(-\sin(x) = \sin''(x)\). Using the properties of \(\cos\), 
+    \begin{align*} 
+        \sin''(x) &= \frac{d^2}{dx^2}[ \sin(x) ] \\
+                  &= \frac{d^2}{dx^2}[- \cos'(x)] \\
+                  &= -\frac{d}{dx} [\cos''(x)] \\
+                  &= - \frac{d}{dx} [- \cos(x)] \\
+                  &= \frac{d}{dx} [ \cos(x) ] \\
+                  &= \cos'(x) \\
+                  &= - \sin(x) \\
+    \end{align*}
+
+    For uniqueness, suppose \(G(x)\) is also another solution and define \(H(x) = G(x) - \sin(x)\).
+    Then \(H(0) = 0\), \(H'(0) = 1 - 1  = 0\) and 
+    \[ H''(x) = G''(x) - \sin(x) = -G(x) + \sin(x) = -[G(x) - \sin(x)] = -H(x) \]
+    and so \(H\) is identically zero. 
 \end{proof}
 
 \begin{theorem}[5.6]
@@ -4034,6 +4111,34 @@ Calculus II course), as well as assume the following theorem without proof.
   \end{enumerate}
 \end{theorem}
 
+\begin{proof}
+
+    (a) Define \(g(x) = [\sin(x)]^2 + [\cos(x)]^2 - 1 \). Then
+    \(g(0) = (0^2 + 1^2) - 1 = 0\) and 
+    \[ g'(x) = 2[ \sin(x)\sin'(x) + \cos(x)\cos'(x)] = 
+        2[ -\cos'(x)\cos(x) + \cos(x)\cos'(x)  = 0 .\]
+    By the Identity criterion, \(g\) is identically zero.
+
+    (b - c) Next, fix \(y\) and define 
+    \[ f(x) = \sin(x + y) - [\sin(x)\cos(y) + \cos(x)\sin(y)]. \]
+    Then 
+    \[f(0) = \sin(y) - \sin(0)\cos(y) - \cos(0)\sin(y) = \sin(y) - \sin(y) = 0 ,\]
+    \[f'(0) = \sin'(y) - \sin'(0)\cos(y) - \cos'(0)\sin(y)  = \sin'(y) - \cos(y) = - [ \cos''(y) + \cos(y)] = 0 \text{~and~} \]
+    since \(\sin''(x) + \sin(x) = \cos''(x) + \cos(x) = 0\), we have that
+    \(f''(x) + f(x) = 0\) (by grouping like terms).
+    Hence, \(f\) is identically zero. Furthermore, 
+    \begin{align*}
+        f''(x) &= \sin''(x + y) - \sin''(x)\cos(y) - \cos''(x)\sin(y) \\ 
+               &= \sin''(x + y) - \cos(x)\cos(y) + \sin(x)\sin(y) \\
+               &= \cos(x + y) - [\cos(x)\cos(y) - \sin(x)\sin(y) \\
+               &= 0 .\\
+    \end{align*}
+
+    (d) Last, \(1 = [\sin(x)]^2 + [\cos(x)]^2 \geq [\sin(x)]^2 = |\sin(x)|^2 \) so
+    that \(1 \geq |\sin(x)|\). Likewise, \(1 \geq |\cos(x)| \).
+\end{proof}
+
+
 \begin{definition}
   A function \(f:\mb R\to\mb R\) is said to be \textit{periodic} with
   a \textit{period} \(T>0\) if it satisfies
@@ -4043,11 +4148,38 @@ Calculus II course), as well as assume the following theorem without proof.
   .\]
 \end{definition}
 
+\begin{lemma}
+    Suppose \(g\) is continuous on \(\mb R\), \(g(0) > 0\), and there
+    exists some \(x_0 > 0\) at which \(g(x_0) = 0\). Then there exists
+    a smallest \(p > 0\) at which \(g(x) = 0\).
+\end{lemma}
+
+\begin{proof}
+    Define \(S = \{x | x > 0, g(x) = 0 \}\). We show that \(S\) has
+    a minimum \(p\). By assumption, \(x_0 \in S\) so \(S\) is nonempty,
+    and by definition, zero is lower bound of \(S\). Hence, by the
+    completeness axiom, \(S\) has an infimum \(p\). Since \(g(0) \neq 0\),
+    \(0 \not\in S\) and so \(p > 0\) (by definition of the infimum). Suppose
+    \(g(p) \neq 0\). Since \(g\) is continuous at \(p\), there exists an
+    open ball around \(p\) at which no point vanishes. But because \(p\)
+    is the infimum, this cannot happen. Hence \(g(p) = 0\) and so \(p \in S\).
+\end{proof}
+
+
 \begin{theorem}[5.7]
   There exists a smallest \(x>0\) satisfying \(\cos(x)=0\).
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    We showed that \(\cos(0) = 1 > 0\), and
+    \(\cos'(x) = -\sin(x)\) (which implies that \(\cos(x)\) is continuous).
+    By the MVT, \( \sin(2) - \sin(0) = 2 \cos(z) \) for \(z \in (0, 2)\).
+    Since \(\sin(0) = 0\) and \(|\sin(2)| \geq 1\), \(|2\cos(z)| \leq 1\).
+    Then
+    \[ \cos(2z) = [\cos(z)]^2 - [\sin(z)]^2 = [\cos(z)]^2 - [1 - (\cos(z))^2] = 2[\cos(z)]^2 - 1 \leq 0 .\]
+    It follows by the IVT that there exists \(y \in (0, 2z)\) where \(\cos(y) = 0\).
+    Then, by the previous lemma, there exists a smallest \(x > 0\) at which
+    \(\cos(x) = 0\).
 \end{proof}
 
 \begin{definition}
@@ -4058,8 +4190,20 @@ Calculus II course), as well as assume the following theorem without proof.
 \begin{theorem}[5.8]
   The sine and cosine functions are both periodic with period \(2\pi\).
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    On \([0, \pi/2]\), \(\cos(x) > 0\) and since \(\sin'(x) = \cos(x)\),
+    this means \(\sin(x)\) is strictly increasing. Then, since
+    \(\cos(\pi/2) = 0\), we have that \(\sin(\pi/2) = 1\) by the Pythagorean
+    identity. It follows that
+    \[ \sin(x + \pi/2) = \sin(x)\cos(\pi/2) + \sin(\pi/2)\cos(x) = \cos(x) \text{~and}\]
+    \[ \cos(x + \pi/2) = \cos(x)\cos(\pi/2) - \sin(x)\sin(\pi/2) = -\sin(x) \]
+    Plugging in \(x + \pi/2\),
+    \[ \sin(x + \pi) = \cos(x + \pi/2) = -\sin(x) \text{~and} \]
+    \[ \cos(x + \pi) = -\sin(x + \pi/2) = -\cos(x) .\]
+    Plugging in \(x + \pi\) to the above yields
+    \[ \sin(x + 2\pi) = -\sin(x + \pi) = -\sin((x + \pi/2) + \pi/2) = -\cos(x + \pi/2) = \sin(x) \text{~and} \]
+    \[ \cos(x + 2\pi) = -\cos(x + \pi) = -\cos((x + \pi/2) + \pi/2) = \sin(x + \pi/2) = \cos(x) \]
 \end{proof}
 
 \begin{theorem}[7.7, Integration by Substitution]
@@ -4072,8 +4216,12 @@ Calculus II course), as well as assume the following theorem without proof.
     \int_{g(c)}^{g(d)} f
   .\]
 \end{theorem}
-\begin{proof}
 
+\begin{proof}
+    Define \(H:[c,d] \to \mb R\) by \(H(x) = \int_c^x (f \circ g)g' - \int_{g(c)}^{g(x)} f \).
+    Clearly, \(H\) is continuous. Then by the 2nd FTC,
+    \[ H'(x) = f(g(x))g'(x) - f(g(x))g'(x) = 0 \]
+    and \(H(c) = 0\), so \(H\) is identically zero.
 \end{proof}
 
 \begin{proposition}[7.8, The Geometric Interpretation of \(\pi\)]
@@ -4082,8 +4230,21 @@ Calculus II course), as well as assume the following theorem without proof.
   .\]
   That is, \(\pi\) is the area of a circle with radius \(1\).
 \end{proposition}
-\begin{proof}
 
+\begin{proof}
+    We already showed that \(\sin(x)\) is increasing and differentiable on \([0, \pi/2]\).
+    Using substitution, and the fact that \(\sin(0) = 0\) and \(\sin(\pi/2) = 1\), we have
+    \[ \int_0^1 \sqrt{1 - x^2} ~dx = \int_0^{\pi/2} \sqrt{1 - [\sin(x)]^2} \cos(x) ~dx .\]
+    By the cosine sum formula and Pythagorean identity,
+    \[ \cos(2x) = \cos(x)^2 - \sin(x)^2 = \cos(x)^{2} - [1 - \cos(x)^2] = 2\cos(x)^{2} - 1 .\]
+    Since \(\cos(x) \geq 0\) on this interval, we get that
+    \[ \sqrt{1 - [\sin(x)]^2} \cos(x) = [\cos(x)]^2 = \frac{\cos(2x) + 1}{2} .\]
+    Now observe that
+    \[ \frac{d}{dx} \bigg[ \frac{x}{2} + \frac{\sin(2x)}{4} \bigg] = \frac{ 1 + \cos(2x)}{2} \]
+    and so by the 1st FTC
+    \[ \int_0^{\pi/2} \sqrt{1- \sin(x)^2} \cos(x) ~dx = 
+    \int_0^{\pi/2} \frac{1 + \cos(2x)}{2} = \bigg[ \frac{x}{2} + \frac{\sin(2x)}{4} \bigg]^{\pi/2}_0 =
+    \frac{\pi}{4} .\]
 \end{proof}
 
 
